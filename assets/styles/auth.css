@@ -1,0 +1,85 @@
+.login-container, .form-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.login-container .left-side {
+    width: 40%;
+    height: 100%;
+    background: var(--light-gray-color);
+}
+
+.login-container .right-side {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container .right-side .login-form {
+    width: 45%;
+    height: 80%;
+}
+
+.login-container .right-side .login-form .form-content {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-container .right-side .login-form .message {
+    color: var(--input-gray-color);
+}
+
+.login-container .right-side .login-form .input-container {
+    width: 100%;
+    height: 60px;
+    background: var(--light-gray-color);
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    padding: 0 .6rem;
+    border-radius: .4rem;
+    /* border: 2px solid #ced4d8; */
+}
+
+.login-container .right-side .login-form .input-container span {
+    width: 50px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white-color);
+    border-radius: .4rem;
+    font-size: 1.3em;
+    color: var(--primary-color);
+}
+
+.login-container .right-side .login-form .input-container input {
+    width: 100%;
+    height: 40px;
+    margin-left: .6rem;
+    border: none;
+    font-size: 1em;
+    background: none;
+    outline: none;
+}
+
+.login-container .right-side .login-form button {
+    height: 50px;
+    margin-top: 1.5rem;
+    background: var(--primary-color);
+    color: var(--white-color);
+    font-weight: 400;
+    border-radius: .4rem;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-container .right-side .login-form button:hover {
+    opacity: .85;
+}
