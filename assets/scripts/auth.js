@@ -138,48 +138,64 @@ function submitAuthForm(dataForm) {
 
                 const data = xhr.response;
 
-                if (data == 'signup_success' || data == 'login_success') {
+                try {
 
-                    if (data == 'signup_success') {
+                    const jsonResponse = JSON.parse(data);
 
-                        messageText.textContent = "Usuario creado exitosamente";
+                    if (jsonResponse.status == "login_success") {
+                        
+                        messageText.textContent = `¡Bienvenido de vuelta, ${jsonResponse.nombre}!`;
 
-                    } else if (data == 'login_success') {
-
-                        messageText.textContent = "Bienvenido de vuelta!";
-                    }
-
-                    messageBannerIcon.innerHTML = successIcon;
-
-                    setTimeout(() => {
-                        messageBanner.classList.add('active');
-                        messageBanner.classList.add('success');
-                    }, 300);
-
-                } else {
-
-                    if (dataForm.id == "signup-form") {
-
-                        messageText.textContent = "Hubo un error creando la cuenta";
-
-                    } else if (dataForm.id == "login-form") {
-
-                        messageText.textContent = "Las credenciales no coinciden";
-
-                    }
-
-                    messageBannerIcon.innerHTML = failedIcon;
-
-                    setTimeout(() => {
-                        messageBanner.classList.add('active');
-                        messageBanner.classList.add('error');
+                        messageBannerIcon.innerHTML = successIcon;
 
                         setTimeout(() => {
-                            messageBanner.classList.remove('active');
-                            messageBanner.classList.remove('error');
-                        }, 2000);
+                            messageBanner.classList.add('active');
+                            messageBanner.classList.add('success');
+                            setTimeout(() => {
+                                location.href = "./rental/index.html";
+                            }, 1500);
+                        }, 1000);
 
-                    }, 300);
+                    }
+
+                } catch (e) {
+
+                    if (data == "signup_success") {
+
+                        messageText.textContent = "Usuario creado exitosamente. Iniciando app...";
+
+                        messageBannerIcon.innerHTML = successIcon;
+
+                        setTimeout(() => {
+                            messageBanner.classList.add('active');
+                            messageBanner.classList.add('success');
+                            setTimeout(() => {
+                                location.href = "./rental/index.html";
+                            }, 1500);
+                        }, 1000);
+
+                    } else {
+
+                            messageText.textContent = data;
+
+                            messageBannerIcon.innerHTML = failedIcon;
+
+                            setTimeout(() => {
+                                messageBanner.classList.add('active');
+                                messageBanner.classList.add('error');
+
+                                setTimeout(() => {
+                                    messageBanner.classList.remove('active');
+                                    setTimeout(() => {
+                                        messageBanner.classList.remove('error');
+                                    }, 500);
+                                }, 2000);
+
+                            }, 300);
+
+                        }
+
+                    }
 
                 }
 
@@ -187,19 +203,17 @@ function submitAuthForm(dataForm) {
 
         }
 
+        let formData = new FormData(dataForm);
+
+        xhr.send(formData);
+
     }
 
-    let formData = new FormData(dataForm);
+    formSwitchBtn.onclick = () => {
+        switchForms();
+    };
 
-    xhr.send(formData);
-
-}
-
-formSwitchBtn.onclick = () => {
-    switchForms();
-};
-
-authForm.onsubmit = function (e) {
-    e.preventDefault();
-    submitAuthForm(this);
-}
+    authForm.onsubmit = function (e) {
+        e.preventDefault();
+        submitAuthForm(this);
+    }

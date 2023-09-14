@@ -39,16 +39,16 @@
 
                     } else {
 
-                        echo "Hubo un error al crear el usuario";
+                        echo "Ocurrió un error al crear la cuenta";
 
                     }
 
                 } else {
-                    echo "Contrasena muy corta";
+                    echo "La contraseña es muy corta";
                 }
 
             } else {
-                echo "Campos en blanco";
+                echo "Existen campos en blanco";
             }
 
         }
@@ -70,21 +70,28 @@
 
                     if (password_verify($pswd, $user_password)) {
 
-                        echo "login_success";
+                        $user_info_array = array(
+                            'status' => 'login_success',
+                            'nombre' => $get_user_info['user_name']
+                        );
+
+                        $user_info_data = json_encode($user_info_array);
+
+                        echo $user_info_data;
 
                     } else {
-                        echo "las contrasenas no coinciden";
+                        echo "Las credenciales son incorrectas";
                     }
 
                 } else {
 
-                    echo "El correo no existe";
+                    echo "El correo y/o contraseña son incorrectos";
 
                 }
 
             } else {
 
-                echo "Hay campos vacios";
+                echo "No pueden haber campos en blanco";
 
             }
 
