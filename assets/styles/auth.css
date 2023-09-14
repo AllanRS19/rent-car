@@ -79,6 +79,57 @@ a:hover {
     height: 100%;
 }
 
+.form-wrap .message-banner {
+    position: absolute;
+    top: -14%;
+    width: 80%;
+    border-radius: .6rem;
+    background: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    transition: 0.3s;
+}
+
+.form-wrap .message-banner.active {
+    top: 6%;
+}
+
+.form-wrap .message-banner.success {
+    border: 2px solid green;
+}
+
+.form-wrap .message-banner.success .icon {
+    background: green;
+}
+
+.form-wrap .message-banner.error {
+    border: 2px solid red;
+}
+
+.form-wrap .message-banner.error .icon {
+    background: red;
+}
+
+.form-wrap .message-banner .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.form-wrap .message-banner span {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 /* .form-wrap .message-banner {
     position: absolute;
     top: 8%;

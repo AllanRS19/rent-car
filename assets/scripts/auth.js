@@ -19,12 +19,18 @@
 
 })();
 
-const formInner = document.querySelector('.form-inner');
+const formInner = document.querySelector('.form-inner'),
+    messageBanner = document.querySelector('.message-banner'),
+    messageBannerIcon = document.querySelector('.message-banner .icon'),
+    messageText = document.querySelector('.message-banner .message-text'),
+    failedIcon = `<ion-icon name="close-outline"></ion-icon>`,
+    successIcon = `<ion-icon name="checkmark-outline"></ion-icon>`;
+
 let formSwitchBtn = document.querySelector('.switch-form-btn'),
     authForm = document.querySelector('.form-inner form');
 
 let formTemplateInitial = `
-    <form action="#" class="pt-3 auth-form signup-form" method="post">
+    <form action="#" class="pt-3 auth-form signup-form" id="signup-form" method="post">
 
         <h1 class="title">Crear cuenta</h1>
         <p class="caption mb-4">Cree una cuenta para poder administrar su sistema de rentas</p>
@@ -65,7 +71,7 @@ function switchForms() {
         else if (formSwitchBtn.textContent == "Entrar a su cuenta")
             formInner.innerHTML =
                 `
-                <form action="#" class="pt-3 auth-form" method="post">
+                <form action="#" class="pt-3 auth-form login-form" id="login-form" method="post">
 
                     <h1 class="title">Iniciar Sesión</h1>
                     <p class="caption mb-4">Ingrese sus datos para acceder a su cuenta</p>
@@ -101,12 +107,12 @@ function switchForms() {
         formInner.classList.remove('disappear');
 
         formSwitchBtn = document.querySelector('.switch-form-btn');
-        
+
         authForm = formSwitchBtn.parentElement.parentElement;
 
         console.log(authForm);
 
-        authForm.onsubmit = function(e) {
+        authForm.onsubmit = function (e) {
             e.preventDefault();
             submitAuthForm(this);
         }
@@ -132,10 +138,49 @@ function submitAuthForm(dataForm) {
 
                 const data = xhr.response;
 
-                if (data == 'login_success' || data == 'signup_success') {
-                    location.href = "./rental/index.html";
+                if (data == 'signup_success' || data == 'login_success') {
+
+                    if (data == 'signup_success') {
+
+                        messageText.textContent = "Usuario creado exitosamente";
+
+                    } else if (data == 'login_success') {
+
+                        messageText.textContent = "Bienvenido de vuelta!";
+                    }
+
+                    messageBannerIcon.innerHTML = successIcon;
+
+                    setTimeout(() => {
+                        messageBanner.classList.add('active');
+                        messageBanner.classList.add('success');
+                    }, 300);
+
                 } else {
-                    console.log(data);
+
+                    if (dataForm.id == "signup-form") {
+
+                        messageText.textContent = "Hubo un error creando la cuenta";
+
+                    } else if (dataForm.id == "login-form") {
+
+                        messageText.textContent = "Las credenciales no coinciden";
+
+                    }
+
+                    messageBannerIcon.innerHTML = failedIcon;
+
+                    setTimeout(() => {
+                        messageBanner.classList.add('active');
+                        messageBanner.classList.add('error');
+
+                        setTimeout(() => {
+                            messageBanner.classList.remove('active');
+                            messageBanner.classList.remove('error');
+                        }, 2000);
+
+                    }, 300);
+
                 }
 
             }
@@ -154,7 +199,7 @@ formSwitchBtn.onclick = () => {
     switchForms();
 };
 
-authForm.onsubmit = function(e) {
+authForm.onsubmit = function (e) {
     e.preventDefault();
     submitAuthForm(this);
 }
