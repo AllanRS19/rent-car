@@ -4,203 +4,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'> -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../assets/styles/dashboard.css">
-    <title>Responsive Dashboard Design #2 | AsmrProg</title>
+    <title>AdminSite</title>
 </head>
 
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <a href="#" class="logo">
-            <i class='bx bx-code-alt'></i>
-            <div class="logo-name"><span>Asmr</span>Prog</div>
-        </a>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand"><i class='bx bxs-car icon'></i> Rental Car</a>
         <ul class="side-menu">
-            <li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="#"><i class='bx bx-store-alt'></i>Shop</a></li>
-            <li class="active"><a href="#"><i class='bx bx-analyse'></i>Analytics</a></li>
-            <li><a href="#"><i class='bx bx-message-square-dots'></i>Tickets</a></li>
-            <li><a href="#"><i class='bx bx-group'></i>Users</a></li>
-            <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
-        </ul>
-        <ul class="side-menu">
+            <li><a href="#" class="active"><i class='bx bxs-dashboard icon'></i> Tablero</a></li>
+            <li class="divider" data-text="Principal">Principal</li>
             <li>
-                <a href="#" class="logout">
-                    <i class='bx bx-log-out-circle'></i>
-                    Logout
-                </a>
+                <a href="#"><i class='bx bxs-gas-pump icon'></i> Combustible</a>
+            </li>
+            <li>
+                <a href="#"><i class='bx bxs-chart icon'></i> Tipos de vehículos</a>
+            </li>
+            <li>
+                <a href="#"><i class='bx bxs-widget icon'></i> Marcas</a>
+            </li>
+            <li>
+                <a href="#"><i class='bx bx-table icon'></i> Modelos</a>
+            </li>
+            <li>
+                <a href="#"><i class='bx bxs-notepad icon'></i> Vehículos</a>
+            </li>
+            <li>
+                <a href="#"><i class='bx bxs-notepad icon'></i> Clientes</a>
+            </li>
+            <li>
+                <a href="#"><i class='bx bxs-notepad icon'></i> Empleados</a>
+            </li>
+            <li>
+                <a href="#"><i class='bx bxs-notepad icon'></i> Rentas</a>
             </li>
         </ul>
-    </div>
-    <!-- End of Sidebar -->
+        <!-- <div class="ads">
+            <div class="wrapper">
+                <a href="#" class="btn-upgrade">Upgrade</a>
+                <p>Become a <span>PRO</span> member and enjoy <span>All Features</span></p>
+            </div>
+        </div> -->
+    </section>
+    <!-- SIDEBAR -->
 
-    <!-- Main Content -->
-    <div class="content">
-        <!-- Navbar -->
+    <!-- NAVBAR -->
+    <section id="content">
+        <!-- NAVBAR -->
         <nav>
-            <i class='bx bx-menu'></i>
+            <i class='bx bx-menu toggle-sidebar'></i>
             <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                <div class="form-group">
+                    <input type="text" placeholder="Buscar...">
+                    <i class='bx bx-search icon'></i>
                 </div>
             </form>
-            <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label>
-            <a href="#" class="notif">
-                <i class='bx bx-bell'></i>
-                <span class="count">12</span>
+            <a href="#" class="nav-link">
+                <i class='bx bxs-bell icon'></i>
+                <span class="badge">5</span>
             </a>
-            <a href="#" class="profile">
-                <img src="images/logo.png">
+            <a href="#" class="nav-link">
+                <i class='bx bxs-message-square-dots icon'></i>
+                <span class="badge">8</span>
             </a>
-        </nav>
-
-        <!-- End of Navbar -->
-
-        <main>
-            <div class="header">
-                <div class="left">
-                    <h1>Dashboard</h1>
-                    <ul class="breadcrumb">
-                        <li><a href="#">
-                                Analytics
-                            </a></li>
-                        /
-                        <li><a href="#" class="active">Shop</a></li>
-                    </ul>
-                </div>
-                <a href="#" class="report">
-                    <i class='bx bx-cloud-download'></i>
-                    <span>Download CSV</span>
-                </a>
+            <span class="divider"></span>
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt="">
+                <ul class="profile-link">
+                    <li><a href="#"><i class='bx bxs-user-circle icon'></i> Perfil</a></li>
+                    <li><a href="#"><i class='bx bxs-cog'></i> Configuración</a></li>
+                    <li><a href="#"><i class='bx bxs-log-out-circle'></i> Cerrar sesión</a></li>
+                </ul>
             </div>
+        </nav>
+        <!-- NAVBAR -->
 
-            <!-- Insights -->
-            <ul class="insights">
-                <li>
-                    <i class='bx bx-calendar-check'></i>
-                    <span class="info">
-                        <h3>
-                            1,074
-                        </h3>
-                        <p>Paid Order</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-show-alt'></i>
-                    <span class="info">
-                        <h3>
-                            3,944
-                        </h3>
-                        <p>Site Visit</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-line-chart'></i>
-                    <span class="info">
-                        <h3>
-                            14,721
-                        </h3>
-                        <p>Searches</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-dollar-circle'></i>
-                    <span class="info">
-                        <h3>
-                            $6,742
-                        </h3>
-                        <p>Total Sales</p>
-                    </span>
-                </li>
+        <!-- MAIN -->
+        <main>
+            <h1 class="title">Tablero</h1>
+            <ul class="breadcrumbs">
+                <li><a href="#">Inicio</a></li>
+                <li class="divider">/</li>
+                <li><a href="#" class="active">Tablero</a></li>
             </ul>
-            <!-- End of Insights -->
-
-            <div class="bottom-data">
-                <div class="orders">
-                    <div class="header">
-                        <i class='bx bx-receipt'></i>
-                        <h3>Recent Orders</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-search'></i>
+            <div class="info-data">
+                <div class="card">
+                    <i class="bx bxs-car car-icon"></i>
+                    <div class="card-info">
+                        <span class="card-title">Vehículos en existencia</span>
+                        <p class="card-data">#62 vehículos</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="bx bxs-user user-icon"></i>
+                    <div class="card-info">
+                        <span class="card-title">Clientes actuales</span>
+                        <p class="card-data">20 clientes activos</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class='bx bxs-user-badge employees-icon'></i>
+                    <div class="card-info">
+                        <span class="card-title">Cantidad de empleados</span>
+                        <p class="card-data">14 empleados</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class='bx bx-money money-icon'></i>
+                    <div class="card-info">
+                        <span class="card-title">Ganancias generadas</span>
+                        <p class="card-data">DOP 32,456.65</p>
+                    </div>
+                </div>
+            </div>
+            <div class="data">
+                <div class="content-data left-side">
+                    <div class="head-prev-table">
+                        <h3>Rentas de Clientes</h3>
+                        <div class="prev-table-filter-search">
+                            <i class='bx bx-filter'></i>
+                            <i class='bx bx-search'></i>
+                        </div>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Order Date</th>
-                                <th>Status</th>
+                                <th>Cliente</th>
+                                <th>Vehículo</th>
+                                <th>Fecha Renta</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <img src="images/profile-1.jpg">
-                                    <p>John Doe</p>
+                                <td class="rental-customer-img">
+                                    <img src="https://images.unsplash.com/photo-1619895862022-09114b41f16f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="">
+                                    Miladys Solís
                                 </td>
-                                <td>14-08-2023</td>
-                                <td><span class="status completed">Completed</span></td>
+                                <td>Toyota 4Runner 2023</td>
+                                <td>19/09/2023</td>
+                                <td>
+                                    <p class="status status-active">
+                                        Activa
+                                    </p>
+                                </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <img src="images/profile-1.jpg">
-                                    <p>John Doe</p>
+                                <td class="rental-customer-img">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+                                        alt="">
+                                    Juan C. Romero
                                 </td>
-                                <td>14-08-2023</td>
-                                <td><span class="status pending">Pending</span></td>
+                                <td>Honda CR-V 2022</td>
+                                <td>22/09/2023</td>
+                                <td>
+                                    <p class="status status-process">
+                                        En proceso
+                                    </p>
+                                </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <img src="images/profile-1.jpg">
-                                    <p>John Doe</p>
+                                <td class="rental-customer-img">
+                                    <img src="https://images.unsplash.com/photo-1619895862022-09114b41f16f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="">
+                                    Leslie Romero Solís
                                 </td>
-                                <td>14-08-2023</td>
-                                <td><span class="status process">Processing</span></td>
+                                <td>Kia Sportage Touring 2017</td>
+                                <td>19/09/2023</td>
+                                <td>
+                                    <p class="status status-complete">
+                                        Completada
+                                    </p>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <div class="content-data right-side">
 
-                <!-- Reminders -->
-                <div class="reminders">
-                    <div class="header">
-                        <i class='bx bx-note'></i>
-                        <h3>Remiders</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-plus'></i>
-                    </div>
-                    <ul class="task-list">
-                        <li class="completed">
-                            <div class="task-title">
-                                <i class='bx bx-check-circle'></i>
-                                <p>Start Our Meeting</p>
-                            </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <div class="task-title">
-                                <i class='bx bx-check-circle'></i>
-                                <p>Analyse Our Site</p>
-                            </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <div class="task-title">
-                                <i class='bx bx-x-circle'></i>
-                                <p>Play Footbal</p>
-                            </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                    </ul>
                 </div>
-
-                <!-- End of Reminders-->
-
             </div>
-
         </main>
-
-    </div>
+        <!-- MAIN -->
+    </section>
+    <!-- NAVBAR -->
 
     <script src="../assets/scripts/dashboard.js"></script>
 </body>

@@ -152,7 +152,7 @@ function submitAuthForm(dataForm) {
                             messageBanner.classList.add('active');
                             messageBanner.classList.add('success');
                             setTimeout(() => {
-                                location.href = "./rental/index.html";
+                                location.href = "./rental/dashboard.html";
                             }, 1500);
                         }, 1000);
 
@@ -170,7 +170,7 @@ function submitAuthForm(dataForm) {
                             messageBanner.classList.add('active');
                             messageBanner.classList.add('success');
                             setTimeout(() => {
-                                location.href = "./rental/index.html";
+                                location.href = "./rental/dashboard.html";
                             }, 1500);
                         }, 1000);
 
