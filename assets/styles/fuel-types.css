@@ -1,0 +1,203 @@
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.overlay .close-overlay-icon {
+    position: absolute;
+    top: 40px;
+    right: 100px;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.8em;
+    /* background: #fff; */
+    color: #c44747;
+    background: #f8e1e1;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.overlay .add-fuel-form-container {
+    width: 420px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.add-fuel-form-container-top {
+    padding-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #ced4da;
+}
+
+.overlay .add-fuel-form-container form {
+    width: 100%;
+    padding-top: 20px;
+}
+
+.overlay .add-fuel-form-container form .form-message {
+    width: 100%;
+    padding: 12px;
+    color: #c44747;
+    background: #f8e1e1;
+    margin-bottom: 1rem;
+    border-radius: .4rem;
+    display: none;
+}
+
+.overlay .add-fuel-form-container form .form-message.active {
+    display: block;
+}
+
+.overlay .add-fuel-form-container form .input-container {
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.overlay .add-fuel-form-container form .input-container label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    display: block;
+}
+
+.overlay .add-fuel-form-container form .input-container input,
+.overlay .add-fuel-form-container form .input-container textarea {
+    width: 100%;
+    padding: 1rem .75rem;
+    outline: none;
+    border: 1px solid #ced4da;
+    border-radius: .4rem;
+}
+
+.overlay .add-fuel-form-container form button {
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin-top: 2rem;
+    background: #1775F1;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: 600;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+.overlay .add-fuel-form-container form button .loader {
+    pointer-events: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #fff;
+    animation: loading 1s ease infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0turn);
+    }
+
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+main .title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+main .info-data {
+    grid-template-columns: repeat(4, minmax(240px, 1fr));
+}
+
+main .info-data .card {
+    position: relative;
+    display: block;
+    height: auto;
+}
+
+main .info-data .card .card-background-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background-image: url('https://149562642.v2.pressablecdn.com/wp-content/uploads/26AH27436ZALXGNCEFIVVUU6CE-1140x720.jpg');
+    background-size: cover;
+    border-radius: 10px 10px 0 0;
+    /* filter: blur(1px); */
+}
+
+main .info-data .card .card-background-img::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px 10px 0 0;
+}
+
+main .info-data .card .card-top {
+    width: 100%;
+    height: 120px;
+}
+
+main .info-data .card .card-top-status {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    padding: 20px;
+    width: 55%;
+    color: #47c482;
+    background: #e1f8eb;
+    border-radius: 10px 0 0 10px;
+    font-weight: 600;
+}
+
+main .info-data .card .card-top-status.available {
+    color: #47c482;
+    background: #e1f8eb;
+}
+
+main .info-data .card .card-top-status.not-available {
+    color: #c44747;
+    background: #f8e1e1;
+}
+
+main .info-data .card .card-content h4 {
+    margin: 12px 0;
+}
+
+main .info-data .card .card-content p {
+    color: #898989;
+}

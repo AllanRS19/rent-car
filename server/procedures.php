@@ -105,5 +105,47 @@
 
         }
 
+        // isset($_POST['fuel_name']) && isset($_POST['fuel_desc']) &&
+
+        if (isset($_POST['fuel_name']) && isset($_POST['fuel_desc']) && isset($_POST['fuel_state'])) {
+            
+            $fuel_name = mysqli_real_escape_string($connection, $_POST['fuel_name']);
+            $fuel_description = mysqli_real_escape_string($connection, $_POST['fuel_desc']);
+            $fuel_state = mysqli_real_escape_string($connection, $_POST['fuel_state']);
+
+            $check_existing_fuel = mysqli_query($connection, "SELECT * FROM tipos_combustible WHERE fuel_name = '$fuel_name'");
+
+            if (mysqli_num_rows($check_existing_fuel) > 0) {
+
+                echo "Este tipo de combustible ya está registrado";
+                return;
+
+            }
+
+            $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+            $fuel_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+            $insert_fuel = mysqli_query($connection, "INSERT INTO tipos_combustible (fuel_unique_id, fuel_name, fuel_description, fuel_state) VALUES ('$fuel_unique_id', '$fuel_name', '$fuel_description', '$fuel_state')");
+
+            if ($insert_fuel) {
+
+                $fuel_array = array(
+                    "fuel_unique_id" => $fuel_unique_id,
+                    "fuel_add_status" => 'success'
+                );
+
+                $fuel_array_res = json_encode($fuel_array);
+
+                echo $fuel_array_res;
+
+            } else {
+                echo "Hubo un error al añadir el combustible";
+            }
+
+        } else {
+            echo "No se recibio la data";
+        }
+
     }
 

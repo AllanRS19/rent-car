@@ -8,6 +8,9 @@
         
     }
 
+    $currentPath = pathinfo($_SERVER['REQUEST_URI']);
+    $currentPage = basename($currentPath['filename']);
+
     include "../server/db_connection.php";
 
 ?>
@@ -15,10 +18,10 @@
 <section id="sidebar">
     <a href="#" class="brand"><i class='bx bxs-car icon'></i> Rental Car</a>
     <ul class="side-menu">
-        <li><a href="#" class="active"><i class='bx bxs-dashboard icon'></i> Tablero</a></li>
+        <li><a href="<?php if ($currentPage == "dashboard") { echo "#"; } else { echo "./dashboard.php"; }; ?>"<?php if ($currentPage == "dashboard") echo "class='active'"; ?>><i class='bx bxs-dashboard icon'></i> Tablero</a></li>
         <li class="divider" data-text="Principal">Principal</li>
         <li>
-            <a href="#"><i class='bx bxs-gas-pump icon'></i> Combustible</a>
+            <a href="<?php if ($currentPage == "fuel-types") { echo "#"; } else { echo "./fuel-types.php"; }; ?>" <?php if ($currentPage == "fuel-types") echo "class='active'"; ?>><i class='bx bxs-gas-pump icon'></i> Combustible</a>
         </li>
         <li>
             <a href="#"><i class='bx bxs-chart icon'></i> Tipos de vehículos</a>
@@ -60,6 +63,8 @@
         $user_details = mysqli_fetch_array($get_user_details);
 
     }
+    
+    // $currentPage = basename(pathinfo($_SERVER['REQUEST_URI']));
 
 ?>
 
@@ -70,7 +75,7 @@
         <i class='bx bx-menu toggle-sidebar'></i>
         <form action="#">
             <div class="form-group">
-                <input type="text" placeholder="Buscar...">
+                <input type="text" placeholder="Buscar..." value="">
                 <i class='bx bx-search icon'></i>
             </div>
         </form>
