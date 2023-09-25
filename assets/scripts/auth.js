@@ -110,8 +110,6 @@ function switchForms() {
 
         authForm = formSwitchBtn.parentElement.parentElement;
 
-        console.log(authForm);
-
         authForm.onsubmit = function (e) {
             e.preventDefault();
             submitAuthForm(this);
@@ -126,63 +124,96 @@ function switchForms() {
 
 function submitAuthForm(dataForm) {
 
-    let xhr = new XMLHttpRequest();
+    let formCompleted = false;
+    let formButtonContent = dataForm.querySelector('button').textContent;
 
-    xhr.open("POST", "./server/procedures.php", true);
+    let formFields = dataForm.querySelectorAll('input:not([type="checkbox"])');
 
-    xhr.onload = () => {
+    for (cont = 0; cont < formFields.length; cont++) {
+        if (formFields[cont].value == "") {
+            formCompleted = false;
+            cont = formFields.length;
+        } else {
+            formCompleted = true;
+        }
+    }
 
-        if (xhr.readyState === XMLHttpRequest.DONE) {
+    if (formCompleted) {
 
-            if (xhr.status === 200) {
+        dataForm.querySelector("button").classList.add('form-submitted');
+        dataForm.querySelector("button").textContent = "Validando...";
 
-                const data = xhr.response;
+        let xhr = new XMLHttpRequest();
 
-                try {
+        xhr.open("POST", "./server/procedures.php", true);
 
-                    const jsonResponse = JSON.parse(data);
+        xhr.onload = () => {
 
-                    if (jsonResponse.status == "login_success") {
-                        
-                        messageText.textContent = `¡Bienvenido de vuelta, ${jsonResponse.nombre}!`;
+            if (xhr.readyState === XMLHttpRequest.DONE) {
 
-                        messageBannerIcon.innerHTML = successIcon;
+                if (xhr.status === 200) {
 
-                        setTimeout(() => {
-                            messageBanner.classList.add('active');
-                            messageBanner.classList.add('success');
+                    const data = xhr.response;
+
+                    try {
+
+                        const jsonResponse = JSON.parse(data);
+
+                        if (jsonResponse.status == "login_success") {
+
+                            messageText.textContent = `¡Bienvenido de vuelta, ${jsonResponse.nombre}!`;
+
+                            messageBannerIcon.innerHTML = successIcon;
+
                             setTimeout(() => {
-                                location.href = "./rental/dashboard.html";
-                            }, 1500);
-                        }, 1000);
 
-                    }
+                                messageBanner.classList.add('active');
+                                messageBanner.classList.add('success');
 
-                } catch (e) {
+                                dataForm.querySelector("button").classList.remove('form-submitted');
+                                dataForm.querySelector("button").textContent = formButtonContent;
 
-                    if (data == "signup_success") {
+                                setTimeout(() => {
+                                    location.href = "./rental/dashboard.php";
+                                }, 1500);
+                            }, 1000);
 
-                        messageText.textContent = "Usuario creado exitosamente. Iniciando app...";
+                        }
 
-                        messageBannerIcon.innerHTML = successIcon;
+                    } catch (e) {
 
-                        setTimeout(() => {
-                            messageBanner.classList.add('active');
-                            messageBanner.classList.add('success');
+                        if (data == "signup_success") {
+
+                            messageText.textContent = "Usuario creado exitosamente. Iniciando app...";
+
+                            messageBannerIcon.innerHTML = successIcon;
+
                             setTimeout(() => {
-                                location.href = "./rental/dashboard.html";
-                            }, 1500);
-                        }, 1000);
 
-                    } else {
+                                messageBanner.classList.add('active');
+                                messageBanner.classList.add('success');
+
+                                dataForm.querySelector("button").classList.remove('form-submitted');
+                                dataForm.querySelector("button").textContent = formButtonContent;
+
+                                setTimeout(() => {
+                                    location.href = "./rental/dashboard.php";
+                                }, 1500);
+                            }, 1000);
+
+                        } else {
 
                             messageText.textContent = data;
 
                             messageBannerIcon.innerHTML = failedIcon;
 
                             setTimeout(() => {
+
                                 messageBanner.classList.add('active');
                                 messageBanner.classList.add('error');
+
+                                dataForm.querySelector("button").classList.remove('form-submitted');
+                                dataForm.querySelector("button").textContent = formButtonContent;
 
                                 setTimeout(() => {
                                     messageBanner.classList.remove('active');
@@ -191,7 +222,7 @@ function submitAuthForm(dataForm) {
                                     }, 500);
                                 }, 2000);
 
-                            }, 300);
+                            }, 1000);
 
                         }
 
@@ -207,13 +238,33 @@ function submitAuthForm(dataForm) {
 
         xhr.send(formData);
 
+    } else {
+
+        console.log('Hay campos en blanco');
+
+        messageText.textContent = "Existen campos en blanco";
+        messageBannerIcon.innerHTML = failedIcon;
+
+        setTimeout(() => {
+            messageBanner.classList.add('active');
+            messageBanner.classList.add('error');
+
+            setTimeout(() => {
+                messageBanner.classList.remove('active');
+                setTimeout(() => {
+                    messageBanner.classList.remove('error');
+                }, 500);
+            }, 2000);
+        }, 300);
     }
 
-    formSwitchBtn.onclick = () => {
-        switchForms();
-    };
+}
 
-    authForm.onsubmit = function (e) {
-        e.preventDefault();
-        submitAuthForm(this);
-    }
+formSwitchBtn.onclick = () => {
+    switchForms();
+};
+
+authForm.onsubmit = function (e) {
+    e.preventDefault();
+    submitAuthForm(this);
+}

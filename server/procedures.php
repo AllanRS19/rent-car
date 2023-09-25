@@ -35,6 +35,10 @@
 
                     if ($create_account) {
 
+                        session_start();
+
+                        $_SESSION['user_ident'] = $user_unique_id;
+
                         echo "signup_success";
 
                     } else {
@@ -78,6 +82,10 @@
                         $user_info_data = json_encode($user_info_array);
 
                         echo $user_info_data;
+
+                        session_start();
+
+                        $_SESSION['user_ident'] = $get_user_info['user_unique_id'];
 
                     } else {
                         echo "Las credenciales son incorrectas";

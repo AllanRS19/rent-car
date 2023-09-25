@@ -1,3 +1,13 @@
+<?php 
+
+    session_start();
+    
+    if (isset($_SESSION['user_ident']) && $_SESSION['user_ident'] != "") {
+        header("location: ./rental/dashboard.php");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -100,10 +100,10 @@ sidebar.addEventListener('mouseenter', function () {
 
 // PROFILE DROPDOWN
 const profile = document.querySelector('nav .profile');
-const imgProfile = profile.querySelector('img');
+const profileInfo = profile.querySelector('.profile-info');
 const dropdownProfile = profile.querySelector('.profile-link');
 
-imgProfile.addEventListener('click', function () {
+profileInfo.addEventListener('click', function () {
     dropdownProfile.classList.toggle('show');
 })
 
@@ -123,7 +123,7 @@ allMenu.forEach(item => {
 
 
 window.addEventListener('click', function (e) {
-    if (e.target !== imgProfile) {
+    if (e.target !== profileInfo) {
         if (e.target !== dropdownProfile) {
             if (dropdownProfile.classList.contains('show')) {
                 dropdownProfile.classList.remove('show');
