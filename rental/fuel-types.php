@@ -55,7 +55,7 @@
         </div>
     </div>
 
-        <?php include "./nav_template.php"; ?>
+        <?php include "./nav-template.php"; ?>
 
             <div class="title-wrapper">
 

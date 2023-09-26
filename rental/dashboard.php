@@ -12,7 +12,7 @@
 
 <body>
 
-        <?php include "./nav_template.php"; ?>
+        <?php include "./nav-template.php"; ?>
     
             <h1 class="title">Tablero</h1>
             <ul class="breadcrumbs">
