@@ -3,25 +3,108 @@ const overlay = document.querySelector('.overlay'),
     fuelForm = document.querySelector('.overlay form'),
     fuelFormMessage = document.querySelector('.overlay form .form-message'),
     fuelFormMessageText = document.querySelector('.overlay form .form-message p'),
+    addFuelContainerTop = document.querySelector('.add-fuel-form-container-top h2'),
     fuelFormSubmitBtn = document.querySelector('.overlay form button'),
     addFeatureBtn = document.querySelector('.add-feature-btn'),
     infoDataContainer = document.querySelector('.info-data');
 
+let deleteFuelBtns, editFuelBtns, formAction = "create";
+
+if (infoDataContainer.querySelector('.card.fuel-type')) {
+
+    deleteFuelBtns = document.querySelectorAll('.delete-fuel-btn');
+
+    deleteFuelBtns.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
+        deleteFuelBtn(this);
+    }));
+
+    editFuelBtns = document.querySelectorAll('.edit-fuel-btn');
+
+    editFuelBtns.forEach(edtFuelBtn => edtFuelBtn.addEventListener('click', function () {
+        editFuelBtn(this);
+    }));
+
+}
+
+function deleteFuelBtn(selfBtn) {
+
+    const cardId = selfBtn.parentElement.parentElement.id;
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "../server/procedures.php", true);
+
+    xhr.onload = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const serverResponse = xhr.response;
+                if (serverResponse == "fuel_deleted") selfBtn.parentElement.parentElement.remove();
+                else console.log('No se pudo eliminar: ', serverResponse);
+            }
+        }
+    }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("fuel_action=delete" + "&fuel_id_to_delete=" + cardId);
+}
+
+function editFuelBtn(selfBtn) {
+
+    console.log(selfBtn);
+
+    formAction = "edit";
+
+    const parentElement = selfBtn.parentElement.parentElement;
+
+    const fuelName = parentElement.querySelector('.card-content-title').textContent;
+    const fuelDescription = parentElement.querySelector('.card-content-description').textContent;
+    const fuelState = parentElement.querySelector('.card-top-status span').textContent;
+    console.log(addFuelContainerTop);
+    addFuelContainerTop.textContent = "Editar Tipo de Combustible";
+    fuelFormSubmitBtn.textContent = "Editar Combustible";
+
+    fuelForm.querySelector('input').value = fuelName;
+    fuelForm.querySelector('textarea').value = fuelDescription.trim();
+
+    if (fuelState == "Disponible") fuelForm.querySelector('select').selectedIndex = 1;
+    else if (fuelState == "No disponible") fuelForm.querySelector('select').selectedIndex = 2;
+
+    overlay.classList.add('active');
+
+    console.log(parentElement);
+    console.log(parentElement.id);
+
+    if (formAction == "edit") {
+        fuelForm.onsubmit = function (e) {
+            e.preventDefault();
+            submitFuelForm(fuelForm, formAction, parentElement.id);
+        }
+    }
+    else return;
+
+}
+
 addFeatureBtn.onclick = () => overlay.classList.add('active');
 
-closeOverlayBtn.onclick = () => overlay.classList.remove('active');
+closeOverlayBtn.onclick = () => {
+    overlay.classList.remove('active');
+    fuelFormMessage.classList.remove('active');
+    fuelForm.reset();
+    addFuelContainerTop.textContent = "Añadir Tipo de Combustible";
+    fuelFormSubmitBtn.textContent = "Añadir Combustible";
+    formAction = "create";
+};
 
-fuelForm.onsubmit = function (e) {
-    e.preventDefault();
+function submitFuelForm(selfForm, formActionReceived, cardId) {
+
+    if (formActionReceived == "create") cardId = "none";
+
+    // console.log('Se envió el formulario con la accion: ', formActionReceived, " ", selfForm, " y el Id: ", cardId);
 
     let formComplete = false;
 
-    let formFields = this.querySelectorAll('input, textarea, select');
-
-    // console.log(formFields[2].options[formFields[2].selectedIndex].textContent);
+    let formFields = selfForm.querySelectorAll('input, textarea, select');
 
     for (cont = 0; cont < formFields.length; cont++) {
-        // console.log(formFields[cont].tagName);
         if (formFields[cont].tagName != "SELECT") {
             if (formFields[cont].value == "") {
                 formCompleted = false;
@@ -68,6 +151,10 @@ fuelForm.onsubmit = function (e) {
                             let cardTemplate =
                                 `
                                 <div class="card fuel-type" id="${serverResponse.fuel_unique_id}">
+                                    <div class="card-options-overlay">
+                                        <button class="edit-fuel-btn">Editar</button>
+                                        <button class="delete-fuel-btn">Eliminar</button>
+                                    </div>
                                     <div class="card-background-img"></div>
                                     <div class="card-top">
                                         <div class="card-top-status ${formFields[2].selectedIndex == 1 ? "available" : "not-available"}">
@@ -78,8 +165,8 @@ fuelForm.onsubmit = function (e) {
                                         <div class="icon-box">
                                             <i class='bx bx-gas-pump'></i>
                                         </div>
-                                        <h4 class="card-content-title">${this.querySelector('input.fuel-name').value}</h4>
-                                        <p class="card-content-description">${this.querySelector('textarea.fuel-description').value}</p>
+                                        <h4 class="card-content-title">${selfForm.querySelector('input.fuel-name').value}</h4>
+                                        <p class="card-content-description">${selfForm.querySelector('textarea.fuel-description').value}</p>
                                     </div>
                                 </div>
                             `;
@@ -99,10 +186,68 @@ fuelForm.onsubmit = function (e) {
                                     infoDataContainer.innerHTML += cardTemplate;
 
                                 setTimeout(() => {
+
                                     overlay.classList.remove('active');
                                     fuelFormSubmitBtn.innerHTML = "Añadir Combustible";
                                     fuelFormSubmitBtn.style.opacity = "1";
                                     fuelForm.reset();
+
+                                    deleteFuelBtns = document.querySelectorAll('.delete-fuel-btn');
+
+                                    deleteFuelBtns.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
+                                        deleteFuelBtn(this);
+                                    }));
+
+                                    console.log(deleteFuelBtns);
+
+                                    editFuelBtns = document.querySelectorAll('.edit-fuel-btn');
+
+                                    editFuelBtns.forEach(edtFuelBtn => edtFuelBtn.addEventListener('click', function () {
+                                        editFuelBtn(this);
+                                    }));
+
+                                }, 1000);
+
+                            }, 2000);
+
+                        } else if (serverResponse.fuel_edit_status == "success") {
+
+                            setTimeout(() => {
+
+                                fuelFormSubmitBtn.innerHTML = "¡Combustible Editado!";
+                                fuelFormSubmitBtn.style.opacity = ".6";
+
+                                const currentCard = document.getElementById(cardId);
+
+                                console.log(currentCard, " ", cardId);
+
+                                if (formFields[2].selectedIndex == 1) {
+                                    currentCard.querySelector('.card-top-status').classList.remove('not-available');
+                                    currentCard.querySelector('.card-top-status').classList.add('available');
+                                } else if (formFields[2].selectedIndex == 2) {
+                                    currentCard.querySelector('.card-top-status').classList.add('not-available');
+                                    currentCard.querySelector('.card-top-status').classList.remove('available');
+                                }
+
+                                currentCard.querySelector('.card-top-status span').textContent = formFields[2].selectedIndex == 1 ? "Disponible" : "No disponible";
+                                currentCard.querySelector('.card-content-title').textContent = selfForm.querySelector('input').value;
+                                currentCard.querySelector('.card-content-description').textContent = selfForm.querySelector('textarea').value;
+
+                                setTimeout(() => {
+
+                                    overlay.classList.remove('active');
+                                    fuelFormSubmitBtn.innerHTML = "Añadir Combustible";
+                                    fuelFormSubmitBtn.style.opacity = "1";
+                                    fuelForm.reset();
+
+                                    formAction = "create";
+
+                                    deleteFuelBtns = document.querySelectorAll('.delete-fuel-btn');
+
+                                    deleteFuelBtns.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
+                                        deleteFuelBtn(this);
+                                    }));
+
                                 }, 1000);
 
                             }, 2000);
@@ -116,7 +261,10 @@ fuelForm.onsubmit = function (e) {
                             fuelFormMessage.classList.add('active');
                             fuelFormMessageText.textContent = data;
 
-                            fuelFormSubmitBtn.innerHTML = "Añadir Combustible";
+                            if (formAction == "create")
+                                fuelFormSubmitBtn.innerHTML = "Añadir Combustible";
+                            else if (formAction == "edit")
+                                fuelFormSubmitBtn.innerHTML = "Editar Combustible";
 
                         }, 2000);
 
@@ -129,7 +277,7 @@ fuelForm.onsubmit = function (e) {
         }
 
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send("fuel_name=" + this.querySelector('input.fuel-name').value + "&fuel_desc=" + this.querySelector('textarea.fuel-description').value + "&fuel_state=" + formSelectedOption);
+        xhr.send("fuel_name=" + selfForm.querySelector('input.fuel-name').value + "&fuel_desc=" + selfForm.querySelector('textarea.fuel-description').value + "&fuel_state=" + formSelectedOption + "&fuel_card_id=" + cardId + "&fuel_action=" + formActionReceived);
 
     } else {
 
@@ -138,4 +286,10 @@ fuelForm.onsubmit = function (e) {
 
     }
 
+}
+
+fuelForm.onsubmit = function (e) {
+    e.preventDefault();
+    if (formAction != "create") return;
+    submitFuelForm(this, formAction, "");
 }

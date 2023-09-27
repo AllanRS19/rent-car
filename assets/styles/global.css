@@ -487,7 +487,16 @@ main .add-feature-btn.fuels-btn:hover {
     background: #b87f62;
 }
 
-main .add-feature-btn.fuels-btn span {
+main .add-feature-btn.vehicle-types-btn {
+    background: #3bb4ff;
+}
+
+main .add-feature-btn.vehicle-types-btn:hover {
+    background: #2892d4;
+}
+
+main .add-feature-btn.fuels-btn span,
+main .add-feature-btn.vehicle-types-btn span {
     display: inline-flex;
     align-items: center;
     padding: 0 24px;
@@ -495,7 +504,8 @@ main .add-feature-btn.fuels-btn span {
     height: 100%;
 }
 
-main .add-feature-btn.fuels-btn span.add-feature-btn-icon {
+main .add-feature-btn.fuels-btn span.add-feature-btn-icon,
+main .add-feature-btn.vehicle-types-btn span.add-feature-btn-icon {
     font-size: 1.5em;
     background: rgba(0, 0, 0, .08);
 }

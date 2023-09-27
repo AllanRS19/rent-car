@@ -38,25 +38,29 @@
     cursor: pointer;
 }
 
-.overlay .add-fuel-form-container {
+.overlay .add-fuel-form-container,
+.overlay .add-vehicle-type-form-container {
     width: 420px;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
 }
 
-.add-fuel-form-container-top {
+.add-fuel-form-container-top,
+.add-vehicle-type-form-container-top {
     padding-bottom: 20px;
     text-align: center;
     border-bottom: 1px solid #ced4da;
 }
 
-.overlay .add-fuel-form-container form {
+.overlay .add-fuel-form-container form,
+.overlay .add-vehicle-type-form-container form {
     width: 100%;
     padding-top: 20px;
 }
 
-.overlay .add-fuel-form-container form .form-message {
+.overlay .add-fuel-form-container form .form-message,
+.overlay .add-vehicle-type-form-container form .form-message {
     width: 100%;
     padding: 12px;
     color: #c44747;
@@ -66,24 +70,29 @@
     display: none;
 }
 
-.overlay .add-fuel-form-container form .form-message.active {
+.overlay .add-fuel-form-container form .form-message.active,
+.overlay .add-vehicle-type-form-container form .form-message.active {
     display: block;
 }
 
-.overlay .add-fuel-form-container form .input-container {
+.overlay .add-fuel-form-container form .input-container,
+.overlay .add-vehicle-type-form-container form .input-container {
     width: 100%;
     display: block;
     margin-bottom: 1rem;
 }
 
-.overlay .add-fuel-form-container form .input-container label {
+.overlay .add-fuel-form-container form .input-container label,
+.overlay .add-vehicle-type-form-container form .input-container label {
     margin-bottom: 5px;
     font-weight: 600;
     display: block;
 }
 
 .overlay .add-fuel-form-container form .input-container input,
-.overlay .add-fuel-form-container form .input-container textarea {
+.overlay .add-fuel-form-container form .input-container textarea,
+.overlay .add-vehicle-type-form-container form .input-container input,
+.overlay .add-vehicle-type-form-container form .input-container textarea {
     width: 100%;
     padding: 1rem .75rem;
     outline: none;
@@ -91,7 +100,8 @@
     border-radius: .4rem;
 }
 
-.overlay .add-fuel-form-container form button {
+.overlay .add-fuel-form-container form button,
+.overlay .add-vehicle-type-form-container form button {
     display: block;
     width: 100%;
     height: 50px;
@@ -108,7 +118,8 @@
     cursor: pointer;
 }
 
-.overlay .add-fuel-form-container form button .loader {
+.overlay .add-fuel-form-container form button .loader,
+.overlay .add-vehicle-type-form-container form button .loader {
     pointer-events: none;
     width: 30px;
     height: 30px;
@@ -142,6 +153,55 @@ main .info-data .card {
     position: relative;
     display: block;
     height: auto;
+    overflow: hidden;
+}
+
+main .info-data .card .card-options-overlay {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 30px;
+    transition: .4s;
+}
+
+main .info-data .card:hover .card-options-overlay {
+    left: 0;
+}
+
+main .info-data .card .card-options-overlay button {
+    width: 100%;
+    padding: 12px;
+    border-radius: .4rem;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+main .info-data .card .card-options-overlay button:hover {
+    opacity: .8;
+}
+
+main .info-data .card .card-options-overlay button:nth-child(1) {
+    background: #1775F1;
+    color: #fff;
+}
+
+main .info-data .card .card-options-overlay button:nth-child(2) {
+    background: #c44747;
+    color: #fff;
 }
 
 main .info-data .card .card-background-img {
@@ -154,6 +214,10 @@ main .info-data .card .card-background-img {
     background-size: cover;
     border-radius: 10px 10px 0 0;
     /* filter: blur(1px); */
+}
+
+main .info-data .card .card-background-img.vehicle-types-background-img {
+    background-image: url('https://kilometrosquecuentan.goodyear.eu/wp-content/uploads/2018/05/tipos-coches.jpg');
 }
 
 main .info-data .card .card-background-img::after {

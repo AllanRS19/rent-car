@@ -24,10 +24,10 @@
             <a href="<?php if ($currentPage == "fuel-types") { echo "#"; } else { echo "./fuel-types.php"; }; ?>" <?php if ($currentPage == "fuel-types") echo "class='active'"; ?>><i class='bx bxs-gas-pump icon'></i> Combustible</a>
         </li>
         <li>
-            <a href="#"><i class='bx bxs-chart icon'></i> Tipos de vehículos</a>
+            <a href="<?php if ($currentPage == "vehicle-types") { echo "#"; } else { echo "./vehicle-types.php"; }; ?> " <?php if ($currentPage == "vehicle-types") echo "class='active'"; ?>><i class='bx bxs-chart icon'></i> Tipos de vehículos</a>
         </li>
         <li>
-            <a href="#"><i class='bx bxs-widget icon'></i> Marcas</a>
+            <a href="<?php if ($currentPage == "brands") { echo "#"; } else { echo "./brands.php"; }; ?>" <?php if ($currentPage == "brands") echo "class='active'"; ?>><i class='bx bxs-widget icon'></i> Marcas</a>
         </li>
         <li>
             <a href="#"><i class='bx bx-table icon'></i> Modelos</a>

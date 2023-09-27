@@ -105,47 +105,210 @@
 
         }
 
-        // isset($_POST['fuel_name']) && isset($_POST['fuel_desc']) &&
+        if (isset($_POST['fuel_action'])) {
 
-        if (isset($_POST['fuel_name']) && isset($_POST['fuel_desc']) && isset($_POST['fuel_state'])) {
-            
-            $fuel_name = mysqli_real_escape_string($connection, $_POST['fuel_name']);
-            $fuel_description = mysqli_real_escape_string($connection, $_POST['fuel_desc']);
-            $fuel_state = mysqli_real_escape_string($connection, $_POST['fuel_state']);
+            if ($_POST['fuel_action'] == "create") {
 
-            $check_existing_fuel = mysqli_query($connection, "SELECT * FROM tipos_combustible WHERE fuel_name = '$fuel_name'");
+                if (isset($_POST['fuel_name']) && isset($_POST['fuel_desc']) && isset($_POST['fuel_state'])) {
+                    
+                    $fuel_name = mysqli_real_escape_string($connection, $_POST['fuel_name']);
+                    $fuel_description = mysqli_real_escape_string($connection, $_POST['fuel_desc']);
+                    $fuel_state = mysqli_real_escape_string($connection, $_POST['fuel_state']);
 
-            if (mysqli_num_rows($check_existing_fuel) > 0) {
+                    $check_existing_fuel = mysqli_query($connection, "SELECT * FROM tipos_combustible WHERE fuel_name = '$fuel_name'");
 
-                echo "Este tipo de combustible ya está registrado";
-                return;
+                    if (mysqli_num_rows($check_existing_fuel) > 0) {
+
+                        echo "Este tipo de combustible ya está registrado";
+                        return;
+
+                    }
+
+                    $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                    $fuel_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                    $insert_fuel = mysqli_query($connection, "INSERT INTO tipos_combustible (fuel_unique_id, fuel_name, fuel_description, fuel_state) VALUES ('$fuel_unique_id', '$fuel_name', '$fuel_description', '$fuel_state')");
+
+                    if ($insert_fuel) {
+
+                        $fuel_array = array(
+                            "fuel_unique_id" => $fuel_unique_id,
+                            "fuel_add_status" => 'success'
+                        );
+
+                        $fuel_array_res = json_encode($fuel_array);
+
+                        echo $fuel_array_res;
+
+                    } else {
+                        echo "Hubo un error al añadir el combustible";
+                    }
+
+                }
 
             }
 
-            $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+            if ($_POST['fuel_action'] == "edit") {
+                
+                if (isset($_POST['fuel_name']) && isset($_POST['fuel_desc']) && isset($_POST['fuel_state']) && isset($_POST['fuel_card_id'])) {
 
-            $fuel_unique_id = substr(str_shuffle($random_chars), 0, 30);
+                    $fuel_name = mysqli_real_escape_string($connection, $_POST['fuel_name']);
+                    $fuel_description = mysqli_real_escape_string($connection, $_POST['fuel_desc']);
+                    $fuel_state = mysqli_real_escape_string($connection, $_POST['fuel_state']);
+                    $fuel_unique_id = mysqli_real_escape_string($connection, $_POST['fuel_card_id']);
 
-            $insert_fuel = mysqli_query($connection, "INSERT INTO tipos_combustible (fuel_unique_id, fuel_name, fuel_description, fuel_state) VALUES ('$fuel_unique_id', '$fuel_name', '$fuel_description', '$fuel_state')");
+                    $update_fuel_info = mysqli_query($connection, "UPDATE tipos_combustible SET fuel_name = '$fuel_name', fuel_description = '$fuel_description', fuel_state = '$fuel_state' WHERE fuel_unique_id = '$fuel_unique_id'");
 
-            if ($insert_fuel) {
+                    if ($update_fuel_info) {
 
-                $fuel_array = array(
-                    "fuel_unique_id" => $fuel_unique_id,
-                    "fuel_add_status" => 'success'
-                );
+                        $updateResponse = array(
+                            "fuel_edit_status" => 'success'
+                        );
 
-                $fuel_array_res = json_encode($fuel_array);
+                        $updateResponseSend = json_encode($updateResponse);
 
-                echo $fuel_array_res;
+                        echo $updateResponseSend;
 
-            } else {
-                echo "Hubo un error al añadir el combustible";
+                    } else {
+                        echo "Hubo un error al actualizar los datos";
+                    }
+
+                } else {
+                    echo "Hacen falta datos";
+                }
+
             }
 
-        } else {
-            echo "No se recibio la data";
+            if ($_POST['fuel_action'] == "delete") {
+                
+                if (isset($_POST['fuel_id_to_delete'])) {
+
+                    $fuel_id = mysqli_real_escape_string($connection, $_POST['fuel_id_to_delete']);
+
+                    $find_fuel_id = mysqli_query($connection, "SELECT * FROM tipos_combustible WHERE fuel_unique_id = '$fuel_id'");
+
+                    if (mysqli_num_rows($find_fuel_id) > 0) {
+
+                        $delete_fuel = mysqli_query($connection, "DELETE FROM tipos_combustible WHERE fuel_unique_id = '$fuel_id'");
+
+                        if ($delete_fuel) {
+                            echo "fuel_deleted";
+                        } else {
+                            echo "Hubo un error eliminando el registro";
+                        }
+
+                    } else {
+                        echo "No se pudo encontrar el registro a eliminar";
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (isset($_POST['vehicle_type_action'])) {
+
+            if ($_POST['vehicle_type_action'] == "create") {
+
+                if (isset($_POST['vehicle_type_name']) && isset($_POST['vehicle_type_desc']) && isset($_POST['vehicle_type_state'])) {
+                    
+                    $vehicle_type_name = mysqli_real_escape_string($connection, $_POST['vehicle_type_name']);
+                    $vehicle_type_description = mysqli_real_escape_string($connection, $_POST['vehicle_type_desc']);
+                    $vehicle_type_state = mysqli_real_escape_string($connection, $_POST['vehicle_type_state']);
+
+                    $check_existing_vehicle_type = mysqli_query($connection, "SELECT * FROM tipos_vehiculos WHERE vehicle_type_name = '$vehicle_type_name'");
+
+                    if (mysqli_num_rows($check_existing_vehicle_type) > 0) {
+
+                        echo "Este tipo de vehículo ya está registrado";
+                        return;
+
+                    }
+
+                    $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                    $vehicle_type_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                    $insert_vehicle_type = mysqli_query($connection, "INSERT INTO tipos_vehiculos (vehicle_type_unique_id, vehicle_type_name, vehicle_type_description, vehicle_type_state) VALUES ('$vehicle_type_unique_id', '$vehicle_type_name', '$vehicle_type_description', '$vehicle_type_state')");
+
+                    if ($insert_vehicle_type) {
+
+                        $vehicle_type_array = array(
+                            "vehicle_type_unique_id" => $vehicle_type_unique_id,
+                            "vehicle_type_add_status" => 'success'
+                        );
+
+                        $vechile_type_array_res = json_encode($vehicle_type_array);
+
+                        echo $vechile_type_array_res;
+
+                    } else {
+                        echo "Hubo un error al añadir el tipo de vehículo";
+                    }
+
+                }
+
+            }
+
+            if ($_POST['vehicle_type_action'] == "edit") {
+                
+                if (isset($_POST['vehicle_type_name']) && isset($_POST['vehicle_type_desc']) && isset($_POST['vehicle_type_state']) && isset($_POST['vehicle_type_card_id'])) {
+
+                    $vehicle_type_name = mysqli_real_escape_string($connection, $_POST['vehicle_type_name']);
+                    $vehicle_type_description = mysqli_real_escape_string($connection, $_POST['vehicle_type_desc']);
+                    $vehicle_type_state = mysqli_real_escape_string($connection, $_POST['vehicle_type_state']);
+                    $vehicle_type_unique_id = mysqli_real_escape_string($connection, $_POST['vehicle_type_card_id']);
+
+                    $update_vehicle_type_info = mysqli_query($connection, "UPDATE tipos_vehiculos SET vehicle_type_name = '$vehicle_type_name', vehicle_type_description = '$vehicle_type_description', vehicle_type_state = '$vehicle_type_state' WHERE vehicle_type_unique_id = '$vehicle_type_unique_id'");
+
+                    if ($update_vehicle_type_info) {
+
+                        $updateResponse = array(
+                            "vehicle_type_edit_status" => 'success'
+                        );
+
+                        $updateResponseSend = json_encode($updateResponse);
+
+                        echo $updateResponseSend;
+
+                    } else {
+                        echo "Hubo un error al actualizar los datos";
+                    }
+
+                } else {
+                    echo "Hacen falta datos";
+                }
+
+            }
+
+            if ($_POST['vehicle_type_action'] == "delete") {
+                
+                if (isset($_POST['vehicle_type_id_to_delete'])) {
+
+                    $vehicle_type_id = mysqli_real_escape_string($connection, $_POST['vehicle_type_id_to_delete']);
+
+                    $find_vehicle_type_id = mysqli_query($connection, "SELECT * FROM tipos_vehiculos WHERE vehicle_type_unique_id = '$vehicle_type_id'");
+
+                    if (mysqli_num_rows($find_vehicle_type_id) > 0) {
+
+                        $delete_vehicle_type = mysqli_query($connection, "DELETE FROM tipos_vehiculos WHERE vehicle_type_unique_id = '$vehicle_type_id'");
+
+                        if ($delete_vehicle_type) {
+                            echo "vehicle_type_deleted";
+                        } else {
+                            echo "Hubo un error eliminando el registro";
+                        }
+
+                    } else {
+                        echo "No se pudo encontrar el registro a eliminar";
+                    }
+
+                }
+
+            }
+
         }
 
     }
-
