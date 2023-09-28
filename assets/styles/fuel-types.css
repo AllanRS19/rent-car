@@ -145,10 +145,6 @@ main .title-wrapper {
     justify-content: space-between;
 }
 
-main .info-data {
-    grid-template-columns: repeat(4, minmax(240px, 1fr));
-}
-
 main .info-data .card {
     position: relative;
     display: block;

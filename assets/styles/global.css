@@ -479,6 +479,14 @@ main .add-feature-btn {
     transition: background .2s;
 }
 
+main .add-feature-btn.brands-btn {
+    background: #cc5b83;
+}
+
+main .add-feature-btn.brands-btn:hover {
+    background: #b84f74;
+}
+
 main .add-feature-btn.fuels-btn {
     background: #de9876;
 }
@@ -496,7 +504,8 @@ main .add-feature-btn.vehicle-types-btn:hover {
 }
 
 main .add-feature-btn.fuels-btn span,
-main .add-feature-btn.vehicle-types-btn span {
+main .add-feature-btn.vehicle-types-btn span,
+main .add-feature-btn.brands-btn span {
     display: inline-flex;
     align-items: center;
     padding: 0 24px;
@@ -505,7 +514,8 @@ main .add-feature-btn.vehicle-types-btn span {
 }
 
 main .add-feature-btn.fuels-btn span.add-feature-btn-icon,
-main .add-feature-btn.vehicle-types-btn span.add-feature-btn-icon {
+main .add-feature-btn.vehicle-types-btn span.add-feature-btn-icon,
+main .add-feature-btn.brands-btn span.add-feature-btn-icon {
     font-size: 1.5em;
     background: rgba(0, 0, 0, .08);
 }
@@ -515,6 +525,12 @@ main .info-data {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     grid-gap: 20px;
+}
+
+main .info-data.fuels,
+main .info-data.vehicle-types,
+main .info-data.brands {
+    grid-template-columns: repeat(4, minmax(240px, 1fr));
 }
 
 main .info-data .card {
