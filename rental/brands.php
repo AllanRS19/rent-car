@@ -12,44 +12,31 @@
 
 <body>
 
-    <!-- <div class="overlay">
+
+
+    <div class="overlay active">
         <div class="close-overlay-icon">
             <i class='bx bx-x'></i>
         </div>
-        <div class="add-fuel-form-container">
-
-            <div class="add-fuel-form-container-top">
-                <h2>Añadir Tipo de Combustible</h2>
+        <div class="form-container">
+            <div class="form-container-top">
+                <h3>Añadir Marca de Vehículo</h3>
             </div>
-
-            <form action="" method="">
-
-                <div class="input-container">
-                    <label for="">Nombre de Combustible</label>
-                    <input type="text" class="fuel-name">
+            <form action="#" method="post" enctype="multipart/form-data" class="form-container-body">
+                <div class="brand-form-left-side">
+                    <input type="file" accept="image/*" id="img-file" hidden>
+                    <div class="preview-img-area" data-img="hello.png">
+                        <i class='bx bx-cloud-upload'></i>
+                        <h3>Subir imagen</h3>
+                        <p>El tamaño de la imagen deber ser menor a <span>2MB</span></p>
+                        <!-- <img src="../assets/imgs/rent-car-wallpaper.jpg" alt=""> -->
+                    </div>
+                    <button type="button" class="select-preview-img">Seleccionar imagen</button>
                 </div>
-
-                <div class="input-container">
-                    <label for="">Descripción de Combustible</label>
-                    <textarea name="" id="" cols="30" rows="5" class="fuel-description"></textarea>
-                </div>
-
-                <div class="input-container">
-                    <label for="">Estado de Combustible</label>
-                    <select name="" id="" class="fuel-status">
-                        <option value="None">Escoge una opción</option>
-                        <option value="Disponible">Disponible</option>
-                        <option value="Disponible">No Disponible</option>
-                    </select>
-                </div>
-
-                <button class="add-fuel-btn">
-                    Añadir Combustible
-                </button>
-
+                <div class="brand-form-right-side"></div>
             </form>
         </div>
-    </div> -->
+    </div>
     
     <?php include "./nav-template.php"; ?>
 
@@ -98,6 +85,7 @@
     <!-- NAVBAR -->
 
     <script src="../assets/scripts/dashboard.js"></script>
+    <script src="../assets/scripts/brands.js"></script>
 </body>
 
 </html>

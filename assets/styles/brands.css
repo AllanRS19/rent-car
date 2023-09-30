@@ -1,3 +1,155 @@
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.overlay .close-overlay-icon {
+    position: absolute;
+    top: 40px;
+    right: 100px;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.8em;
+    /* background: #fff; */
+    color: #c44747;
+    background: #f8e1e1;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.overlay .form-container {
+    width: 100%;
+    max-width: 780px;
+    background: #ffffff;
+    padding: 30px 0;
+    border-radius: 20px;
+}
+
+.overlay .form-container .form-container-top {
+    width: 100%;
+    border-bottom: 2px solid #d8d8d8;
+    padding: 0 30px 30px 30px;
+}
+
+.overlay .form-container .form-container-body {
+    width: 100%;
+    padding: 30px 30px 0 30px;
+    display: flex;
+    align-items: center;
+}
+
+.overlay .form-container .form-container-body .preview-img-area {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: transparent;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    border: 2px dashed #d8d8d8;
+    padding: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #fcfcfc;
+    z-index: 100;
+}
+
+.overlay .form-container .form-container-body .preview-img-area::before {
+    position: absolute;
+    content: attr(data-img);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 200;
+}
+
+.overlay .form-container .form-container-body .preview-img-area.active:hover::before {
+    opacity: 1;
+}
+
+.overlay .form-container .form-container-body .preview-img-area i {
+    font-size: 50px;
+}
+
+.overlay .form-container .form-container-body .preview-img-area h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.overlay .form-container .form-container-body .preview-img-area p {
+    color: #999;
+}
+
+.overlay .form-container .form-container-body .preview-img-area p span {
+    font-weight: 600;
+}
+
+.overlay .form-container .form-container-body .preview-img-area img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 100;
+}
+
+.overlay .form-container .form-container-body .select-preview-img {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 15px;
+    background: #c44747;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.overlay .form-container .form-container-body .select-preview-img:hover {
+    background: #ff4848;
+}
+
+/* ----------------------------------------- */
+
 main .info-data .card {
     min-height: 240px;
     background: url('https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_ogp_001.png') no-repeat top center/cover;
