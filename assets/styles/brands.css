@@ -19,37 +19,40 @@
     pointer-events: all;
 }
 
-.overlay .close-overlay-icon {
-    position: absolute;
-    top: 40px;
-    right: 100px;
-    color: #000;
-    font-weight: 700;
-    font-size: 1.8em;
-    /* background: #fff; */
-    color: #c44747;
-    background: #f8e1e1;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
 .overlay .form-container {
     width: 100%;
-    max-width: 780px;
+    max-width: 920px;
     background: #ffffff;
-    padding: 30px 0;
-    border-radius: 20px;
+    padding: 20px 0 30px 0;
+    /* border-radius: 20px; */
 }
 
 .overlay .form-container .form-container-top {
     width: 100%;
     border-bottom: 2px solid #d8d8d8;
-    padding: 0 30px 30px 30px;
+    padding: 0 30px 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.overlay .form-container .form-container-top .close-overlay-icon {
+    font-size: 2.5em;
+    color: #999;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-message-container {
+    width: 100%;
+    padding: 12px;
+    color: #c44747;
+    background: #f8e1e1;
+    text-align: center;
+    display: none;
+}
+
+.overlay .form-container .form-message-container.active {
+    display: block;
 }
 
 .overlay .form-container .form-container-body {
@@ -57,12 +60,19 @@
     padding: 30px 30px 0 30px;
     display: flex;
     align-items: center;
+    /* gap: 80px; */
+}
+
+.overlay .form-container .form-container-body .brand-form-left-side,
+.overlay .form-container .form-container-body .brand-form-right-side {
+    flex-basis: 100%;
+    flex-grow: 1;
 }
 
 .overlay .form-container .form-container-body .preview-img-area {
     position: relative;
     width: 100%;
-    height: 240px;
+    height: 300px;
     background: transparent;
     margin-bottom: 30px;
     border-radius: 15px;
@@ -147,6 +157,67 @@
 .overlay .form-container .form-container-body .select-preview-img:hover {
     background: #ff4848;
 }
+
+.overlay .form-container .form-container-body .brand-form-right-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* background: red; */
+}
+
+.overlay .form-container .form-container-body .brand-form-right-side .input-container {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.overlay .form-container .form-container-body .brand-form-right-side .input-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: .3rem;
+}
+
+.overlay .form-container .form-container-body .brand-form-right-side .input-container input,
+.overlay .form-container .form-container-body .brand-form-right-side .input-container textarea,
+.overlay .form-container .form-container-body .brand-form-right-side .input-container select {
+    display: block;
+    width: 320px;
+    max-width: 100%;
+    padding: 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    border: none;
+    border: 1px solid #999;
+    /* background: #f7f7f7; */
+    outline: none;
+    transition: .3s ease;
+}
+
+.overlay .form-container .form-container-body .brand-form-right-side .input-container input:focus,
+.overlay .form-container .form-container-body .brand-form-right-side .input-container textarea:focus,
+.overlay .form-container .form-container-body .brand-form-right-side .input-container select:focus {
+    background: transparent;
+}
+
+.overlay .form-container .form-container-body .brand-form-right-side button {
+    width: 100%;
+    padding: 16px;
+    border-radius: 4px;
+    background: #4869ff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-container-body .brand-form-right-side button:hover {
+    background: #3d58cd;
+}
+
+/* B3BBCA */
 
 /* ----------------------------------------- */
 

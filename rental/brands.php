@@ -14,73 +14,93 @@
 
 
 
-    <div class="overlay active">
-        <div class="close-overlay-icon">
-            <i class='bx bx-x'></i>
-        </div>
+    <div class="overlay">
         <div class="form-container">
             <div class="form-container-top">
                 <h3>Añadir Marca de Vehículo</h3>
+                <i class='bx bx-x close-overlay-icon'></i>
             </div>
-            <form action="#" method="post" enctype="multipart/form-data" class="form-container-body">
+            <div class="form-message-container">
+                <p class="form-alert-message"></p>
+            </div>
+            <div class="form-container-body">
                 <div class="brand-form-left-side">
                     <input type="file" accept="image/*" id="img-file" hidden>
                     <div class="preview-img-area" data-img="hello.png">
                         <i class='bx bx-cloud-upload'></i>
                         <h3>Subir imagen</h3>
                         <p>El tamaño de la imagen deber ser menor a <span>2MB</span></p>
-                        <!-- <img src="../assets/imgs/rent-car-wallpaper.jpg" alt=""> -->
                     </div>
                     <button type="button" class="select-preview-img">Seleccionar imagen</button>
                 </div>
-                <div class="brand-form-right-side"></div>
-            </form>
+                <form action="#" method="post" enctype="multipart/form-data" class="brand-form-right-side brand-form">
+                    <div class="brand-description-container">
+                        <div class="input-container">
+                            <label for="brand-name">Nombre marca</label>
+                            <input type="text" name="brand-name" id="brand-name">
+                        </div>
+                        <div class="input-container">
+                            <label for="brand-description">Descripción marca</label>
+                            <textarea name="brand-description" id="brand-description" cols="30" rows="3"></textarea>
+                        </div>
+                        <div class="input-container">
+                            <label for="brand-state">Estado marca</label>
+                            <select name="" id="brand-state">
+                                <option value="">Seleccione un estado</option>
+                                <option value="">Disponible</option>
+                                <option value="">No Disponible</option>
+                            </select>
+                        </div>
+                        <button type="button" class="submit-brand-btn">Añadir marca</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    
+
     <?php include "./nav-template.php"; ?>
 
-            <div class="title-wrapper">
+    <div class="title-wrapper">
 
-                <div class="title-left">
-                    <h1 class="title">Marcas</h1>
-                    <ul class="breadcrumbs">
-                        <li><a href="#">Inicio</a></li>
-                        <li class="divider">/</li>
-                        <li><a href="#" class="active">Marcas</a></li>
-                    </ul>
+        <div class="title-left">
+            <h1 class="title">Marcas</h1>
+            <ul class="breadcrumbs">
+                <li><a href="#">Inicio</a></li>
+                <li class="divider">/</li>
+                <li><a href="#" class="active">Marcas</a></li>
+            </ul>
+        </div>
+
+        <div class="title-right">
+            <button class="add-feature-btn brands-btn" id="add-brand-btn">
+                <span class="add-feature-btn-icon">
+                    <i class='bx bx-plus'></i>
+                </span>
+                <span class="add-feature-btn-text">Añadir marca</span>
+            </button>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="info-data brands">
+
+        <div class="card brands">
+            <div class="card-content">
+                <h4 class="card-content-title">Toyota</h4>
+                <p class="card-content-description">Es una mezcla de hidrocarburos obtenida de la destilación fraccionada del petróleo kdklj aque losd mde aklsnfkl aopqmfmw</p>
+                <div class="card-action-btns">
+                    <button class="edit-brand">Editar</button>
+                    <button class="delete-brand">Eliminar</button>
                 </div>
-
-                <div class="title-right">
-                    <button class="add-feature-btn brands-btn">
-                        <span class="add-feature-btn-icon">
-                            <i class='bx bx-plus'></i>
-                        </span>
-                        <span class="add-feature-btn-text">Añadir marca</span>
-                    </button>
-                </div>
-
             </div>
+        </div>
 
-            <hr>
+    </div>
 
-            <div class="info-data brands">
-
-                <div class="card brands">
-                    <div class="card-content">
-                        <h4 class="card-content-title">Toyota</h4>
-                        <p class="card-content-description">Es una mezcla de hidrocarburos obtenida de la destilación fraccionada del petróleo kdklj aque losd mde aklsnfkl aopqmfmw</p>
-                        <div class="card-action-btns">
-                            <button class="edit-brand">Editar</button>
-                            <button class="delete-brand">Eliminar</button>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-
-        </main>
-        <!-- MAIN -->
+    </main>
+    <!-- MAIN -->
     </section>
     <!-- NAVBAR -->
 
