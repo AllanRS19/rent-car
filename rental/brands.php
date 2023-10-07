@@ -33,7 +33,7 @@
                     </div>
                     <button type="button" class="select-preview-img">Seleccionar imagen</button>
                 </div>
-                <form action="#" method="post" enctype="multipart/form-data" class="brand-form-right-side brand-form">
+                <form action="" method="post" enctype="multipart/form-data" class="brand-form-right-side brand-form">
                     <div class="brand-description-container">
                         <div class="input-container">
                             <label for="brand-name">Nombre marca</label>
@@ -99,7 +99,7 @@
         
         ?>
 
-            <div class="card brand-card" style="background: url('../assets/imgs/uploads/brands/<?php echo $fetch_brands_info['brand_image_path']; ?>') no-repeat top center/cover;" id="<?php echo $fetch_brands_info['brand_unique_id']; ?>">
+            <div class="card brand-card" style="background: url('../assets/imgs/uploads/brands/<?php echo $fetch_brands_info['brand_image_path']; ?>') no-repeat center center/cover;" id="<?php echo $fetch_brands_info['brand_unique_id']; ?>">
                 <div class="card-content">
                     <div class="card-status <?php echo $fetch_brands_info['brand_state'] == "Disponible" ? "available" : "not-available"; ?>">
                         <span><?php echo $fetch_brands_info['brand_state']; ?></span>

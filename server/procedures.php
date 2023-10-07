@@ -357,6 +357,115 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
+        if ($_POST['brandFormAction'] == "edit") {
+
+            if (isset($_POST['brand-name']) && isset($_POST['brand-description']) && isset($_POST['brand_state']) && isset($_POST['brand_id'])) {
+
+                $brand_name = mysqli_real_escape_string($connection, $_POST['brand-name']);
+                $brand_description = mysqli_real_escape_string($connection, $_POST['brand-description']);
+                $brand_state = mysqli_real_escape_string($connection, $_POST['brand_state']);
+                $brand_id = mysqli_real_escape_string($connection, $_POST['brand_id']);
+
+                $check_existing_brand = mysqli_query($connection, "SELECT * FROM marcas WHERE brand_unique_id = '$brand_id'");
+
+                if (mysqli_num_rows($check_existing_brand) > 0) {
+
+                    if (isset($_FILES['brandImageFile'])) {
+
+                        $fetch_image_path = mysqli_fetch_array($check_existing_brand);
+
+                        $rutaArchivo = "../assets/imgs/uploads/brands/" . $fetch_image_path['brand_image_path'];
+
+                        if (file_exists($rutaArchivo)) {
+
+                            if (unlink($rutaArchivo)) {
+
+                                $get_new_brand_image = $_FILES['brandImageFile'];
+
+                                $selectedFileName = $get_new_brand_image['name'];
+                                $selectedFileTmpName = $get_new_brand_image['tmp_name'];
+                                $selectedFileSize = $get_new_brand_image['size'];
+                                $selectedFileType = $get_new_brand_image['type'];
+                                $selectedFileError = $get_new_brand_image['error'];
+
+                                $selectedFileExt = explode('.', $selectedFileName);
+                                $selectedFileActualExt = strtolower(end($selectedFileExt));
+
+                                $allowedExtensions = array('jpg', 'png', 'jpeg');
+
+                                if (in_array($selectedFileActualExt, $allowedExtensions)) {
+
+                                    if ($selectedFileError === 0) {
+
+                                        if ($selectedFileSize < 2000000) {
+
+                                            $selectedFileNewName = uniqid('brand_', true) . "." . $selectedFileActualExt;
+
+                                            $fileDestination = '../assets/imgs/uploads/brands/' . $selectedFileNewName;
+
+                                            if (move_uploaded_file($selectedFileTmpName, $fileDestination)) {
+
+                                                $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                                                $brand_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                                                $update_brand_with_image = mysqli_query($connection, "UPDATE marcas SET brand_name = '$brand_name', brand_description = '$brand_description', brand_state = '$brand_state', brand_image_path = '$selectedFileNewName' WHERE brand_unique_id = '$brand_id'");
+
+                                                if ($update_brand_with_image) {
+
+                                                    $brand_array = array(
+                                                        "brand_update_status" => "success",
+                                                        "new_brand_image_path_name" => $selectedFileNewName,
+                                                    );
+
+                                                    $brand_array_res = json_encode($brand_array);
+
+                                                    echo $brand_array_res;
+                                                } else {
+                                                    echo "Hubo un error al actualizar la marca de vehículo";
+                                                }
+                                            } else {
+                                                echo "Hubo un error moviendo el nuevo archivo";
+                                            }
+                                        } else {
+
+                                            echo "El archivo no puede pesar más de 2MB";
+                                        }
+                                    } else {
+
+                                        echo "Hubo un error subiendo el archivo";
+                                    }
+                                } else {
+
+                                    echo "Este archivo no es aceptado. Archivos aceptados: jpeg, jpg, png";
+                                }
+                            } else {
+                                echo "No se pudo eliminar el archivo";
+                            }
+                        } else {
+                            echo "No se pudo encontrar el archivo";
+                        }
+                    } else {
+
+                        $update_brand = mysqli_query($connection, "UPDATE marcas SET brand_name = '$brand_name', brand_description = '$brand_description', brand_state = '$brand_state' WHERE brand_unique_id = '$brand_id'");
+
+                        if ($update_brand) {
+
+                            $brand_array = array(
+                                "brand_update_status" => "success"
+                            );
+                        }
+                        $brand_array_res = json_encode($brand_array);
+                        echo $brand_array_res;
+                    }
+                } else {
+                    echo "No se pudo encontrar la marca a editar";
+                }
+            } else {
+                echo "Faltan datos por completar";
+            }
+        }
+
         if (isset($_POST['brandFormAction']) == "delete") {
 
             if (isset($_POST['brand_id_to_delete'])) {
@@ -382,15 +491,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             } else {
                                 echo "Hubo un error eliminando el registro";
                             }
-
                         } else {
                             echo "Hubo un error al eliminar el archivo";
                         }
-
                     } else {
                         echo "El archivo no existe en la carpeta";
                     }
-
                 } else {
                     echo "No se pudo encontrar el registro a eliminar";
                 }

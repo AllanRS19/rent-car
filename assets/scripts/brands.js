@@ -16,6 +16,7 @@ let imageFileSelected = false;
 let formAction = "create";
 let editBrandBtn;
 let deleteBrandBtn;
+let cardSelectedId = "";
 
 if (document.querySelector('.card.brand-card')) {
 
@@ -41,6 +42,11 @@ closeOverlayIcon.addEventListener('click', () => {
     formMessageContainer.classList.remove('active');
     formMessageText.textContent = "";
     brandForm.reset();
+    imageFileSelected = false;
+    imageInputFile.value = '';
+    selectedImage = "";
+    previewImageArea.classList.remove('active');
+    if (previewImageArea.querySelector('img')) previewImageArea.querySelector('img');
     document.querySelector('.form-container-top h3').textContent = "Añadir Marca de Vehículo";
     submitFormBtn.textContent = "Añadir Marca";
     overlay.classList.remove('active');
@@ -112,8 +118,13 @@ function editBrand(selectedEditBtn) {
 
     overlay.classList.add('active');
 
-    console.log(cardElement);
-    console.log(cardElementId);
+    cardSelectedId = cardElementId;
+
+    console.log(cardSelectedId);
+
+    brandForm.onsubmit = function (e) {
+        submitBrandForm();
+    }
 
 }
 
@@ -138,9 +149,15 @@ function deleteBrand(selectedDeleteBtn) {
 
 }
 
-function submitBrandForm(brandId) {
+function submitBrandForm() {
+    
+    console.log(formAction);
 
-    if (formAction == "create") brandId = "";
+    if (formAction == "create") cardSelectedId = "";
+
+    if (formAction == "edit") imageFileSelected = true;
+
+    console.log(cardSelectedId);
 
     let formFields = brandForm.querySelectorAll('input, textarea, select');
 
@@ -187,12 +204,9 @@ function submitBrandForm(brandId) {
 
                         if (serverResponse.brand_add_status == "success") {
 
-                            selectedImage = "";
-                            imageFileSelected = false;
-
                             let cardTemplate = 
                             `
-                            <div class="card brand-card" style="background: url('../assets/imgs/uploads/brands/${serverResponse.brand_image_path_name}') no-repeat top center/cover;" id="${serverResponse.brand_unique_id}">
+                            <div class="card brand-card" style="background: url('../assets/imgs/uploads/brands/${serverResponse.brand_image_path_name}') no-repeat center center/cover;" id="${serverResponse.brand_unique_id}">
                                 <div class="card-content">
                                     <div class="card-status ${formFields[2].selectedIndex == 1 ? "available" : "not-available"}">
                                         <span>${formSelectedOption}</span>
@@ -223,12 +237,10 @@ function submitBrandForm(brandId) {
 
                                 setTimeout(() => {
 
-                                    overlay.classList.remove('active');
-                                    submitFormBtn.innerHTML = "Añadir Combustible";
+                                    closeOverlayIcon.click();
+
+                                    submitFormBtn.innerHTML = "Añadir Marca";
                                     submitFormBtn.style.opacity = "1";
-                                    brandForm.reset();
-                                    if (previewImageArea.querySelector('img'))
-                                    previewImageArea.querySelector('img').remove();
 
                                     deleteBrandBtn = document.querySelectorAll('.delete-brand');
 
@@ -241,6 +253,50 @@ function submitBrandForm(brandId) {
                                     editBrandBtn.forEach(editBtn => editBtn.addEventListener('click', function() {
                                         editBrand(this);
                                     }));
+
+                                }, 1000);
+
+                            }, 2000);
+
+                        } else if (serverResponse.brand_update_status == "success") {
+                            
+                            setTimeout(() => {
+
+                                submitFormBtn.innerHTML = "¡Marca Editada!";
+                                submitFormBtn.style.opacity = ".6";
+
+                                const currentEditedCard = document.getElementById(cardSelectedId);
+
+                                console.log(currentEditedCard, " ", cardSelectedId);
+
+                                if (serverResponse.new_brand_image_path_name) {
+                                    currentEditedCard.style = `background: url('../assets/imgs/uploads/brands/${serverResponse.new_brand_image_path_name}') no-repeat center center/cover;`;
+                                }
+
+                                if (formFields[2].selectedIndex == 1) {
+                                    currentEditedCard.querySelector('.card-status').classList.remove('not-available');
+                                    currentEditedCard.querySelector('.card-status').classList.add('available');
+                                } else if (formFields[2].selectedIndex == 2) {
+                                    currentEditedCard.querySelector('.card-status').classList.add('not-available');
+                                    currentEditedCard.querySelector('.card-status').classList.remove('available');
+                                }
+
+                                currentEditedCard.querySelector('.card-status span').textContent = formFields[2].selectedIndex == 1 ? "Disponible" : "No disponible";
+                                currentEditedCard.querySelector('.card-content-title').textContent = brandForm.querySelector('input').value;
+                                currentEditedCard.querySelector('.card-content-description').textContent = brandForm.querySelector('textarea').value;
+
+                                setTimeout(() => {
+
+                                    submitFormBtn.style.opacity = "1";
+                                    formAction = "create";
+
+                                    deleteVehicleTypeBtns = document.querySelectorAll('.delete-btn');
+
+                                    deleteVehicleTypeBtns.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
+                                        deleteBrand(this);
+                                    }));
+
+                                    closeOverlayIcon.click();
 
                                 }, 1000);
 
@@ -272,6 +328,8 @@ function submitBrandForm(brandId) {
         formData.append("brandFormAction", formAction);
         formData.append("brandImageFile", selectedImage);
         formData.append("brand_state", formSelectedOption);
+
+        if (formAction == "edit") formData.append("brand_id", cardSelectedId);
 
         xhr.send(formData);
 

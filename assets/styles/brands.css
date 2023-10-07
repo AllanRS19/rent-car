@@ -246,7 +246,6 @@
 
 main .info-data .card {
     min-height: 240px;
-    background: url('https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_ogp_001.png') no-repeat top center/cover;
     overflow: hidden;
     padding: 0;
     align-items: flex-end;
