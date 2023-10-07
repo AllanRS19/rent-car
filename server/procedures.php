@@ -503,4 +503,126 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+
+    if (isset($_POST['vehModelFormAction'])) {
+
+        if ($_POST['vehModelFormAction'] == "create") {
+
+            if (isset($_POST['veh-model-name']) && isset($_POST['veh-model-description']) && isset($_POST['veh_model_state']) && isset($_POST['veh_model_brand']) && isset($_FILES['vehModelImageFile'])) {
+
+                $veh_model_name = mysqli_real_escape_string($connection, $_POST['veh-model-name']);
+                $veh_model_description = mysqli_real_escape_string($connection, $_POST['veh-model-description']);
+                $veh_model_brand = mysqli_real_escape_string($connection, $_POST['veh_model_brand']);
+                $veh_model_state = mysqli_real_escape_string($connection, $_POST['veh_model_state']);
+                $veh_model_image_file = $_FILES['vehModelImageFile'];
+
+                $check_existing_veh_model = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_model_name = '$veh_model_name' AND veh_brand_identifier = '$veh_model_brand'");
+
+                if (mysqli_num_rows($check_existing_veh_model) > 0) {
+
+                    echo "Esta marca de vehículo ya está registrada";
+                    return;
+                }
+
+                $selectedFileName = $veh_model_image_file['name'];
+                $selectedFileTmpName = $veh_model_image_file['tmp_name'];
+                $selectedFileSize = $veh_model_image_file['size'];
+                $selectedFileType = $veh_model_image_file['type'];
+                $selectedFileError = $veh_model_image_file['error'];
+
+                $selectedFileExt = explode('.', $selectedFileName);
+                $selectedFileActualExt = strtolower(end($selectedFileExt));
+
+                $allowedExtensions = array('jpg', 'png', 'jpeg');
+
+                if (in_array($selectedFileActualExt, $allowedExtensions)) {
+
+                    if ($selectedFileError === 0) {
+
+                        if ($selectedFileSize < 2000000) {
+
+                            $selectedFileNewName = uniqid('vehicle_model_', true) . "." . $selectedFileActualExt;
+
+                            $fileDestination = '../assets/imgs/uploads/vehicle-models/' . $selectedFileNewName;
+
+                            if (move_uploaded_file($selectedFileTmpName, $fileDestination)) {
+
+                                $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                                $veh_model_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                                $insert_veh_model = mysqli_query($connection, "INSERT INTO modelo_vehiculos (veh_model_unique_id, veh_brand_identifier, veh_model_name, veh_model_description, veh_model_state, veh_model_image_path) VALUES ('$veh_model_unique_id', '$veh_model_brand', '$veh_model_name', '$veh_model_description', '$veh_model_state', '$selectedFileNewName')");
+
+                                if ($insert_veh_model) {
+
+                                    $veh_model_array = array(
+                                        "veh_model_unique_id" => $veh_model_unique_id,
+                                        "veh_model_image_path" => $selectedFileNewName,
+                                        "veh_model_add_status" => 'success'
+                                    );
+
+                                    $veh_model_array_res = json_encode($veh_model_array);
+
+                                    echo $veh_model_array_res;
+
+                                } else {
+                                    echo "Hubo un error al añadir la marca de vehículo";
+                                }
+                            } else {
+                                echo "Hubo un error moviendo el archivo";
+                            }
+                        } else {
+
+                            echo "El archivo no puede pesar más de 2MB";
+                        }
+                    } else {
+
+                        echo "Hubo un error subiendo el archivo";
+                    }
+                } else {
+
+                    echo "Este archivo no es aceptado. Archivos aceptados: jpeg, jpg, png";
+                }
+            }
+
+        }
+
+        if ($_POST['vehModelFormAction'] == "delete") {
+
+            if (isset($_POST['veh_model_id_to_delete'])) {
+
+                $veh_model_id_to_delete = mysqli_real_escape_string($connection, $_POST['veh_model_id_to_delete']);
+
+                $find_veh_model_id = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_model_unique_id = '$veh_model_id_to_delete'");
+
+                if (mysqli_num_rows($find_veh_model_id) > 0) {
+
+                    $fetch_image_path = mysqli_fetch_array($find_veh_model_id);
+
+                    $rutaArchivo = "../assets/imgs/uploads/vehicle-models/" . $fetch_image_path['veh_model_image_path'];
+
+                    if (file_exists($rutaArchivo)) {
+
+                        if (unlink($rutaArchivo)) {
+
+                            $delete_veh_model = mysqli_query($connection, "DELETE FROM modelo_vehiculos WHERE veh_model_unique_id = '$veh_model_id_to_delete'");
+
+                            if ($delete_veh_model) {
+                                echo "veh_model_deleted";
+                            } else {
+                                echo "Hubo un error eliminando el registro";
+                            }
+                        } else {
+                            echo "Hubo un error al eliminar el archivo";
+                        }
+                    } else {
+                        echo "El archivo no existe en la carpeta";
+                    }
+                } else {
+                    echo "No se pudo encontrar el registro a eliminar";
+                }
+            }
+        }
+
+    }
 }

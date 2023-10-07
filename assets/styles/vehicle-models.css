@@ -1,0 +1,335 @@
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.overlay .form-container {
+    width: 100%;
+    max-width: 1240px;
+    background: #ffffff;
+    padding: 20px 0 30px 0;
+}
+
+.overlay .form-container .form-container-top {
+    width: 100%;
+    border-bottom: 2px solid #d8d8d8;
+    padding: 0 30px 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.overlay .form-container .form-container-top .close-overlay-icon {
+    font-size: 2.5em;
+    color: #999;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-message-container {
+    width: 100%;
+    padding: 12px;
+    color: #c44747;
+    background: #f8e1e1;
+    text-align: center;
+    display: none;
+}
+
+.overlay .form-container .form-message-container.active {
+    display: block;
+}
+
+.overlay .form-container .form-container-body {
+    width: 100%;
+    padding: 30px 30px 0 30px;
+    display: flex;
+    align-items: center;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-left-side,
+.overlay .form-container .form-container-body .veh-model-form-right-side {
+    flex-basis: 100%;
+    flex-grow: 1;
+}
+
+.overlay .form-container .form-container-body .preview-img-area {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: transparent;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    border: 2px dashed #d8d8d8;
+    padding: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #fcfcfc;
+    z-index: 100;
+}
+
+.overlay .form-container .form-container-body .preview-img-area::before {
+    position: absolute;
+    content: attr(data-img);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 200;
+}
+
+.overlay .form-container .form-container-body .preview-img-area.active:hover::before {
+    opacity: 1;
+}
+
+.overlay .form-container .form-container-body .preview-img-area i {
+    font-size: 50px;
+}
+
+.overlay .form-container .form-container-body .preview-img-area h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.overlay .form-container .form-container-body .preview-img-area p {
+    color: #999;
+}
+
+.overlay .form-container .form-container-body .preview-img-area p span {
+    font-weight: 600;
+}
+
+.overlay .form-container .form-container-body .preview-img-area img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 100;
+}
+
+.overlay .form-container .form-container-body .select-preview-img {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 15px;
+    background: #c44747;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.overlay .form-container .form-container-body .select-preview-img:hover {
+    background: #ff4848;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* background: red; */
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: .3rem;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container input,
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container textarea,
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container select {
+    display: block;
+    width: 320px;
+    max-width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 16px;
+    border: none;
+    border: 1px solid #999;
+    /* background: #f7f7f7; */
+    outline: none;
+    transition: .3s ease;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container input:focus,
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container textarea:focus,
+.overlay .form-container .form-container-body .veh-model-form-right-side .input-container select:focus {
+    background: transparent;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    background: #4869ff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    transition: .3s ease;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side button:hover {
+    background: #3d58cd;
+}
+
+.overlay .form-container .form-container-body .veh-model-form-right-side button .loader {
+    pointer-events: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #fff;
+    animation: loading 1s ease infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0turn);
+    }
+
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+/* B3BBCA */
+
+/* ----------------------------------------- */
+
+main .brand-title {
+    margin-top: 36px;
+    font-size: 36px;
+}
+
+main .info-data.veh-models {
+    margin-top: 12px;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+}
+
+main .info-data .card {
+    min-height: 240px;
+    overflow: hidden;
+    padding: 0;
+    align-items: flex-end;
+}
+
+main .info-data .card .card-status {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    padding: 10px;
+    width: 35%;
+    border-radius: 5px 0 0 5px;
+    font-weight: 600;
+}
+
+main .info-data .card .card-status.available {
+    color: #47c482;
+    background: #e1f8eb;
+}
+
+main .info-data .card .card-status.not-available {
+    color: #c44747;
+    background: #f8e1e1;
+}
+
+main .info-data .card .card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background: rgba(0, 0, 0, .7);
+    transform: translateY(100%);
+    transition: transform .3s;
+}
+
+main .info-data .card:hover .card-content {
+    transform: translateY(0);
+}
+
+main .info-data .card .card-content .card-action-btns {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+main .info-data .card .card-content .card-action-btns button {
+    width: 100%;
+    padding: 8px;
+    border-radius: .4rem;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: .3s;
+}
+
+main .info-data .card .card-content .card-action-btns button.edit-veh-model:hover {
+    background: #4869ff;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+main .info-data .card .card-content .card-action-btns button.delete-veh-model:hover {
+    background: #ff4848;
+    font-weight: 600;
+}
+
+main .info-data .card .card-content h4 {
+    font-size: 1.2em;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+main .info-data .card .card-content p {
+    color: #d8d8d8;
+}

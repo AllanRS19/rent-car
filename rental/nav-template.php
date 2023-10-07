@@ -30,7 +30,7 @@
             <a href="<?php if ($currentPage == "brands") { echo "#"; } else { echo "./brands.php"; }; ?>" <?php if ($currentPage == "brands") echo "class='active'"; ?>><i class='bx bxs-widget icon'></i> Marcas</a>
         </li>
         <li>
-            <a href="#"><i class='bx bx-table icon'></i> Modelos</a>
+            <a href="<?php if ($currentPage == "vehicle-models") { echo "#"; } else { echo "./vehicle-models.php"; }; ?>" <?php if ($currentPage == "vehicle-models") echo "class='active'"; ?>><i class='bx bx-table icon'></i> Modelos</a>
         </li>
         <li>
             <a href="#"><i class='bx bxs-notepad icon'></i> Vehículos</a>
