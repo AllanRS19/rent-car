@@ -24,7 +24,7 @@ if (document.querySelector('.card.veh-model-card')) {
         deleteVehModel(this);
     }));
 
-    document.querySelectorAll('.edit-vel-model').forEach(editBtn => editBtn.addEventListener('click', function () {
+    document.querySelectorAll('.edit-veh-model').forEach(editBtn => editBtn.addEventListener('click', function () {
         editVehModel(this);
     }));
 
@@ -103,18 +103,35 @@ function editVehModel(selectedEditBtn) {
     const cardElement = selectedEditBtn.parentElement.parentElement.parentElement;
     const cardElementId = cardElement.id;
 
-    const brandName = cardElement.querySelector('.card-content-title').textContent;
-    const brandDescription = cardElement.querySelector('.card-content-description').textContent;
-    const brandState = cardElement.querySelector('.card-status span').textContent;
+    const vehModelName = cardElement.querySelector('.card-content-title').textContent;
+    const vehModelDescription = cardElement.querySelector('.card-content-description').textContent;
+    const vehModelState = cardElement.querySelector('.card-status span').textContent;
+    const vehModelBrandClasses = cardElement.parentElement.classList;
+    const vehModelBrandSelect = document.querySelector('select.veh-model-brand');
 
-    document.querySelector('.form-container-top h3').textContent = "Editar Marca de Vehículo";
-    submitFormBtn.textContent = "Editar Marca";
+    let vehModelBrand;
 
-    brandForm.querySelector('input').value = brandName;
-    brandForm.querySelector('textarea').value = brandDescription;
+    if (vehModelBrandClasses.length == 4) {
+        vehModelBrand = vehModelBrandClasses[2] + " " + vehModelBrandClasses[3];
+    } else {
+        vehModelBrand = vehModelBrandClasses[2];
+    }
 
-    if (brandState == "Disponible") brandForm.querySelector('select').selectedIndex = 1;
-    else if (brandState == "No disponible") brandForm.querySelector('select').selectedIndex = 2;
+    document.querySelector('.form-container-top h3').textContent = "Editar Modelo de Vehículo";
+    submitFormBtn.textContent = "Editar Modelo";
+
+    vehModelForm.querySelector('input').value = vehModelName;
+    vehModelForm.querySelector('textarea').value = vehModelDescription;
+
+    for (let cont = 0; cont < vehModelBrandSelect.options.length; cont++) {
+        if (vehModelBrandSelect.options[cont].text == vehModelBrand) {
+            vehModelBrandSelect.options[cont].selected = true;
+            break;
+        }
+    }
+
+    if (vehModelState == "Disponible") vehModelForm.querySelector('select.veh-model-state').selectedIndex = 1;
+    else if (vehModelState == "No disponible") vehModelForm.querySelector('select.veh-model-state').selectedIndex = 2;
 
     overlay.classList.add('active');
 
@@ -122,7 +139,7 @@ function editVehModel(selectedEditBtn) {
 
     console.log(cardSelectedId);
 
-    brandForm.onsubmit = function (e) {
+    vehModelForm.onsubmit = function (e) {
         submitBrandForm();
     }
 
@@ -342,7 +359,7 @@ function submitVehModelForm() {
         formData.append("veh_model_state", formStateSelectedOption);
         formData.append("veh_model_brand", formBrandSelectedOption);
 
-        if (formAction == "edit") formData.append("brand_id", cardSelectedId);
+        if (formAction == "edit") formData.append("veh_model_id", cardSelectedId);
 
         xhr.send(formData);
 

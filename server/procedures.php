@@ -587,6 +587,125 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         }
 
+        if ($_POST['vehModelFormAction'] == "edit") {
+
+            if (isset($_POST['veh-model-name']) && isset($_POST['veh-model-description']) && isset($_POST['veh_model_state']) && isset($_POST['veh_model_id'])) {
+
+                $veh_model_name = mysqli_real_escape_string($connection, $_POST['veh-model-name']);
+                $veh_model_description = mysqli_real_escape_string($connection, $_POST['veh-model-description']);
+                $veh_model_brand = mysqli_real_escape_string($connection, $_POST['veh_model_brand']);
+                $veh_model_state = mysqli_real_escape_string($connection, $_POST['veh_model_state']);
+                $veh_model_id = mysqli_real_escape_string($connection, $_POST['veh_model_id']);
+
+                // echo "Se recibio editar con los siguientes datos: " . $veh_model_name . ", ",
+                // $veh_model_description . ", " .
+                // $veh_model_brand . ", " .
+                // $veh_model_state . ", " .
+                // $veh_model_id;
+
+                $check_existing_veh_model = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_model_unique_id = '$veh_model_id'");
+
+                if (mysqli_num_rows($check_existing_veh_model) > 0) {
+
+                    if (isset($_FILES['vehModelImageFile'])) {
+
+                        $fetch_image_path = mysqli_fetch_array($check_existing_veh_model);
+
+                        $rutaArchivo = "../assets/imgs/uploads/vehicle-models/" . $fetch_image_path['veh_model_image_path'];
+
+                        if (file_exists($rutaArchivo)) {
+                            
+                            if (unlink($rutaArchivo)) {
+
+                                $get_new_brand_image = $_FILES['vehModelImageFile'];
+
+                                $selectedFileName = $get_new_brand_image['name'];
+                                $selectedFileTmpName = $get_new_brand_image['tmp_name'];
+                                $selectedFileSize = $get_new_brand_image['size'];
+                                $selectedFileType = $get_new_brand_image['type'];
+                                $selectedFileError = $get_new_brand_image['error'];
+
+                                $selectedFileExt = explode('.', $selectedFileName);
+                                $selectedFileActualExt = strtolower(end($selectedFileExt));
+
+                                $allowedExtensions = array('jpg', 'png', 'jpeg');
+
+                                if (in_array($selectedFileActualExt, $allowedExtensions)) {
+
+                                    if ($selectedFileError === 0) {
+
+                                        if ($selectedFileSize < 2000000) {
+
+                                            $selectedFileNewName = uniqid('vehicle_model_', true) . "." . $selectedFileActualExt;
+
+                                            $fileDestination = '../assets/imgs/uploads/vehicle-models/' . $selectedFileNewName;
+
+                                            if (move_uploaded_file($selectedFileTmpName, $fileDestination)) {
+
+                                                $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                                                $brand_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                                                $update_model_with_image = mysqli_query($connection, "UPDATE modelo_vehiculos SET veh)model_brand = '$veh_model_brand', veh_model_name = '$veh_model_name', veh_model_description = '$veh_model_description', veh_model_state = '$veh_model_state', veh_model_image_path = '$selectedFileNewName' WHERE veh_model_unique_id = '$veh_model_id'");
+
+                                                if ($update_model_with_image) {
+
+                                                    $veh_model_array = array(
+                                                        "veh_model_update_status" => "success",
+                                                        "new_veh_model_image_path_name" => $selectedFileNewName,
+                                                    );
+
+                                                    $veh_model_array_res = json_encode($veh_model_array);
+
+                                                    echo $veh_model_array_res;
+
+                                                } else {
+                                                    echo "Hubo un error al actualizar el modelo del vehículo";
+                                                }
+                                            } else {
+                                                echo "Hubo un error moviendo el nuevo archivo";
+                                            }
+                                        } else {
+
+                                            echo "El archivo no puede pesar más de 2MB";
+                                        }
+                                    } else {
+
+                                        echo "Hubo un error subiendo el archivo";
+                                    }
+                                } else {
+
+                                    echo "Este archivo no es aceptado. Archivos aceptados: jpeg, jpg, png";
+                                }
+                            } else {
+                                echo "No se pudo eliminar el archivo";
+                            }
+
+                        } else {
+                            echo "No se pudo encontrar el archivo";
+                        }
+
+                    } else {
+
+                        $update_veh_model = mysqli_query($connection, "UPDATE modelo_vehiculos SET veh_brand_identifier = '$veh_model_brand', veh_model_name = '$veh_model_name', veh_model_description = '$veh_model_description', veh_model_state = '$veh_model_state' WHERE veh_model_unique_id = '$veh_model_id'");
+
+                        if ($update_veh_model) {
+
+                            $veh_model_array = array(
+                                "veh_model_update_status" => "success"
+                            );
+                        }
+                        $veh_model_array = json_encode($brand_array);
+                        echo $veh_model_array;
+                    }
+                } else {
+                    echo "No se pudo encontrar el modelo a editar";
+                }
+            } else {
+                echo "Faltan datos por completar";
+            }
+        }
+
         if ($_POST['vehModelFormAction'] == "delete") {
 
             if (isset($_POST['veh_model_id_to_delete'])) {
