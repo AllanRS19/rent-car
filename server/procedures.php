@@ -520,7 +520,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 if (mysqli_num_rows($check_existing_veh_model) > 0) {
 
-                    echo "Esta marca de vehículo ya está registrada";
+                    echo "Este modelo de vehículo ya está registrada";
                     return;
                 }
 
@@ -607,6 +607,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 if (mysqli_num_rows($check_existing_veh_model) > 0) {
 
+                    $check_existing_veh_model_destination = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_model_name = '$veh_model_name' AND veh_brand_identifier = '$veh_model_brand'");
+
+                    $fetch_existing_model_destination_info = mysqli_fetch_array($check_existing_veh_model_destination);
+                    
+                    if ($fetch_existing_model_destination_info['veh_model_unique_id'] != $veh_model_id) {
+
+                        if (mysqli_num_rows($check_existing_veh_model_destination) > 0) {
+                            echo "Este modelo de vehículo ya está registrado";
+                            return;
+                        }
+                        
+                    }
+
                     if (isset($_FILES['vehModelImageFile'])) {
 
                         $fetch_image_path = mysqli_fetch_array($check_existing_veh_model);
@@ -617,13 +630,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             
                             if (unlink($rutaArchivo)) {
 
-                                $get_new_brand_image = $_FILES['vehModelImageFile'];
+                                $get_new_veh_model_image = $_FILES['vehModelImageFile'];
 
-                                $selectedFileName = $get_new_brand_image['name'];
-                                $selectedFileTmpName = $get_new_brand_image['tmp_name'];
-                                $selectedFileSize = $get_new_brand_image['size'];
-                                $selectedFileType = $get_new_brand_image['type'];
-                                $selectedFileError = $get_new_brand_image['error'];
+                                $selectedFileName = $get_new_veh_model_image['name'];
+                                $selectedFileTmpName = $get_new_veh_model_image['tmp_name'];
+                                $selectedFileSize = $get_new_veh_model_image['size'];
+                                $selectedFileType = $get_new_veh_model_image['type'];
+                                $selectedFileError = $get_new_veh_model_image['error'];
 
                                 $selectedFileExt = explode('.', $selectedFileName);
                                 $selectedFileActualExt = strtolower(end($selectedFileExt));
@@ -646,13 +659,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                                                 $brand_unique_id = substr(str_shuffle($random_chars), 0, 30);
 
-                                                $update_model_with_image = mysqli_query($connection, "UPDATE modelo_vehiculos SET veh)model_brand = '$veh_model_brand', veh_model_name = '$veh_model_name', veh_model_description = '$veh_model_description', veh_model_state = '$veh_model_state', veh_model_image_path = '$selectedFileNewName' WHERE veh_model_unique_id = '$veh_model_id'");
+                                                $update_model_with_image = mysqli_query($connection, "UPDATE modelo_vehiculos SET veh_brand_identifier = '$veh_model_brand', veh_model_name = '$veh_model_name', veh_model_description = '$veh_model_description', veh_model_state = '$veh_model_state', veh_model_image_path = '$selectedFileNewName' WHERE veh_model_unique_id = '$veh_model_id'");
 
                                                 if ($update_model_with_image) {
 
                                                     $veh_model_array = array(
                                                         "veh_model_update_status" => "success",
-                                                        "new_veh_model_image_path_name" => $selectedFileNewName,
+                                                        "veh_model_image_path" => $selectedFileNewName,
                                                     );
 
                                                     $veh_model_array_res = json_encode($veh_model_array);
@@ -687,15 +700,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                     } else {
 
+                        $fetch_existing_model_info = mysqli_fetch_array($check_existing_veh_model);
+
                         $update_veh_model = mysqli_query($connection, "UPDATE modelo_vehiculos SET veh_brand_identifier = '$veh_model_brand', veh_model_name = '$veh_model_name', veh_model_description = '$veh_model_description', veh_model_state = '$veh_model_state' WHERE veh_model_unique_id = '$veh_model_id'");
 
                         if ($update_veh_model) {
 
                             $veh_model_array = array(
-                                "veh_model_update_status" => "success"
+                                "veh_model_update_status" => "success",
+                                "veh_model_image_path" => $fetch_existing_model_info['veh_model_image_path']
                             );
                         }
-                        $veh_model_array = json_encode($brand_array);
+                        $veh_model_array = json_encode($veh_model_array);
                         echo $veh_model_array;
                     }
                 } else {

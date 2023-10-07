@@ -110,7 +110,7 @@
 
     <?php 
     
-            $get_brand_models = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_brand_identifier = '". $fetch_brands_info['brand_name']."' ORDER BY veh_model_state ASC");
+            $get_brand_models = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_brand_identifier = '". $fetch_brands_info['brand_name']."' ORDER BY veh_model_state ASC, veh_model_name ASC");
 
             if (mysqli_num_rows($get_brand_models) > 0) {
 

@@ -15,7 +15,7 @@ let formCompleted = false;
 let imageFileSelected = false;
 let formAction = "create";
 let editVehModelBtn;
-let deletevehModelBtn;
+let deleteVehModelBtn;
 let cardSelectedId = "";
 
 if (document.querySelector('.card.veh-model-card')) {
@@ -270,67 +270,108 @@ function submitVehModelForm() {
                                     submitFormBtn.innerHTML = "Añadir Modelo";
                                     submitFormBtn.style.opacity = "1";
 
-                                    deleteBrandBtn = document.querySelectorAll('.delete-veh-model');
+                                    deleteVehModelBtn = document.querySelectorAll('.delete-veh-model');
 
-                                    deleteBrandBtn.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
-                                        deleteBrand(this);
+                                    deleteVehModelBtn.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
+                                        deleteVehModel(this);
                                     }));
 
-                                    editBrandBtn = document.querySelectorAll('.edit-veh-model')
+                                    editVehModelBtn = document.querySelectorAll('.edit-veh-model')
 
-                                    editBrandBtn.forEach(editBtn => editBtn.addEventListener('click', function () {
-                                        editBrand(this);
+                                    editVehModelBtn.forEach(editBtn => editBtn.addEventListener('click', function () {
+                                        editVehModel(this);
                                     }));
 
                                 }, 1000);
 
                             }, 2000);
 
-                        // } else if (serverResponse.brand_update_status == "success") {
+                        } else if (serverResponse.veh_model_update_status == "success") {
 
-                        //     setTimeout(() => {
+                            setTimeout(() => {
 
-                        //         submitFormBtn.innerHTML = "¡Marca Editada!";
-                        //         submitFormBtn.style.opacity = ".6";
+                                const currentEditedCard = document.getElementById(cardSelectedId);
 
-                        //         const currentEditedCard = document.getElementById(cardSelectedId);
+                                console.log(currentEditedCard, " ", cardSelectedId);
 
-                        //         console.log(currentEditedCard, " ", cardSelectedId);
+                                if (currentEditedCard.parentElement.classList.contains(formBrandSelectedOption)) {
 
-                        //         if (serverResponse.new_brand_image_path_name) {
-                        //             currentEditedCard.style = `background: url('../assets/imgs/uploads/brands/${serverResponse.new_brand_image_path_name}') no-repeat center center/cover;`;
-                        //         }
+                                    if (serverResponse.veh_model_image_path) {
+                                        currentEditedCard.style = `background: url('../assets/imgs/uploads/vehicle-models/${serverResponse.veh_model_image_path}') no-repeat center center/cover;`;
+                                    }
+    
+                                    if (formStateSelectedOption == "Disponible") {
+                                        currentEditedCard.querySelector('.card-status').classList.remove('not-available');
+                                        currentEditedCard.querySelector('.card-status').classList.add('available');
+                                    } else if (formStateSelectedOption == "No disponible") {
+                                        currentEditedCard.querySelector('.card-status').classList.add('not-available');
+                                        currentEditedCard.querySelector('.card-status').classList.remove('available');
+                                    }
+    
+                                    currentEditedCard.querySelector('.card-status span').textContent = formStateSelectedOption;
+                                    currentEditedCard.querySelector('.card-content-title').textContent = vehModelForm.querySelector('input').value;
+                                    currentEditedCard.querySelector('.card-content-description').textContent = vehModelForm.querySelector('textarea').value;
 
-                        //         if (formFields[2].selectedIndex == 1) {
-                        //             currentEditedCard.querySelector('.card-status').classList.remove('not-available');
-                        //             currentEditedCard.querySelector('.card-status').classList.add('available');
-                        //         } else if (formFields[2].selectedIndex == 2) {
-                        //             currentEditedCard.querySelector('.card-status').classList.add('not-available');
-                        //             currentEditedCard.querySelector('.card-status').classList.remove('available');
-                        //         }
+                                } else {
 
-                        //         currentEditedCard.querySelector('.card-status span').textContent = formFields[2].selectedIndex == 1 ? "Disponible" : "No disponible";
-                        //         currentEditedCard.querySelector('.card-content-title').textContent = brandForm.querySelector('input').value;
-                        //         currentEditedCard.querySelector('.card-content-description').textContent = brandForm.querySelector('textarea').value;
+                                    let cardTemplate =
+                                    `
+                                    <div class="card veh-model-card" style="background: url('../assets/imgs/uploads/vehicle-models/${serverResponse.veh_model_image_path}') no-repeat center center/cover;" id="${cardSelectedId}">
+                                        <div class="card-content">
+                                            <div class="card-status ${formStateSelectedOption == "Disponible" ? "available" : "not-available"}">
+                                                <span>${formStateSelectedOption}</span>
+                                            </div>
+                                            <h4 class="card-content-title">${vehModelName.value}</h4>
+                                            <p class="card-content-description">${vehModelDescription.value}</p>
+                                            <div class="card-action-btns">
+                                                <button class="edit-veh-model">Editar</button>
+                                                <button class="delete-veh-model">Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `;
 
-                        //         setTimeout(() => {
+                                    currentEditedCard.remove();
 
-                        //             submitFormBtn.style.opacity = "1";
-                        //             formAction = "create";
+                                    let infoDataModelContainer = document.querySelector('.info-data.' + formBrandSelectedOption);
 
-                        //             deleteVehicleTypeBtns = document.querySelectorAll('.delete-btn');
+                                    let tmpInfoDataContent = infoDataModelContainer.innerHTML;
 
-                        //             deleteVehicleTypeBtns.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
-                        //                 deleteBrand(this);
-                        //             }));
+                                    if (formStateSelectedOption == "Disponible") {
+                                        infoDataModelContainer.innerHTML = cardTemplate;
+                                        infoDataModelContainer.innerHTML += tmpInfoDataContent;
+                                    }
+                                    else
+                                        infoDataModelContainer.innerHTML += cardTemplate;
 
-                        //             closeOverlayIcon.click();
+                                }
 
-                        //         }, 1000);
+                                submitFormBtn.innerHTML = "¡Marca Editada!";
+                                submitFormBtn.style.opacity = ".6";
 
-                        //     }, 2000);
+                                setTimeout(() => {
 
-                        // }
+                                    submitFormBtn.style.opacity = "1";
+                                    formAction = "create";
+
+                                    editVehModelBtn = document.querySelectorAll('.edit-veh-model')
+
+                                    editVehModelBtn.forEach(editBtn => editBtn.addEventListener('click', function () {
+                                        editVehModel(this);
+                                    }));
+
+                                    deleteVehModelBtn = document.querySelectorAll('.delete-veh-btn');
+
+                                    deleteVehModelBtn.forEach(delFuelBtn => delFuelBtn.addEventListener('click', function () {
+                                        deleteVehModelBtn(this);
+                                    }));
+
+                                    closeOverlayIcon.click();
+
+                                }, 1000);
+
+                            }, 2000);
+
                         }
 
                     } catch (e) {
