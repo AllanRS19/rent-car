@@ -37,21 +37,23 @@
                     <div class="brand-description-container">
                         <div class="input-container">
                             <label for="brand-name">Nombre marca</label>
-                            <input type="text" name="brand-name" id="brand-name">
+                            <input type="text" name="brand-name" class="brand-name">
                         </div>
                         <div class="input-container">
                             <label for="brand-description">Descripción marca</label>
-                            <textarea name="brand-description" id="brand-description" cols="30" rows="3"></textarea>
+                            <textarea name="brand-description" class="brand-description" cols="30" rows="3"></textarea>
                         </div>
                         <div class="input-container">
                             <label for="brand-state">Estado marca</label>
-                            <select name="" id="brand-state">
+                            <select name="brand-state" class="brand-state">
                                 <option value="">Seleccione un estado</option>
                                 <option value="">Disponible</option>
                                 <option value="">No Disponible</option>
                             </select>
                         </div>
-                        <button type="button" class="submit-brand-btn">Añadir marca</button>
+                        <button type="button" class="submit-brand-btn">
+                            Añadir marca
+                        </button>
                     </div>
                 </form>
             </div>
@@ -86,16 +88,38 @@
 
     <div class="info-data brands">
 
-        <div class="card brands">
-            <div class="card-content">
-                <h4 class="card-content-title">Toyota</h4>
-                <p class="card-content-description">Es una mezcla de hidrocarburos obtenida de la destilación fraccionada del petróleo kdklj aque losd mde aklsnfkl aopqmfmw</p>
-                <div class="card-action-btns">
-                    <button class="edit-brand">Editar</button>
-                    <button class="delete-brand">Eliminar</button>
+        <?php 
+        
+            $get_brands = mysqli_query($connection, "SELECT * FROM marcas ORDER BY brand_state ASC, brand_name ASC");
+
+            if (mysqli_num_rows($get_brands) > 0) {
+
+                while ($fetch_brands_info = mysqli_fetch_array($get_brands)) {
+
+        
+        ?>
+
+            <div class="card brand-card" style="background: url('../assets/imgs/uploads/brands/<?php echo $fetch_brands_info['brand_image_path']; ?>') no-repeat top center/cover;" id="<?php echo $fetch_brands_info['brand_unique_id']; ?>">
+                <div class="card-content">
+                    <div class="card-status <?php echo $fetch_brands_info['brand_state'] == "Disponible" ? "available" : "not-available"; ?>">
+                        <span><?php echo $fetch_brands_info['brand_state']; ?></span>
+                    </div>
+                    <h4 class="card-content-title"><?php echo $fetch_brands_info['brand_name'] ?></h4>
+                    <p class="card-content-description"><?php echo $fetch_brands_info['brand_description']; ?></p>
+                    <div class="card-action-btns">
+                        <button class="edit-brand">Editar</button>
+                        <button class="delete-brand">Eliminar</button>
+                    </div>
                 </div>
             </div>
-        </div>
+
+        <?php
+        
+                }
+
+            }
+        
+        ?>
 
     </div>
 
