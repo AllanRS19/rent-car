@@ -608,16 +608,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 if (mysqli_num_rows($check_existing_veh_model) > 0) {
 
                     $check_existing_veh_model_destination = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_model_name = '$veh_model_name' AND veh_brand_identifier = '$veh_model_brand'");
-
-                    $fetch_existing_model_destination_info = mysqli_fetch_array($check_existing_veh_model_destination);
                     
-                    if ($fetch_existing_model_destination_info['veh_model_unique_id'] != $veh_model_id) {
-
-                        if (mysqli_num_rows($check_existing_veh_model_destination) > 0) {
+                    if (mysqli_num_rows($check_existing_veh_model_destination) > 0) {
+                        $fetch_existing_model_destination_info = mysqli_fetch_array($check_existing_veh_model_destination);
+                        if ($fetch_existing_model_destination_info['veh_model_unique_id'] != $veh_model_id) {
                             echo "Este modelo de vehículo ya está registrado";
                             return;
                         }
-                        
                     }
 
                     if (isset($_FILES['vehModelImageFile'])) {

@@ -249,7 +249,15 @@ function submitVehModelForm() {
 
                             setTimeout(() => {
 
-                                let infoDataModelContainer = document.querySelector('.info-data.' + formBrandSelectedOption);
+                                let infoDataModelContainer;
+
+                                if (formBrandSelectedOption.includes(" ")) {
+                                    infoDataModelContainer = document.querySelector('.info-data.' + formBrandSelectedOption.split(" ")[1]);
+                                } else {
+                                    infoDataModelContainer = document.querySelector('.info-data.' + formBrandSelectedOption);
+                                }
+
+                                console.log(infoDataModelContainer);
 
                                 let tmpInfoDataContent = infoDataModelContainer.innerHTML;
 
@@ -294,6 +302,8 @@ function submitVehModelForm() {
 
                                 console.log(currentEditedCard, " ", cardSelectedId);
 
+                                console.log(formBrandSelectedOption);
+
                                 if (currentEditedCard.parentElement.classList.contains(formBrandSelectedOption)) {
 
                                     if (serverResponse.veh_model_image_path) {
@@ -333,7 +343,15 @@ function submitVehModelForm() {
 
                                     currentEditedCard.remove();
 
-                                    let infoDataModelContainer = document.querySelector('.info-data.' + formBrandSelectedOption);
+                                    let infoDataModelContainer;
+
+                                    if (formBrandSelectedOption.includes(" ")) {
+                                        infoDataModelContainer = document.querySelector('.info-data.' + formBrandSelectedOption.split(" ")[1]);
+                                    } else {
+                                        infoDataModelContainer = document.querySelector('.info-data.' + formBrandSelectedOption);
+                                    }
+
+                                    console.log(infoDataModelContainer);
 
                                     let tmpInfoDataContent = infoDataModelContainer.innerHTML;
 
