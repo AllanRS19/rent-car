@@ -36,7 +36,7 @@
             <a href="#"><i class='bx bxs-notepad icon'></i> Vehículos</a>
         </li>
         <li>
-            <a href="#"><i class='bx bxs-notepad icon'></i> Clientes</a>
+            <a href="<?php if ($currentPage == "clients") { echo "#"; } else { echo "./clients.php"; } ?>" <?php if ($currentPage == "clients") echo "class='active'"; ?>><i class='bx bxs-notepad icon'></i> Clientes</a>
         </li>
         <li>
             <a href="#"><i class='bx bxs-notepad icon'></i> Empleados</a>

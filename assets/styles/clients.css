@@ -1,0 +1,263 @@
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.overlay .form-container {
+    width: 100%;
+    max-width: 560px;
+    background: #ffffff;
+    padding: 20px 0 30px 0;
+    border-radius: 8px;
+}
+
+.overlay .form-container .form-container-top {
+    width: 100%;
+    border-bottom: 2px solid #d8d8d8;
+    padding: 0 30px 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.overlay .form-container .form-container-top .close-overlay-icon {
+    font-size: 2.5em;
+    color: #999;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-message-container {
+    width: 100%;
+    padding: 12px;
+    color: #c44747;
+    background: #f8e1e1;
+    text-align: center;
+    display: none;
+}
+
+.overlay .form-container .form-message-container.active {
+    display: block;
+}
+
+.overlay .form-container .form-container-body {
+    width: 100%;
+    padding: 30px 30px 20px 30px;
+    /* display: flex;
+    align-items: center; */
+}
+
+.overlay .form-container .form-container-body .input-container-wrapper:not(.client-image-url-wrapper) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    flex-grow: 1;
+    margin-bottom: 20px
+}
+
+.overlay .form-container .form-container-body .input-container-wrapper {
+    gap: 20px;
+}
+
+.overlay .form-container .form-container-body .input-container-wrapper .input-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.overlay .form-container .form-container-body .input-container-wrapper .input-container input,
+.overlay .form-container .form-container-body .input-container-wrapper .input-container select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #88929b;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+}
+
+.overlay .form-container .form-container-body button {
+    margin-top: 20px;
+    padding: 12px 48px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    font-weight: 500;
+    font-size: 14px;
+    background: #4869ff;
+    color: #ffffff;
+    display: grid;
+    place-content: center;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-container-body button .loader {
+    pointer-events: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #fff;
+    animation: loading 1s ease infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0turn);
+    }
+
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+main .data {
+    margin-top: 36px;
+}
+
+main .data .content-data {
+    width: 100%;
+    flex-grow: 1;
+    padding: 20px;
+    background: var(--light);
+    border-radius: 10px;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+    height: auto;
+    overflow-y: auto;
+}
+
+main .data .content-data .head-prev-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+main .data .content-data .head-prev-table i {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin: 0 1rem;
+}
+
+main .data .content-data .head-prev-table i:last-child {
+    margin-right: 0;
+}
+
+main .data .content-data table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    text-align: left;
+    overflow: hidden;
+    border-radius: .4rem;
+}
+
+main .data .content-data table tr {
+    border: 1px solid #e1e5ee;
+}
+
+main .data .content-data table thead th {
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    font-size: .7rem;
+    font-weight: bold;
+    background: #f4f6fb;
+}
+
+main .data .content-data table thead th,
+main .data .content-data table tbody tr td {
+    border: 1px solid #e1e5ee;
+}
+
+main .data .content-data table tbody tr td:first-child {
+    border: none;
+}
+
+main .data .content-data table td {
+    padding: 1rem;
+}
+
+main .data .content-data table td.rental-customer-img {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main .data .content-data table td img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+main .data .content-data table .status {
+    border-radius: .2rem;
+    padding: .2rem 1rem;
+    text-align: center;
+}
+
+main .data .content-data table .status.status-active {
+    background: #c8e6c9;
+    color: #388e3c;
+}
+
+main .data .content-data table .status.status-inactive {
+    color: #e47171;
+    background: #ffd7d7;
+}
+
+main .data .content-data.left-side table td.rent-amount {
+    text-align: right;
+}
+
+main .data .content-data.left-side table tr:nth-child(even) {
+    background: #f4f6fb;
+}
+
+main .data .content-data table td .user-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+main .data .content-data table td .user-actions .action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e1e5ee;
+    font-size: 20px;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+main .data .content-data table td .user-actions .action-btn.edit-btn:hover {
+    color: #388e3c;
+    background: #c8e6c9;
+}
+
+main .data .content-data table td .user-actions .action-btn.delete-btn:hover {
+    color: #e47171;
+    background: #ffd7d7;
+}

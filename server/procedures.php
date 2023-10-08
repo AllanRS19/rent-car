@@ -4,6 +4,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     include "./db_connection.php";
 
+    // Módulo de Registro
+
     if (isset($_POST['signup_name']) && isset($_POST['signup_email']) && isset($_POST['signup_password'])) {
 
         $nombre_completo = mysqli_real_escape_string($connection, $_POST['signup_name']);
@@ -51,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
+    // Módulo de Autenticación
+
     if (isset($_POST['login_email']) && isset($_POST['login_password'])) {
 
         $email = mysqli_real_escape_string($connection, $_POST['login_email']);
@@ -92,6 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             echo "No pueden haber campos en blanco";
         }
     }
+
+    // Módulo de Combustibles
 
     if (isset($_POST['fuel_action'])) {
 
@@ -185,6 +191,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
+    // Móodulo de Tipos de Vehículos
+
     if (isset($_POST['vehicle_type_action'])) {
 
         if ($_POST['vehicle_type_action'] == "create") {
@@ -276,6 +284,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+
+    // MOódulo de Marcas
 
     if (isset($_POST['brandFormAction'])) {
 
@@ -503,6 +513,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+
+    // Módulo de Modelos
 
     if (isset($_POST['vehModelFormAction'])) {
 
@@ -757,4 +769,59 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
 
     }
+
+    // Módulo de Clientes
+
+    if (isset($_POST['clientsFormAction'])) {
+        
+        if ($_POST['clientsFormAction'] == "create") {
+
+            if (isset($_POST['client-name']) && isset($_POST['client-personal-id']) && isset($_POST['client-cc-number']) && isset($_POST['client-credit-limit']) && isset($_POST['clientType']) && isset($_POST['clientState']) && isset($_POST['client-image-url'])) {
+
+                $client_name = mysqli_real_escape_string($connection, $_POST['client-name']);
+                $client_personal_id = mysqli_real_escape_string($connection, $_POST['client-personal-id']);
+                $client_cc_number = mysqli_real_escape_string($connection, $_POST['client-cc-number']);
+                $client_credit_limit = mysqli_real_escape_string($connection, $_POST['client-credit-limit']);
+                $client_type = mysqli_real_escape_string($connection, $_POST['clientType']);
+                $client_state = mysqli_real_escape_string($connection, $_POST['clientState']);
+                $client_image_url = mysqli_real_escape_string($connection, $_POST['client-image-url']);
+
+                // echo $client_name . ", " . $client_personal_id . ", " . $client_cc_number . ", " . $client_credit_limit . ", " . $client_type . ", " . $client_state . " y " . $client_image_url;
+
+                $verify_existing_client = mysqli_query($connection, "SELECT * FROM clientes WHERE client_personal_id = '$client_personal_id'");
+
+                if (mysqli_num_rows($verify_existing_client) > 0) {
+                    echo "Este cliente ya está registrado";
+                    return;
+                }
+
+                $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                $client_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                $insert_client = mysqli_query($connection, "INSERT INTO clientes (client_unique_id, client_name, client_personal_id, client_cc_number, client_credit_limit, client_type, client_state, client_image_url) VALUES ('$client_unique_id', '$client_name', '$client_personal_id', '$client_cc_number', '$client_credit_limit', '$client_type', '$client_state', '$client_image_url')");
+
+                if ($insert_client) {
+
+                    $client_array = array(
+                        "client_unique_id" => $client_unique_id,
+                        "client_add_status" => 'success'
+                    );
+
+                    $client_array_res = json_encode($client_array);
+
+                    echo $client_array_res;
+
+                } else {
+                    echo "Hubo un error al añadir el cliente";
+                }
+
+            } else {
+                echo "Faltan datos por recibir";
+            }
+            
+        }
+
+    }    
+
 }

@@ -12,6 +12,8 @@
 
 <body>
 
+    <?php include "../server/db_connection.php"; ?>
+
     <div class="overlay">
         <div class="form-container">
             <div class="form-container-top">
@@ -45,10 +47,28 @@
                             <label for="veh-model-brand">Marca del modelo</label>
                             <select name="veh-model-brand" class="veh-model-brand">
                                 <option value="">Seleccione una marca para el modelo</option>
-                                <option value="">Toyota</option>
+                                <?php 
+                                
+                                    $get_brands = mysqli_query($connection, "SELECT * FROM marcas WHERE brand_state = 'Disponible' ORDER BY brand_name ASC");
+
+                                    if (mysqli_num_rows($get_brands) > 0) {
+                            
+                                        while ($fetch_brands_info = mysqli_fetch_array($get_brands)) {
+                                
+                                ?>
+                                        <option value=""><?php echo $fetch_brands_info['brand_name']; ?></option>
+
+                                <?php 
+                                
+                                        }
+
+                                    }
+                                
+                                ?>
+                                <!-- <option value="">Toyota</option>
                                 <option value="">Honda</option>
                                 <option value="">Mercedes Benz</option>
-                                <option value="">BMW</option>
+                                <option value="">BMW</option> -->
                             </select>
                         </div>
                         <div class="input-container">
@@ -97,6 +117,7 @@
     <?php 
     
         $get_brands = mysqli_query($connection, "SELECT * FROM marcas WHERE brand_state = 'Disponible' ORDER BY brand_name ASC");
+        // $get_brands = mysqli_query($connection, "SELECT * FROM marcas ORDER BY brand_name ASC");
 
         if (mysqli_num_rows($get_brands) > 0) {
 
