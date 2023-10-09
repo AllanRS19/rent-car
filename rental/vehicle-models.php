@@ -7,7 +7,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../assets/styles/global.css">
     <link rel="stylesheet" href="../assets/styles/vehicle-models.css">
-    <title>Rental Car - Marcas</title>
+    <title>Car Rental - Marcas</title>
 </head>
 
 <body>

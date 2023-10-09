@@ -491,11 +491,13 @@ main .add-feature-btn.clients-btn:hover {
     background: #b84f74;
 }
 
-main .add-feature-btn.fuels-btn {
+main .add-feature-btn.fuels-btn,
+main .add-feature-btn.employees-btn {
     background: #de9876;
 }
 
-main .add-feature-btn.fuels-btn:hover {
+main .add-feature-btn.fuels-btn:hover,
+main .add-feature-btn.employees-btn:hover {
     background: #b87f62;
 }
 
@@ -511,7 +513,8 @@ main .add-feature-btn.fuels-btn span,
 main .add-feature-btn.vehicle-types-btn span,
 main .add-feature-btn.brands-btn span,
 main .add-feature-btn.veh-models-btn span,
-main .add-feature-btn.clients-btn span {
+main .add-feature-btn.clients-btn span,
+main .add-feature-btn.employees-btn span {
     display: inline-flex;
     align-items: center;
     padding: 0 24px;
@@ -523,7 +526,8 @@ main .add-feature-btn.fuels-btn span.add-feature-btn-icon,
 main .add-feature-btn.vehicle-types-btn span.add-feature-btn-icon,
 main .add-feature-btn.brands-btn span.add-feature-btn-icon,
 main .add-feature-btn.veh-models-btn span.add-feature-btn-icon,
-main .add-feature-btn.clients-btn span.add-feature-btn-icon {
+main .add-feature-btn.clients-btn span.add-feature-btn-icon,
+main .add-feature-btn.employees-btn span.add-feature-btn-icon {
     font-size: 1.5em;
     background: rgba(0, 0, 0, .08);
 }

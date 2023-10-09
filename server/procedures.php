@@ -905,6 +905,133 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         }
 
-    }    
+    }
+
+    // Módulo de Empleados
+
+    if (isset($_POST['employeesFormAction'])) {
+        
+        if ($_POST['employeesFormAction'] == "create") {
+
+            if (isset($_POST['employee-name']) && isset($_POST['employee-personal-id']) && isset($_POST['employee-commission']) && isset($_POST['employee-image-url']) && isset($_POST['employeeShift']) && isset($_POST['employeeState']) && isset($_POST['employeeJoinDate'])) {
+
+                $employee_name = mysqli_real_escape_string($connection, $_POST['employee-name']);
+                $employee_personal_id = mysqli_real_escape_string($connection, $_POST['employee-personal-id']);
+                $employee_commission = mysqli_real_escape_string($connection, $_POST['employee-commission']);
+                $employee_image_url = mysqli_real_escape_string($connection, $_POST['employee-image-url']);
+                $employee_shift = mysqli_real_escape_string($connection, $_POST['employeeShift']);
+                $employee_state = mysqli_real_escape_string($connection, $_POST['employeeState']);
+                $employee_join_date = mysqli_real_escape_string($connection, $_POST['employeeJoinDate']);
+
+                // echo "Se recibieron los datos: " . $employee_name . ", " . $employee_personal_id . ", " . $employee_commission . ", " . $employee_image_url . ", " . $employee_shift . ", " . $employee_state . " y " . $employee_join_date;
+
+                $verify_existing_employee = mysqli_query($connection, "SELECT * FROM empleados WHERE employee_personal_id = '$employee_personal_id'");
+
+                if (mysqli_num_rows($verify_existing_employee) > 0) {
+                    echo "Existe un empleado con ese número de cédula";
+                    return;
+                }
+
+                $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                $employee_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                $insert_employee = mysqli_query($connection, "INSERT INTO empleados (employee_unique_id, employee_name, employee_personal_id, employee_shift, employee_commission, employee_join_date, employee_state, employee_image_url) VALUES ('$employee_unique_id', '$employee_name', '$employee_personal_id', '$employee_shift', '$employee_commission', '$employee_join_date', '$employee_state', '$employee_image_url')");
+
+                if ($insert_employee) {
+
+                    $employee_array = array(
+                        "employee_unique_id" => $employee_unique_id,
+                        "employee_add_status" => 'success'
+                    );
+
+                    $employee_array_res = json_encode($employee_array);
+
+                    echo $employee_array_res;
+
+                } else {
+                    echo "Hubo un error al añadir el empleado";
+                }
+
+            }
+
+        }
+
+        if ($_POST['employeesFormAction'] == "edit") {
+
+            if (isset($_POST['employee-name']) && isset($_POST['employee-personal-id']) && isset($_POST['employee-commission']) && isset($_POST['employee-image-url']) && isset($_POST['employeeShift']) && isset($_POST['employeeState']) && isset($_POST['employeeJoinDate']) && isset($_POST['employee_id'])) {
+
+                $employee_name = mysqli_real_escape_string($connection, $_POST['employee-name']);
+                $employee_personal_id = mysqli_real_escape_string($connection, $_POST['employee-personal-id']);
+                $employee_commission = mysqli_real_escape_string($connection, $_POST['employee-commission']);
+                $employee_image_url = mysqli_real_escape_string($connection, $_POST['employee-image-url']);
+                $employee_shift = mysqli_real_escape_string($connection, $_POST['employeeShift']);
+                $employee_state = mysqli_real_escape_string($connection, $_POST['employeeState']);
+                $employee_join_date = mysqli_real_escape_string($connection, $_POST['employeeJoinDate']);
+                $employee_id = mysqli_real_escape_string($connection, $_POST['employee_id']);
+
+                $check_existing_employee = mysqli_query($connection, "SELECT * FROM empleados WHERE employee_personal_id = '$employee_personal_id'");
+
+                if (strlen($employee_personal_id) == 11) {
+
+                    if (mysqli_num_rows($check_existing_employee) > 0) {
+                        $fetch_existing_employee_info = mysqli_fetch_array($check_existing_employee);
+                        if ($fetch_existing_employee_info['employee_unique_id'] != $employee_id) {
+                            echo "Existe un empleado con ese número de cédula";
+                            return;
+                        }
+
+                    }
+
+                    $update_employee_info = mysqli_query($connection, "UPDATE empleados SET employee_name = '$employee_name', employee_personal_id = '$employee_personal_id', employee_shift = '$employee_shift', employee_commission = '$employee_commission', employee_join_date = '$employee_join_date', employee_state = '$employee_state', employee_image_url = '$employee_image_url' WHERE employee_unique_id = '$employee_id'");
+
+                    if ($update_employee_info) {
+
+                        $employee_array = array(
+                            "employee_update_status" => "success"
+                        );
+                        $employee_array_res = json_encode($employee_array);
+                        echo $employee_array_res;
+
+                    } else {
+                        echo "Hubo un error actualizando";
+                    }
+
+                } else {
+                    echo "El número de cédula no está completo";
+                }
+
+            }
+
+        }
+
+        if ($_POST['employeesFormAction'] == "delete") {
+
+            if (isset($_POST['employee_id_to_delete'])) {
+
+                $employee_id = mysqli_real_escape_string($connection, $_POST['employee_id_to_delete']);
+
+                $find_employee_id = mysqli_query($connection, "SELECT * FROM empleados WHERE employee_unique_id = '$employee_id'");
+
+                if (mysqli_num_rows($find_employee_id) > 0) {
+
+                    $delete_employee = mysqli_query($connection, "DELETE FROM empleados WHERE employee_unique_id = '$employee_id'");
+
+                    if ($delete_employee) {
+                        echo "employee_deleted";
+                    } else {
+                        echo "Hubo un error eliminando el registro";
+                    }
+                } else {
+                    echo "No se pudo encontrar el registro a eliminar";
+                }
+
+            } else {
+                echo "No se recibio el ID para eliminar";
+            }
+
+        }
+
+    }
 
 }

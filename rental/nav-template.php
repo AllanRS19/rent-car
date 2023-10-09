@@ -39,7 +39,7 @@
             <a href="<?php if ($currentPage == "clients") { echo "#"; } else { echo "./clients.php"; } ?>" <?php if ($currentPage == "clients") echo "class='active'"; ?>><i class='bx bxs-notepad icon'></i> Clientes</a>
         </li>
         <li>
-            <a href="#"><i class='bx bxs-notepad icon'></i> Empleados</a>
+            <a href="<?php if ($currentPage == "employees") { echo "#"; } else { echo "./employees.php"; } ?>" <?php if ($currentPage == "employees") echo "class='active'"; ?>><i class='bx bxs-notepad icon'></i> Empleados</a>
         </li>
         <li>
             <a href="#"><i class='bx bxs-notepad icon'></i> Rentas</a>
