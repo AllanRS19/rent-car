@@ -134,10 +134,10 @@
                     <tr id="<?php echo $fetch_clients_details['client_unique_id']; ?>">
                         <td class="rental-customer-img">
                             <img src="<?php echo $fetch_clients_details['client_image_url']; ?>" alt="">
-                            <?php echo $fetch_clients_details['client_name']; ?>
+                            <span><?php echo $fetch_clients_details['client_name']; ?></span>
                         </td>
-                        <td><?php echo substr($fetch_clients_details['client_personal_id'], 0, 3) . "-" . substr($fetch_clients_details['client_personal_id'], 3, 7) . "-" . substr($fetch_clients_details['client_personal_id'], -1); ?></td>
-                        <td><?php
+                        <td class="client-id-data"><?php echo substr($fetch_clients_details['client_personal_id'], 0, 3) . "-" . substr($fetch_clients_details['client_personal_id'], 3, 7) . "-" . substr($fetch_clients_details['client_personal_id'], -1); ?></td>
+                        <td class="client-cc-data"><?php
 
                             $groups = str_split($fetch_clients_details['client_cc_number'], 4);
                             $formattedNumber = implode(' ', $groups);
@@ -145,7 +145,7 @@
                             echo $formattedNumber;
                         
                         ?></td>
-                        <td><?php 
+                        <td class="client-cl-data"><?php 
 
                             $number = (float) $fetch_clients_details['client_credit_limit'];
 
@@ -154,20 +154,20 @@
                             echo "DOP " .  $formattedNumber;
 
                         ?></td>
-                        <td><?php echo $fetch_clients_details['client_type']; ?></td>
-                        <td>
+                        <td class="client-type-data"><?php echo $fetch_clients_details['client_type']; ?></td>
+                        <td class="client-state-data">
                             <p class="status <?php if ($fetch_clients_details['client_state'] == "Activo") { echo "status-active"; } else { echo "status-inactive"; } ?>">
                                 <?php echo $fetch_clients_details['client_state']; ?>
                             </p>
                         </td>
                         <td>
                             <div class="user-actions">
-                                <div class="edit-btn action-btn">
+                                <button class="edit-btn action-btn">
                                     <i class='bx bx-edit-alt'></i>
-                                </div>
-                                <div class="delete-btn action-btn">
+                                </button>
+                                <button class="delete-btn action-btn">
                                     <i class='bx bx-trash'></i>
-                                </div>
+                                </button>
                             </div>
                         </td>
                     </tr>

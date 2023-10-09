@@ -791,7 +791,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $verify_existing_client = mysqli_query($connection, "SELECT * FROM clientes WHERE client_personal_id = '$client_personal_id'");
 
                 if (mysqli_num_rows($verify_existing_client) > 0) {
-                    echo "Este cliente ya está registrado";
+                    echo "Existe un cliente con ese número de cédula";
                     return;
                 }
 
@@ -820,6 +820,89 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 echo "Faltan datos por recibir";
             }
             
+        }
+
+        if ($_POST['clientsFormAction'] == "edit") {
+
+            if (isset($_POST['client-name']) && isset($_POST['client-personal-id']) && isset($_POST['client-cc-number']) && isset($_POST['client-credit-limit']) && isset($_POST['clientType']) && isset($_POST['clientState']) && isset($_POST['client-image-url']) && isset($_POST['client_id'])) {
+
+                $client_name = mysqli_real_escape_string($connection, $_POST['client-name']);
+                $client_personal_id = mysqli_real_escape_string($connection, $_POST['client-personal-id']);
+                $client_cc_number = mysqli_real_escape_string($connection, $_POST['client-cc-number']);
+                $client_credit_limit = mysqli_real_escape_string($connection, $_POST['client-credit-limit']);
+                $client_type = mysqli_real_escape_string($connection, $_POST['clientType']);
+                $client_state = mysqli_real_escape_string($connection, $_POST['clientState']);
+                $client_image_url = mysqli_real_escape_string($connection, $_POST['client-image-url']);
+                $client_id = mysqli_real_escape_string($connection, $_POST['client_id']);
+
+                // echo "Se recibio todo: " . $client_name . ", " . $client_personal_id . ", " . $client_cc_number . ", " . $client_credit_limit . ", " . $client_type . ", " . $client_state . ", " . $client_image_url . " y " . $client_id;
+
+                $check_existing_client = mysqli_query($connection, "SELECT * FROM clientes WHERE client_personal_id = '$client_personal_id'");
+
+                if (strlen($client_personal_id) == 11) {
+
+                    if (strlen($client_cc_number) == 16) {
+
+                        if (mysqli_num_rows($check_existing_client) > 0) {
+                            $fetch_existing_client_info = mysqli_fetch_array($check_existing_client);
+                            if ($fetch_existing_client_info['client_unique_id'] != $client_id) {
+                                echo "Existe un cliente con ese número de cédula";
+                                return;
+                            }
+
+                        }
+
+                        $update_client_info = mysqli_query($connection, "UPDATE clientes SET client_name = '$client_name', client_personal_id = '$client_personal_id', client_cc_number = '$client_cc_number', client_credit_limit = '$client_credit_limit', client_type = '$client_type', client_state = '$client_state', client_image_url = '$client_image_url' WHERE client_unique_id = '$client_id'");
+
+                        if ($update_client_info) {
+
+                            $client_array = array(
+                                "client_update_status" => "success"
+                            );
+                            $client_array_res = json_encode($client_array);
+                            echo $client_array_res;
+
+                        } else {
+                            echo "Hubo un error actualizando";
+                        }
+
+                    } else {
+                        echo "El número de tarjeta de crédito no está completo";
+                    }
+
+                } else {
+                    echo "El número de cédula no está completo";
+                }
+
+            } else {
+                echo "Faltan datos para editar";
+            }
+
+        }
+
+        if ($_POST['clientsFormAction'] == "delete") {
+            
+            if (isset($_POST['client_id_to_delete'])) {
+
+                $client_id = mysqli_real_escape_string($connection, $_POST['client_id_to_delete']);
+
+                $find_client_id = mysqli_query($connection, "SELECT * FROM clientes WHERE client_unique_id = '$client_id'");
+
+                if (mysqli_num_rows($find_client_id) > 0) {
+
+                    $delete_client = mysqli_query($connection, "DELETE FROM clientes WHERE client_unique_id = '$client_id'");
+
+                    if ($delete_client) {
+                        echo "client_deleted";
+                    } else {
+                        echo "Hubo un error eliminando el registro";
+                    }
+                } else {
+                    echo "No se pudo encontrar el registro a eliminar";
+                }
+
+            }
+
         }
 
     }    

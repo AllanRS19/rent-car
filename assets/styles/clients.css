@@ -228,7 +228,7 @@ main .data .content-data.left-side table td.rent-amount {
     text-align: right;
 }
 
-main .data .content-data.left-side table tr:nth-child(even) {
+main .data .content-data.left-side table tbody tr:nth-child(even) {
     background: #f4f6fb;
 }
 
@@ -249,6 +249,7 @@ main .data .content-data table td .user-actions .action-btn {
     background: #e1e5ee;
     font-size: 20px;
     transition: .3s ease;
+    border: none;
     cursor: pointer;
 }
 
