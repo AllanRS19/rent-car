@@ -555,7 +555,7 @@ main .info-data .card {
     gap: 20px;
 }
 
-main .info-data .card i {
+main .info-data .card:not(.vehicle-card-container) i {
     width: 40px;
     height: 40px;
     border-radius: 50%;

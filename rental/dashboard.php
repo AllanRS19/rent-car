@@ -13,6 +13,13 @@
 
         <?php include "./nav-template.php"; ?>
     
+        <?php
+        
+            $get_clients = mysqli_query($connection, "SELECT * FROM clientes");
+            $get_employees = mysqli_query($connection, "SELECT * FROM empleados");
+        
+        ?>
+
             <h1 class="title">Tablero</h1>
             <ul class="breadcrumbs">
                 <li><a href="#">Inicio</a></li>
@@ -31,14 +38,40 @@
                     <i class="bx bxs-user user-icon"></i>
                     <div class="card-info">
                         <span class="card-title">Clientes actuales</span>
-                        <p class="card-data">20 clientes activos</p>
+                        <p class="card-data">
+                            <?php 
+                            
+                                if (mysqli_num_rows($get_clients) > 0) {
+                                    if (mysqli_num_rows($get_clients) == 1) {
+                                        echo mysqli_num_rows($get_clients) . " cliente";
+                                    } else {
+                                        echo mysqli_num_rows($get_clients) . " clientes";
+                                    }
+                                } else {
+                                    echo "No tiene clientes";
+                                }
+                            
+                            ?>
+                        </p>
                     </div>
                 </div>
                 <div class="card">
                     <i class='bx bxs-user-badge employees-icon'></i>
                     <div class="card-info">
                         <span class="card-title">Cantidad de empleados</span>
-                        <p class="card-data">14 empleados</p>
+                        <p class="card-data">
+                            <?php
+                                if (mysqli_num_rows($get_employees) > 0) {
+                                    if (mysqli_num_rows($get_employees) == 1) {
+                                        echo mysqli_num_rows($get_employees) . " empleado";
+                                    } else {
+                                        echo mysqli_num_rows($get_employees) . " empleados";
+                                    }
+                                } else {
+                                    echo "No tiene empleados";
+                                }
+                            ?>
+                        </p>
                     </div>
                 </div>
                 <div class="card">

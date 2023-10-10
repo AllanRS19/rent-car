@@ -244,7 +244,7 @@ function submitClientsForm() {
                                 <td class="client-id-data">${newClientPersonalId}</td>
                                 <td class="client-cc-data">${clientCCNumberFormatted}</td>
                                 <td class="client-cl-data">${clientCreditLimitFormatted}</td>
-                                <td class="client-type-data">Física</td>
+                                <td class="client-type-data">${clientType}</td>
                                 <td class="client-state-data">
                                     <p class="status ${clientState == "Activo" ? "status-active" : "status-inactive"}">
                                         ${clientState}
@@ -267,7 +267,7 @@ function submitClientsForm() {
 
                                 let tmpInfoDataContent = tableBodyContent.innerHTML;
 
-                                submitFormBtn.innerHTML = "Cliente Añadido!";
+                                submitFormBtn.innerHTML = "!Cliente Añadido!";
                                 submitFormBtn.style.opacity = ".6";
 
                                 if (clientState == "Activo") {

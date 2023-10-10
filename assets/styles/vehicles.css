@@ -1,0 +1,381 @@
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.overlay .form-container {
+    width: 100%;
+    max-width: 1240px;
+    background: #ffffff;
+    padding: 20px 0 30px 0;
+}
+
+.overlay .form-container .form-container-top {
+    width: 100%;
+    border-bottom: 2px solid #d8d8d8;
+    padding: 0 30px 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.overlay .form-container .form-container-top .close-overlay-icon {
+    font-size: 2.5em;
+    color: #999;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-message-container {
+    width: 100%;
+    padding: 12px;
+    color: #c44747;
+    background: #f8e1e1;
+    text-align: center;
+    display: none;
+}
+
+.overlay .form-container .form-message-container.active {
+    display: block;
+}
+
+.overlay .form-container .form-container-body {
+    width: 100%;
+    padding: 30px 30px 0 30px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.overlay .form-container .form-container-body .vehicles-form-left-side,
+.overlay .form-container .form-container-body .vehicles-form-right-side {
+    flex-basis: 100%;
+    flex-grow: 1;
+}
+
+.overlay .form-container .form-container-body .preview-img-area {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: transparent;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    border: 2px dashed #d8d8d8;
+    padding: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #fcfcfc;
+    z-index: 100;
+}
+
+.overlay .form-container .form-container-body .preview-img-area::before {
+    position: absolute;
+    content: attr(data-img);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 200;
+}
+
+.overlay .form-container .form-container-body .preview-img-area.active:hover::before {
+    opacity: 1;
+}
+
+.overlay .form-container .form-container-body .preview-img-area i {
+    font-size: 50px;
+}
+
+.overlay .form-container .form-container-body .preview-img-area h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.overlay .form-container .form-container-body .preview-img-area p {
+    color: #999;
+}
+
+.overlay .form-container .form-container-body .preview-img-area p span {
+    font-weight: 600;
+}
+
+.overlay .form-container .form-container-body .preview-img-area img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 100;
+}
+
+.overlay .form-container .form-container-body .select-preview-img {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 15px;
+    background: #c44747;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.overlay .form-container .form-container-body .select-preview-img:hover {
+    background: #ff4848;
+}
+
+.overlay .form-container .form-container-body .vehicle-input-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    flex-grow: 1;
+    margin-bottom: 20px;
+    gap: 30px;
+}
+
+.overlay .form-container .form-container-body .vehicles-form-right-side .input-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: .3rem;
+}
+
+.overlay .form-container .form-container-body .vehicles-form-right-side .input-container input,
+.overlay .form-container .form-container-body .vehicles-form-right-side .input-container textarea,
+.overlay .form-container .form-container-body .vehicles-form-right-side .input-container select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #88929b;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+}
+
+.overlay .form-container .form-container-body .vehicles-form-right-side button {
+    margin-top: 20px;
+    padding: 12px 48px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    font-weight: 500;
+    font-size: 14px;
+    background: #4869ff;
+    color: #ffffff;
+    display: grid;
+    place-content: center;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.overlay .form-container .form-container-body .vehicles-form-right-side button:hover {
+    background: #3d58cd;
+}
+
+.overlay .form-container .form-container-body .vehicles-form-right-side button .loader {
+    pointer-events: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #fff;
+    animation: loading 1s ease infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0turn);
+    }
+
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+/* B3BBCA */
+
+/* ----------------------------------------- */
+
+main .brand-title {
+    margin-top: 36px;
+    font-size: 36px;
+}
+
+main .info-data.vehicles {
+    margin-top: 36px;
+    grid-template-columns: repeat(3, minmax(320px, 1fr));
+}
+
+main .info-data .card.vehicle-card-container {
+    padding: 20px;
+    border-radius: 10px;
+    background: var(--light);
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .05);
+    display: block;
+}
+
+.vehicle-card-container {
+    /* width: 420px; */
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+.vehicle-card-container-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vehicle-card-container-top .vehicle-card-top-right {
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.vehicle-card-container-top .vehicle-card-top-right.vehicle-status-available {
+    background: #bcffc4;
+    color: #49b64c;
+}
+
+.vehicle-card-container .vehicle-card-container-img {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    margin-top: 20px;
+}
+
+.vehicle-card-container .vehicle-card-container-img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.vehicle-card-container-content {
+    margin-top: 20px;
+}
+
+.vehicle-card-container-content-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    place-items: center;
+    height: 50px;
+    overflow: hidden;
+}
+
+.vehicle-card-container-content .vehicle-info-data {
+    text-align: center;
+    color: #747a88;
+    font-weight: 500;
+}
+
+.vehicle-card-container-content .vehicle-info-data i {
+    display: block;
+    font-size: 20px;
+}
+
+.btn-actions-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vehicle-card-options {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+.vehicle-card-options i {
+    font-size: 18px;
+}
+
+.vehicle-card-options .options-display {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    right: -250%;
+    transition: .3s;
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+}
+
+.vehicle-card-options .options-display.active {
+    right: -345%;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.vehicle-card-options .options-display button {
+    border: none;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.btn-actions-wrapper .rent-car-btn {
+    padding: 10px 30px;
+    background: #3bb4ff;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn-actions-wrapper .rent-car-btn:hover {
+    background: #2892d4;
+}
+
+hr.rental-divider {
+    margin: 20px 0;
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}

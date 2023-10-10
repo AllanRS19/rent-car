@@ -33,13 +33,13 @@
             <a href="<?php if ($currentPage == "vehicle-models") { echo "#"; } else { echo "./vehicle-models.php"; }; ?>" <?php if ($currentPage == "vehicle-models") echo "class='active'"; ?>><i class='bx bx-table icon'></i> Modelos</a>
         </li>
         <li>
-            <a href="#"><i class='bx bxs-notepad icon'></i> Vehículos</a>
+            <a href="<?php if ($currentPage == "vehicles") { echo "#"; } else { echo "./vehicles.php"; }; ?>" <?php if ($currentPage == "vehicles") echo "class='active'"; ?>><i class='bx bxs-car-garage icon'></i> Vehículos</a>
         </li>
         <li>
-            <a href="<?php if ($currentPage == "clients") { echo "#"; } else { echo "./clients.php"; } ?>" <?php if ($currentPage == "clients") echo "class='active'"; ?>><i class='bx bxs-notepad icon'></i> Clientes</a>
+            <a href="<?php if ($currentPage == "clients") { echo "#"; } else { echo "./clients.php"; } ?>" <?php if ($currentPage == "clients") echo "class='active'"; ?>><i class='bx bxs-user-detail icon'></i> Clientes</a>
         </li>
         <li>
-            <a href="<?php if ($currentPage == "employees") { echo "#"; } else { echo "./employees.php"; } ?>" <?php if ($currentPage == "employees") echo "class='active'"; ?>><i class='bx bxs-notepad icon'></i> Empleados</a>
+            <a href="<?php if ($currentPage == "employees") { echo "#"; } else { echo "./employees.php"; } ?>" <?php if ($currentPage == "employees") echo "class='active'"; ?>><i class='bx bxs-user-voice icon'></i> Empleados</a>
         </li>
         <li>
             <a href="#"><i class='bx bxs-notepad icon'></i> Rentas</a>

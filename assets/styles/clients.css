@@ -128,10 +128,10 @@
 }
 
 main .data {
-    margin-top: 36px;
+    margin-top: 28px;
 }
 
-main .data .content-data {
+main .data .content-data.clients-content-data {
     width: 100%;
     flex-grow: 1;
     padding: 20px;
@@ -139,6 +139,7 @@ main .data .content-data {
     border-radius: 10px;
     box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
     height: auto;
+    max-height: 500px;
     overflow-y: auto;
 }
 

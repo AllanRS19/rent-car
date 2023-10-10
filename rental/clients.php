@@ -100,7 +100,7 @@
     <hr>
 
     <div class="data">
-        <div class="content-data">
+        <div class="content-data clients-content-data">
             <div class="head-prev-table">
                 <h3>Clientes Actuales</h3>
                 <div class="prev-table-filter-search">
