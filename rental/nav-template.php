@@ -1,13 +1,5 @@
 <?php 
 
-    session_start();
-
-    if (!isset($_SESSION['user_ident']) && $_SESSION['user_ident'] == "") {
-
-        header("location: ../auth.php");
-        
-    }
-
     $currentPath = pathinfo($_SERVER['REQUEST_URI']);
     $currentPage = basename($currentPath['filename']);
 

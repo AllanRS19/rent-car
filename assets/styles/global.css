@@ -501,11 +501,13 @@ main .add-feature-btn.employees-btn:hover {
     background: #b87f62;
 }
 
-main .add-feature-btn.vehicle-types-btn {
+main .add-feature-btn.vehicle-types-btn,
+main .add-feature-btn.vehicles-btn {
     background: #3bb4ff;
 }
 
-main .add-feature-btn.vehicle-types-btn:hover {
+main .add-feature-btn.vehicle-types-btn:hover,
+main .add-feature-btn.vehicles-btn:hover {
     background: #2892d4;
 }
 
@@ -514,7 +516,8 @@ main .add-feature-btn.vehicle-types-btn span,
 main .add-feature-btn.brands-btn span,
 main .add-feature-btn.veh-models-btn span,
 main .add-feature-btn.clients-btn span,
-main .add-feature-btn.employees-btn span {
+main .add-feature-btn.employees-btn span,
+main .add-feature-btn.vehicles-btn span {
     display: inline-flex;
     align-items: center;
     padding: 0 24px;
@@ -527,7 +530,8 @@ main .add-feature-btn.vehicle-types-btn span.add-feature-btn-icon,
 main .add-feature-btn.brands-btn span.add-feature-btn-icon,
 main .add-feature-btn.veh-models-btn span.add-feature-btn-icon,
 main .add-feature-btn.clients-btn span.add-feature-btn-icon,
-main .add-feature-btn.employees-btn span.add-feature-btn-icon {
+main .add-feature-btn.employees-btn span.add-feature-btn-icon,
+main .add-feature-btn.vehicles-btn span.add-feature-btn-icon {
     font-size: 1.5em;
     background: rgba(0, 0, 0, .08);
 }
@@ -566,33 +570,33 @@ main .info-data .card:not(.vehicle-card-container) i {
     font-size: 24px;
 }
 
-main .info-data .card .car-icon {
+main .info-data .card:not(.vehicle-card-container) .car-icon {
     color: #4bb7fa;
     background: #e5f3fe;
 }
 
-main .info-data .card .user-icon {
+main .info-data .card:not(.vehicle-card-container) .user-icon {
     color: #cc5b83;
     background: #ffd6e5;
 }
 
-main .info-data .card .employees-icon {
+main .info-data .card:not(.vehicle-card-container) .employees-icon {
     color: #de9876;
     background: #ffebe1;
 }
 
-main .info-data .card .money-icon {
+main .info-data .card:not(.vehicle-card-container) .money-icon {
     color: #47c482;
     background: #e1f8eb;
 }
 
-main .info-data .card .card-title {
+main .info-data .card:not(.vehicle-card-container) .card-title {
     font-size: .9em;
     font-weight: 500;
     color: #a8a8a8;
 }
 
-main .info-data .card .card-data {
+main .info-data .card:not(.vehicle-card-container) .card-data {
     font-size: 1.2em;
     color: #1e1f22;
     font-weight: 700;

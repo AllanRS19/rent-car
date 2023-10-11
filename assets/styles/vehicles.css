@@ -1,3 +1,8 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
 .overlay {
     position: absolute;
     top: 0;
@@ -64,7 +69,6 @@
 
 .overlay .form-container .form-container-body .vehicles-form-left-side,
 .overlay .form-container .form-container-body .vehicles-form-right-side {
-    flex-basis: 100%;
     flex-grow: 1;
 }
 
@@ -161,7 +165,6 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, minmax(220px, 1fr));
-    flex-grow: 1;
     margin-bottom: 20px;
     gap: 30px;
 }
@@ -172,9 +175,8 @@
     margin-bottom: .3rem;
 }
 
-.overlay .form-container .form-container-body .vehicles-form-right-side .input-container input,
-.overlay .form-container .form-container-body .vehicles-form-right-side .input-container textarea,
-.overlay .form-container .form-container-body .vehicles-form-right-side .input-container select {
+.overlay .form-container .form-container-body .vehicles-form-right-side input,
+.overlay .form-container .form-container-body .vehicles-form-right-side select {
     display: block;
     width: 100%;
     padding: 10px;
@@ -234,7 +236,7 @@ main .brand-title {
 }
 
 main .info-data.vehicles {
-    margin-top: 36px;
+    margin-top: 16px;
     grid-template-columns: repeat(3, minmax(320px, 1fr));
 }
 
@@ -247,7 +249,6 @@ main .info-data .card.vehicle-card-container {
 }
 
 .vehicle-card-container {
-    /* width: 420px; */
     background: #ffffff;
     padding: 20px;
     border-radius: 8px;
@@ -268,6 +269,11 @@ main .info-data .card.vehicle-card-container {
 .vehicle-card-container-top .vehicle-card-top-right.vehicle-status-available {
     background: #bcffc4;
     color: #49b64c;
+}
+
+.vehicle-card-container-top .vehicle-card-top-right.vehicle-status-not-available {
+    background: #ffbcbc;
+    color: #b64949;
 }
 
 .vehicle-card-container .vehicle-card-container-img {
@@ -354,6 +360,7 @@ main .info-data .card.vehicle-card-container {
     border: none;
     border-radius: 30px;
     padding: 10px;
+    cursor: pointer;
 }
 
 .btn-actions-wrapper .rent-car-btn {

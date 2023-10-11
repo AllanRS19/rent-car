@@ -576,7 +576,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                     $veh_model_array_res = json_encode($veh_model_array);
 
                                     echo $veh_model_array_res;
-
                                 } else {
                                     echo "Hubo un error al añadir la marca de vehículo";
                                 }
@@ -596,7 +595,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     echo "Este archivo no es aceptado. Archivos aceptados: jpeg, jpg, png";
                 }
             }
-
         }
 
         if ($_POST['vehModelFormAction'] == "edit") {
@@ -620,7 +618,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 if (mysqli_num_rows($check_existing_veh_model) > 0) {
 
                     $check_existing_veh_model_destination = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_model_name = '$veh_model_name' AND veh_brand_identifier = '$veh_model_brand'");
-                    
+
                     if (mysqli_num_rows($check_existing_veh_model_destination) > 0) {
                         $fetch_existing_model_destination_info = mysqli_fetch_array($check_existing_veh_model_destination);
                         if ($fetch_existing_model_destination_info['veh_model_unique_id'] != $veh_model_id) {
@@ -636,7 +634,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         $rutaArchivo = "../assets/imgs/uploads/vehicle-models/" . $fetch_image_path['veh_model_image_path'];
 
                         if (file_exists($rutaArchivo)) {
-                            
+
                             if (unlink($rutaArchivo)) {
 
                                 $get_new_veh_model_image = $_FILES['vehModelImageFile'];
@@ -680,7 +678,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                     $veh_model_array_res = json_encode($veh_model_array);
 
                                                     echo $veh_model_array_res;
-
                                                 } else {
                                                     echo "Hubo un error al actualizar el modelo del vehículo";
                                                 }
@@ -702,11 +699,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             } else {
                                 echo "No se pudo eliminar el archivo";
                             }
-
                         } else {
                             echo "No se pudo encontrar el archivo";
                         }
-
                     } else {
 
                         $fetch_existing_model_info = mysqli_fetch_array($check_existing_veh_model);
@@ -767,13 +762,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
         }
-
     }
 
     // Módulo de Clientes
 
     if (isset($_POST['clientsFormAction'])) {
-        
+
         if ($_POST['clientsFormAction'] == "create") {
 
             if (isset($_POST['client-name']) && isset($_POST['client-personal-id']) && isset($_POST['client-cc-number']) && isset($_POST['client-credit-limit']) && isset($_POST['clientType']) && isset($_POST['clientState']) && isset($_POST['client-image-url'])) {
@@ -811,15 +805,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $client_array_res = json_encode($client_array);
 
                     echo $client_array_res;
-
                 } else {
                     echo "Hubo un error al añadir el cliente";
                 }
-
             } else {
                 echo "Faltan datos por recibir";
             }
-            
         }
 
         if ($_POST['clientsFormAction'] == "edit") {
@@ -849,7 +840,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 echo "Existe un cliente con ese número de cédula";
                                 return;
                             }
-
                         }
 
                         $update_client_info = mysqli_query($connection, "UPDATE clientes SET client_name = '$client_name', client_personal_id = '$client_personal_id', client_cc_number = '$client_cc_number', client_credit_limit = '$client_credit_limit', client_type = '$client_type', client_state = '$client_state', client_image_url = '$client_image_url' WHERE client_unique_id = '$client_id'");
@@ -861,27 +851,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             );
                             $client_array_res = json_encode($client_array);
                             echo $client_array_res;
-
                         } else {
                             echo "Hubo un error actualizando";
                         }
-
                     } else {
                         echo "El número de tarjeta de crédito no está completo";
                     }
-
                 } else {
                     echo "El número de cédula no está completo";
                 }
-
             } else {
                 echo "Faltan datos para editar";
             }
-
         }
 
         if ($_POST['clientsFormAction'] == "delete") {
-            
+
             if (isset($_POST['client_id_to_delete'])) {
 
                 $client_id = mysqli_real_escape_string($connection, $_POST['client_id_to_delete']);
@@ -900,17 +885,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 } else {
                     echo "No se pudo encontrar el registro a eliminar";
                 }
-
             }
-
         }
-
     }
 
     // Módulo de Empleados
 
     if (isset($_POST['employeesFormAction'])) {
-        
+
         if ($_POST['employeesFormAction'] == "create") {
 
             if (isset($_POST['employee-name']) && isset($_POST['employee-personal-id']) && isset($_POST['employee-commission']) && isset($_POST['employee-image-url']) && isset($_POST['employeeShift']) && isset($_POST['employeeState']) && isset($_POST['employeeJoinDate'])) {
@@ -948,13 +930,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $employee_array_res = json_encode($employee_array);
 
                     echo $employee_array_res;
-
                 } else {
                     echo "Hubo un error al añadir el empleado";
                 }
-
             }
-
         }
 
         if ($_POST['employeesFormAction'] == "edit") {
@@ -980,7 +959,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             echo "Existe un empleado con ese número de cédula";
                             return;
                         }
-
                     }
 
                     $update_employee_info = mysqli_query($connection, "UPDATE empleados SET employee_name = '$employee_name', employee_personal_id = '$employee_personal_id', employee_shift = '$employee_shift', employee_commission = '$employee_commission', employee_join_date = '$employee_join_date', employee_state = '$employee_state', employee_image_url = '$employee_image_url' WHERE employee_unique_id = '$employee_id'");
@@ -992,17 +970,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         );
                         $employee_array_res = json_encode($employee_array);
                         echo $employee_array_res;
-
                     } else {
                         echo "Hubo un error actualizando";
                     }
-
                 } else {
                     echo "El número de cédula no está completo";
                 }
-
             }
-
         }
 
         if ($_POST['employeesFormAction'] == "delete") {
@@ -1025,13 +999,342 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 } else {
                     echo "No se pudo encontrar el registro a eliminar";
                 }
-
             } else {
                 echo "No se recibio el ID para eliminar";
             }
-
         }
-
     }
 
+
+    if (isset($_POST['vehicleFormAction'])) {
+
+        if ($_POST['vehicleFormAction'] == "filter") {
+
+            if (isset($_POST['brand_to_filter'])) {
+
+                $brand_to_filter = mysqli_real_escape_string($connection, $_POST['brand_to_filter']);
+
+                $output = "<option>Seleccione un modelo</option>";
+
+                $get_brand_models = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_brand_identifier = '$brand_to_filter'");
+
+                if (mysqli_num_rows($get_brand_models) > 0) {
+
+                    while ($fetch_brand_models = mysqli_fetch_array($get_brand_models)) {
+
+                        $output .= '<option>' . $fetch_brand_models['veh_model_name'] . '</option>';
+                    }
+                }
+
+                echo $output;
+            }
+        }
+
+        if ($_POST['vehicleFormAction'] == "fetchAll") {
+
+            $getModels = mysqli_query($connection, "SELECT * FROM modelo_vehiculos WHERE veh_model_state = 'Disponible'");
+
+            $output = "<option>Seleccione un modelo</option>";
+
+            if (mysqli_num_rows($getModels) > 0) {
+
+                while ($fetchModels = mysqli_fetch_array($getModels)) {
+
+                    $output .= '<option>' . $fetchModels['veh_model_name'] . '</option>';
+                }
+            }
+
+            echo $output;
+        }
+
+        if ($_POST['vehicleFormAction'] == "search") {
+
+            if (isset($_POST['vehicle_id_to_search'])) {
+
+                $vehicle_id = mysqli_real_escape_string($connection, $_POST['vehicle_id_to_search']);
+
+                $get_vehicle = mysqli_query($connection, "SELECT * FROM vehiculos WHERE vehicle_unique_id = '$vehicle_id'");
+
+                if (mysqli_num_rows($get_vehicle) > 0) {
+
+                    $fetch_vehicle_details = mysqli_fetch_array($get_vehicle);
+
+                    $vehicle_array = array(
+                        "vehicle_year" => $fetch_vehicle_details['vehicle_year'],
+                        "vehicle_model" => $fetch_vehicle_details['vehicle_model'],
+                        "vehicle_brand" => $fetch_vehicle_details['vehicle_brand'],
+                        "vehicle_fuel" => $fetch_vehicle_details['vehicle_fuel'],
+                        "vehicle_type" => $fetch_vehicle_details['vehicle_type'],
+                        "vehicle_state" => $fetch_vehicle_details['vehicle_state'],
+                        "vehicle_plate" => $fetch_vehicle_details['vehicle_plate'],
+                        "vehicle_motor" => $fetch_vehicle_details['vehicle_motor'],
+                        "vehicle_chasis" => $fetch_vehicle_details['vehicle_chasis'],
+                        "vehicle_passengers" => $fetch_vehicle_details['vehicle_passengers'],
+                        "vehicle_price" => $fetch_vehicle_details['vehicle_rent_price'],
+                        "vehicle_description" => $fetch_vehicle_details['vehicle_description']
+                    );
+
+                    $vehicle_array_res = json_encode($vehicle_array);
+
+                    echo $vehicle_array_res;
+                }
+            }
+        }
+
+        if ($_POST['vehicleFormAction'] == "create") {
+
+            if (isset($_POST['vehicle_brand']) && isset($_POST['vehicle_model']) && isset($_POST['vehicle_type']) && isset($_POST['vehicle_fuel']) && isset($_POST['vehicle_state']) && isset($_POST['vehicle-year']) && isset($_POST['vehicle-plate']) && isset($_POST['vehicle-motor-num']) && isset($_POST['vehicle-chasis-num']) && isset($_POST['vehicle-passengers-count']) && isset($_POST['vehicle-price']) && isset($_POST['vehicle-description']) && isset($_FILES['vehicleImageFile'])) {
+
+                $vehicleBrand = mysqli_real_escape_string($connection, $_POST['vehicle_brand']);
+                $vehicleModel = mysqli_real_escape_string($connection, $_POST['vehicle_model']);
+                $vehicleType = mysqli_real_escape_string($connection, $_POST['vehicle_type']);
+                $vehicleFuel = mysqli_real_escape_string($connection, $_POST['vehicle_fuel']);
+                $vehicleState = mysqli_real_escape_string($connection, $_POST['vehicle_state']);
+                $vehicleYear = mysqli_real_escape_string($connection, $_POST['vehicle-year']);
+                $vehiclePlate = mysqli_real_escape_string($connection, $_POST['vehicle-plate']);
+                $vehicleMotorNum = mysqli_real_escape_string($connection, $_POST['vehicle-motor-num']);
+                $vehicleChasisNum = mysqli_real_escape_string($connection, $_POST['vehicle-chasis-num']);
+                $vehiclePassengersCount = mysqli_real_escape_string($connection, $_POST['vehicle-passengers-count']);
+                $vehiclePrice = mysqli_real_escape_string($connection, $_POST['vehicle-price']);
+                $vehicleDescription = mysqli_real_escape_string($connection, $_POST['vehicle-description']);
+                $vehicleImageFile = $_FILES['vehicleImageFile'];
+
+                $check_existing_vehicle = mysqli_query($connection, "SELECT * FROM vehiculos WHERE vehicle_brand = '$vehicleBrand' AND vehicle_model = '$vehicleModel'");
+
+                if (mysqli_num_rows($check_existing_vehicle) > 0) {
+
+                    echo "Este vehículo ya está registrado";
+                    return;
+                }
+
+                $selectedFileName = $vehicleImageFile['name'];
+                $selectedFileTmpName = $vehicleImageFile['tmp_name'];
+                $selectedFileSize = $vehicleImageFile['size'];
+                $selectedFileType = $vehicleImageFile['type'];
+                $selectedFileError = $vehicleImageFile['error'];
+
+                $selectedFileExt = explode('.', $selectedFileName);
+                $selectedFileActualExt = strtolower(end($selectedFileExt));
+
+                $allowedExtensions = array('jpg', 'png', 'jpeg');
+
+                if (in_array($selectedFileActualExt, $allowedExtensions)) {
+
+                    if ($selectedFileError === 0) {
+
+                        if ($selectedFileSize < 2000000) {
+
+                            $selectedFileNewName = uniqid('vehicle_', true) . "." . $selectedFileActualExt;
+
+                            $fileDestination = '../assets/imgs/uploads/vehicles/' . $selectedFileNewName;
+
+                            if (move_uploaded_file($selectedFileTmpName, $fileDestination)) {
+
+                                $random_chars = "ABCDEFFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+
+                                $vehicle_unique_id = substr(str_shuffle($random_chars), 0, 30);
+
+                                $insert_veh_model = mysqli_query($connection, "INSERT INTO vehiculos (vehicle_unique_id, vehicle_brand, vehicle_model, vehicle_year, vehicle_type, vehicle_fuel, vehicle_plate, vehicle_motor, vehicle_chasis, vehicle_passengers, vehicle_rent_price, vehicle_description, vehicle_state, vehicle_image_path) VALUES ('$vehicle_unique_id', '$vehicleBrand', '$vehicleModel', '$vehicleYear', '$vehicleType', '$vehicleFuel', '$vehiclePlate', '$vehicleMotorNum', '$vehicleChasisNum', '$vehiclePassengersCount', '$vehiclePrice', '$vehicleDescription', '$vehicleState', '$selectedFileNewName')");
+
+                                if ($insert_veh_model) {
+
+                                    $vehicle_array = array(
+                                        "vehicle_unique_id" => $vehicle_unique_id,
+                                        "vehicle_image_path" => $selectedFileNewName,
+                                        "vehicle_add_status" => 'success'
+                                    );
+
+                                    $vehicle_array_res = json_encode($vehicle_array);
+
+                                    echo $vehicle_array_res;
+                                } else {
+                                    echo "Hubo un error al añadir el vehículo";
+                                }
+                            } else {
+                                echo "Hubo un error moviendo el archivo";
+                            }
+                        } else {
+
+                            echo "El archivo no puede pesar más de 2MB";
+                        }
+                    } else {
+
+                        echo "Hubo un error subiendo el archivo";
+                    }
+                } else {
+
+                    echo "Este archivo no es aceptado. Archivos aceptados: jpeg, jpg, png";
+                }
+            }
+        }
+
+        if ($_POST['vehicleFormAction'] == "edit") {
+
+            if (isset($_POST['vehicle_brand']) && isset($_POST['vehicle_model']) && isset($_POST['vehicle_type']) && isset($_POST['vehicle_fuel']) && isset($_POST['vehicle_state']) && isset($_POST['vehicle-year']) && isset($_POST['vehicle-plate']) && isset($_POST['vehicle-motor-num']) && isset($_POST['vehicle-chasis-num']) && isset($_POST['vehicle-passengers-count']) && isset($_POST['vehicle-price']) && isset($_POST['vehicle-description']) && isset($_POST['vehicle_id'])) {
+
+                $vehicleBrand = mysqli_real_escape_string($connection, $_POST['vehicle_brand']);
+                $vehicleModel = mysqli_real_escape_string($connection, $_POST['vehicle_model']);
+                $vehicleType = mysqli_real_escape_string($connection, $_POST['vehicle_type']);
+                $vehicleFuel = mysqli_real_escape_string($connection, $_POST['vehicle_fuel']);
+                $vehicleState = mysqli_real_escape_string($connection, $_POST['vehicle_state']);
+                $vehicleYear = mysqli_real_escape_string($connection, $_POST['vehicle-year']);
+                $vehiclePlate = mysqli_real_escape_string($connection, $_POST['vehicle-plate']);
+                $vehicleMotorNum = mysqli_real_escape_string($connection, $_POST['vehicle-motor-num']);
+                $vehicleChasisNum = mysqli_real_escape_string($connection, $_POST['vehicle-chasis-num']);
+                $vehiclePassengersCount = mysqli_real_escape_string($connection, $_POST['vehicle-passengers-count']);
+                $vehiclePrice = mysqli_real_escape_string($connection, $_POST['vehicle-price']);
+                $vehicleDescription = mysqli_real_escape_string($connection, $_POST['vehicle-description']);
+                $vehicleID = mysqli_real_escape_string($connection, $_POST['vehicle_id']);
+
+                $check_existing_vehicle = mysqli_query($connection, "SELECT * FROM vehiculos WHERE vehicle_unique_id = '$vehicleID'");
+
+                if (mysqli_num_rows($check_existing_vehicle) > 0) {
+
+                    $check_existing_vehicle_destination = mysqli_query($connection, "SELECT * FROM vehiculos WHERE vehicle_brand = '$vehicleBrand' AND vehicle_model = '$vehicleModel'");
+
+                    if (mysqli_num_rows($check_existing_vehicle_destination) > 0) {
+                        $fetch_existing_vehicle_destination_info = mysqli_fetch_array($check_existing_vehicle_destination);
+                        if ($fetch_existing_vehicle_destination_info['vehicle_unique_id'] != $vehicleID) {
+                            echo "Este vehículo ya está registrado";
+                            return;
+                        }
+                    }
+
+                    if (isset($_FILES['vehicleImageFile'])) {
+
+                        $fetch_image_path = mysqli_fetch_array($check_existing_vehicle);
+
+                        $rutaArchivo = "../assets/imgs/uploads/vehicles/" . $fetch_image_path['vehicle_image_path'];
+
+                        if (file_exists($rutaArchivo)) {
+
+                            if (unlink($rutaArchivo)) {
+
+                                $get_new_vehicle_image = $_FILES['vehicleImageFile'];
+
+                                $selectedFileName = $get_new_vehicle_image['name'];
+                                $selectedFileTmpName = $get_new_vehicle_image['tmp_name'];
+                                $selectedFileSize = $get_new_vehicle_image['size'];
+                                $selectedFileType = $get_new_vehicle_image['type'];
+                                $selectedFileError = $get_new_vehicle_image['error'];
+
+                                $selectedFileExt = explode('.', $selectedFileName);
+                                $selectedFileActualExt = strtolower(end($selectedFileExt));
+
+                                $allowedExtensions = array('jpg', 'png', 'jpeg');
+
+                                if (in_array($selectedFileActualExt, $allowedExtensions)) {
+
+                                    if ($selectedFileError === 0) {
+
+                                        if ($selectedFileSize < 2000000) {
+
+                                            $selectedFileNewName = uniqid('vehicle_', true) . "." . $selectedFileActualExt;
+
+                                            $fileDestination = '../assets/imgs/uploads/vehicles/' . $selectedFileNewName;
+
+                                            if (move_uploaded_file($selectedFileTmpName, $fileDestination)) {
+
+                                                $update_vehicle_with_image = mysqli_query($connection, "UPDATE vehiculos SET vehicle_brand = '$vehicleBrand', vehicle_model = '$vehicleModel', vehicle_year = '$vehicleYear', vehicle_type = '$vehicleType', vehicle_fuel = '$vehicleFuel', vehicle_plate = '$vehiclePlate', vehicle_motor = '$vehicleMotorNum', vehicle_chasis = '$vehicleChasisNum', vehicle_passengers = '$vehiclePassengersCount', vehicle_rent_price = '$vehiclePrice', vehicle_description = '$vehicleDescription', vehicle_state = '$vehicleState', vehicle_image_path = '$selectedFileNewName' WHERE vehicle_unique_id = '$vehicleID'");
+
+                                                if ($update_vehicle_with_image) {
+
+                                                    $vehicle_array = array(
+                                                        "veh_model_update_status" => "success",
+                                                        "vehicle_brand" => $vehicleBrand,
+                                                        "vehicle_model" => $vehicleModel,
+                                                        "vehicle_image_path" => $selectedFileNewName,
+                                                    );
+
+                                                    $vehicle_array_res = json_encode($vehicle_array);
+
+                                                    echo $vehicle_array_res;
+                                                } else {
+                                                    echo "Hubo un error al actualizar el modelo del vehículo";
+                                                }
+                                            } else {
+                                                echo "Hubo un error moviendo el nuevo archivo";
+                                            }
+                                        } else {
+
+                                            echo "El archivo no puede pesar más de 2MB";
+                                        }
+                                    } else {
+
+                                        echo "Hubo un error subiendo el archivo";
+                                    }
+                                } else {
+
+                                    echo "Este archivo no es aceptado. Archivos aceptados: jpeg, jpg, png";
+                                }
+                            } else {
+                                echo "No se pudo eliminar el archivo";
+                            }
+                        } else {
+                            echo "No se pudo encontrar el archivo";
+                        }
+                    } else {
+
+                        // $fetch_existing_model_info = mysqli_fetch_array($check_existing_veh_model);
+
+                        $update_vehicle = mysqli_query($connection, "UPDATE vehiculos SET vehicle_brand = '$vehicleBrand', vehicle_model = '$vehicleModel', vehicle_year = '$vehicleYear', vehicle_type = '$vehicleType', vehicle_fuel = '$vehicleFuel', vehicle_plate = '$vehiclePlate', vehicle_motor = '$vehicleMotorNum', vehicle_chasis = '$vehicleChasisNum', vehicle_passengers = '$vehiclePassengersCount', vehicle_rent_price = '$vehiclePrice', vehicle_description = '$vehicleDescription', vehicle_state = '$vehicleState' WHERE vehicle_unique_id = '$vehicleID'");
+
+                        if ($update_vehicle) {
+
+                            $vehicle_array = array(
+                                "vehicle_update_status" => "success",
+                                "vehicle_brand" => $vehicleBrand,
+                                "vehicle_model" => $vehicleModel,
+                            );
+
+                            $vehicle_array_res = json_encode($vehicle_array);
+
+                            echo $vehicle_array_res;
+                        }
+                    }
+                } else {
+                    echo "No se pudo encontrar el modelo a editar";
+                }
+            } else {
+                echo "Faltan datos por completar";
+            }
+        }
+
+        if ($_POST['vehicleFormAction'] == "delete") {
+
+            if (isset($_POST['vehicle_id_to_delete'])) {
+
+                $vehicle_id_to_delete = mysqli_real_escape_string($connection, $_POST['vehicle_id_to_delete']);
+
+                $find_vehicle_id = mysqli_query($connection, "SELECT * FROM vehiculos WHERE vehicle_unique_id = '$vehicle_id_to_delete'");
+
+                if (mysqli_num_rows($find_vehicle_id) > 0) {
+
+                    $fetch_image_path = mysqli_fetch_array($find_vehicle_id);
+
+                    $rutaArchivo = "../assets/imgs/uploads/vehicles/" . $fetch_image_path['vehicle_image_path'];
+
+                    if (file_exists($rutaArchivo)) {
+
+                        if (unlink($rutaArchivo)) {
+
+                            $delete_vehicle = mysqli_query($connection, "DELETE FROM vehiculos WHERE vehicle_unique_id = '$vehicle_id_to_delete'");
+
+                            if ($delete_vehicle) {
+                                echo "vehicle_deleted";
+                            } else {
+                                echo "Hubo un error eliminando el registro";
+                            }
+                        } else {
+                            echo "Hubo un error al eliminar el archivo";
+                        }
+                    } else {
+                        echo "El archivo no existe en la carpeta";
+                    }
+                } else {
+                    echo "No se pudo encontrar el registro a eliminar";
+                }
+            }
+        }
+    }
 }
