@@ -29,6 +29,7 @@
         
             $get_clients = mysqli_query($connection, "SELECT * FROM clientes");
             $get_employees = mysqli_query($connection, "SELECT * FROM empleados");
+            $get_vehicles = mysqli_query($connection, "SELECT * FROM vehiculos");
         
         ?>
 
@@ -43,7 +44,21 @@
                     <i class="bx bxs-car car-icon"></i>
                     <div class="card-info">
                         <span class="card-title">Vehículos en existencia</span>
-                        <p class="card-data">#62 vehículos</p>
+                        <p class="card-data">
+                        <?php 
+                            
+                            if (mysqli_num_rows($get_vehicles) > 0) {
+                                if (mysqli_num_rows($get_vehicles) == 1) {
+                                    echo mysqli_num_rows($get_vehicles) . " vehículo";
+                                } else {
+                                    echo mysqli_num_rows($get_vehicles) . " vehículos";
+                                }
+                            } else {
+                                echo "No tiene clientes";
+                            }
+                        
+                        ?>
+                        </p>
                     </div>
                 </div>
                 <div class="card">

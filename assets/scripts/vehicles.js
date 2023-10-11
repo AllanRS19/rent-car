@@ -17,6 +17,7 @@ let imageFileSelected = false;
 let formAction = "create";
 let editVehicleBtn;
 let deleteVehicleBtn;
+let optionsDisplay;
 let cardSelectedId = "";
 
 if (document.querySelector('.card.vehicle-card-container')) {
@@ -430,7 +431,9 @@ function submitVehModelForm() {
                                         editVehicle(this);
                                     }));
 
-                                    document.querySelectorAll('.vehicle-card-options .options-icon').forEach(vehCardOpt => vehCardOpt.addEventListener('click', function () {
+                                    optionsDisplay = document.querySelectorAll('.vehicle-card-options .options-icon');
+
+                                    optionsDisplay.forEach(vehCardOpt => vehCardOpt.addEventListener('click', function () {
                                         this.parentElement.querySelector('.options-display').classList.toggle('active');
                                     }));
 
@@ -501,7 +504,9 @@ function submitVehModelForm() {
                                         deleteVehicle(this);
                                     }));
 
-                                    document.querySelectorAll('.vehicle-card-options .options-icon').forEach(vehCardOpt => vehCardOpt.addEventListener('click', function () {
+                                    optionsDisplay = document.querySelectorAll('.vehicle-card-options .options-icon');
+
+                                    optionsDisplay.forEach(vehCardOpt => vehCardOpt.addEventListener('click', function () {
                                         this.parentElement.querySelector('.options-display').classList.toggle('active');
                                     }));
 
