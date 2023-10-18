@@ -198,6 +198,175 @@
         </div>
     </div>
 
+    <div class="rent-form-overlay">
+        <div class="close-rent-overlay-btn">
+            <i class='bx bx-x'></i>
+        </div>
+        <div class="rent-form-container">
+            <header>
+                Formulario de Renta
+                <div class="rent-form-message-container">
+                    <p></p>
+                </div>
+            </header>
+            <div class="progress-bar">
+                <div class="step">
+                    <p>Inspección</p>
+                    <div class="bullet">
+                        <span>1</span>
+                    </div>
+                    <div class="check bx bx-check"></div>
+                </div>
+                <div class="step">
+                    <p>Renta</p>
+                    <div class="bullet">
+                        <span>2</span>
+                    </div>
+                    <div class="check bx bx-check"></div>
+                </div>
+            </div>
+            <div class="form-outer">
+                <form action="#" method="post" class="rent-form">
+
+                    <div class="page slide-page">
+                        <!-- <div class="title">Inspección vehículo</div> -->
+                        <div class="vehicle-info">
+                            <img src="../assets/imgs/uploads/vehicles/vehicle_6525fcf690a605.39267684.jpg" alt="">
+                            <!-- <h3>Honda Accord 2023</h3> -->
+                        </div>
+                        <div class="fields-wrapper">
+                            <div class="field inspect">
+                                <div class="label">Ralladuras</div>
+                                <input type="checkbox" name="ralladuras" class="ralladuras">
+                            </div>
+                            <div class="field inspect">
+                                <div class="label">Roturas cristal</div>
+                                <input type="checkbox" name="rotura-cristal" class="rotura-cristal">
+                            </div>
+                            <div class="field inspect">
+                                <div class="label">Goma repuesto</div>
+                                <input type="checkbox" name="goma-respuesto" class="goma-repuesto">
+                            </div>
+                            <div class="field inspect">
+                                <div class="label">Gato Hidraúlico</div>
+                                <input type="checkbox" name="gato-hidraulico" class="gato-hidraulico">
+                            </div>
+                        </div>
+                        <div class="fields-wrapper twice">
+                            <input type="hidden" name="vehicle-identifier" class="vehicle-identifier">
+                            <div class="field inspect">
+                                <div class="label">Nivel Combustible</div>
+                                <select name="nivel-combustible" class="nivel-combustible">
+                                    <option value="">Lleno</option>
+                                    <option value="">1/4</option>
+                                    <option value="">1/2</option>
+                                </select>
+                            </div>
+                            <div class="field inspect">
+                                <div class="label">Estado Gomas</div>
+                                <input type="text" name="estado-gomas" class="estado-gomas">
+                            </div>
+                        </div>
+                        <div class="field next-btn">
+                            <button type="button">Siguiente</button>
+                        </div>
+                    </div>
+
+                    <div class="page rent-side">
+                        <!-- <div class="title">Renta vehículo</div> -->
+                        <div class="fields-wrapper triple">
+                            <div class="field">
+                                <div class="label">Identificador</div>
+                                <input type="text" name="rent-identificator" class="field-disabled rent-identificator">
+                            </div>
+                            <div class="field">
+                                <div class="label">Vehículo</div>
+                                <input type="text" name="rent-vehicle" id="" class="field-disabled rent-vehicle">
+                            </div>
+                            <div class="field">
+                                <div class="label">Precio x Día</div>
+                                <input type="text" name="rent-price" id="" class="field-disabled rent-price">
+                            </div>
+                        </div>
+                        <div class="fields-wrapper triple">
+                            <div class="field">
+                                <div class="label">Fecha renta</div>
+                                <input type="date" name="rent-date" class="rent-date">
+                            </div>
+                            <div class="field">
+                                <div class="label">Fecha devolución</div>
+                                <input type="date" name="rent-return-date" class="rent-return-date">
+                            </div>
+                            <div class="field">
+                                <div class="label">Días</div>
+                                <input type="text" name="rent-days" class="field-disabled rent-days">
+                            </div>
+                        </div>
+                        <div class="fields-wrapper twice select-fields">
+                            <div class="field">
+                                <div class="label">Cliente</div>
+                                <select name="rent-client" class="rent-client">
+                                    <?php 
+                                        
+                                        $get_clients = mysqli_query($connection, "SELECT client_name FROM clientes");
+
+                                        if (mysqli_num_rows($get_clients) > 0) {
+
+                                            while ($fetch_client_name = mysqli_fetch_array($get_clients)) {
+                                    
+                                    ?>
+
+                                    <option value=""><?php echo $fetch_client_name['client_name']; ?></option>
+
+                                    <?php
+                                    
+                                            }
+
+                                        }
+                                    
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <div class="label">Empleado</div>
+                                <select name="rent-employee" class="rent-employee">
+                                    <?php 
+                                    
+                                        $get_employees = mysqli_query($connection, "SELECT employee_name FROM empleados");
+
+                                        if (mysqli_num_rows($get_employees) > 0) {
+
+                                            while ($fetch_employee_name = mysqli_fetch_array($get_employees)) {
+                                    
+                                    ?>
+
+                                    <option value=""><?php echo $fetch_employee_name['employee_name']; ?></option>
+
+                                    <?php
+                                    
+                                            }
+
+                                        }
+                                    
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field single-input">
+                                <div class="label">Comentario</div>
+                                <input type="text" name="rent-comment" class="rent-comment">
+                            </div>
+                        <div class="field btns">
+                            <button class="prev" type="button">Anterior</button>
+                            <button type="submit" class="submit" rentformaction="rent">Rentar vehículo</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
     <?php include "./nav-template.php"; ?>
 
     <div class="title-wrapper">
@@ -246,7 +415,7 @@
                                     echo $formattedNumber; ?> / Día
                     </span>
                 </div>
-                <div class="vehicle-card-top-right <?php if ($fetch_vehicles_details['vehicle_state'] == "Disponible") {echo "vehicle-status-available";} else {echo "vehicle-status-not-available";} ?>">
+                <div class="vehicle-card-top-right <?php if ($fetch_vehicles_details['vehicle_state'] == "Disponible") {echo "vehicle-status-available";} else if ($fetch_vehicles_details['vehicle_state'] == "No disponible") {echo "vehicle-status-not-available";} else if ($fetch_vehicles_details['vehicle_state'] == "Rentado") {echo "vehicle-status-rent-active";} ?>">
                     <p><?php echo $fetch_vehicles_details['vehicle_state']; ?></p>
                 </div>
             </div>
@@ -281,7 +450,7 @@
                             <button class="delete-vehicle-btn">Eliminar</button>
                         </div>
                     </div>
-                    <button class="rent-car-btn" <?php if ($fetch_vehicles_details['vehicle_state'] == "No disponible") echo "disableb"; ?>>Rentar</button>
+                    <button class="rent-car-btn <?php if ($fetch_vehicles_details['vehicle_state'] == "No disponible") echo "disabled"; ?>" <?php if ($fetch_vehicles_details['vehicle_state'] == "No disponible") echo "disableb"; ?> btnaction="<?php if ($fetch_vehicles_details['vehicle_state'] == "Disponible") { echo "rent-car"; } else if ($fetch_vehicles_details['vehicle_state'] == "Rentado") { echo "return-car"; }; ?>"><?php if ($fetch_vehicles_details['vehicle_state'] == "Disponible" || $fetch_vehicles_details['vehicle_state'] == "No disponible") {echo "Rentar";} else if ($fetch_vehicles_details['vehicle_state'] == "Rentado") {echo "Devolver vehículo";} ?></button>
                 </div>
             </div>
         </div>

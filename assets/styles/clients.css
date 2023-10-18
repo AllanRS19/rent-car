@@ -58,8 +58,6 @@
 .overlay .form-container .form-container-body {
     width: 100%;
     padding: 30px 30px 20px 30px;
-    /* display: flex;
-    align-items: center; */
 }
 
 .overlay .form-container .form-container-body .input-container-wrapper:not(.client-image-url-wrapper) {

@@ -1337,4 +1337,116 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+
+    if (isset($_POST['rentVehicleAction'])) {
+
+        if ($_POST['rentVehicleAction'] == "create") {
+
+            if (isset($_POST['ralladuras']) && isset($_POST['roturaCristal']) && isset($_POST['gomaRepuesto']) && isset($_POST['gatoHidraulico']) && isset($_POST['nivelCombustible']) && isset($_POST['estado-gomas']) && isset($_POST['vehicle-identifier']) && isset($_POST['rent-identificator']) && isset($_POST['rent-vehicle']) && isset($_POST['rent-price']) && isset($_POST['rent-date']) && isset($_POST['rent-return-date']) && isset($_POST['rent-days']) && isset($_POST['rentClient']) && isset($_POST['rentEmployee']) && isset($_POST['rent-comment'])) {
+
+                $ralladuras = mysqli_real_escape_string($connection, $_POST['ralladuras']);
+                $roturaCristal = mysqli_real_escape_string($connection, $_POST['roturaCristal']);
+                $gomaRepuesto = mysqli_real_escape_string($connection, $_POST['gomaRepuesto']);
+                $gatoHidraulico = mysqli_real_escape_string($connection, $_POST['gatoHidraulico']);
+                $nivelCombustible = mysqli_real_escape_string($connection, $_POST['nivelCombustible']);
+                $estadoGomas = mysqli_real_escape_string($connection, $_POST['estado-gomas']);
+                $vehicleIdentifier = mysqli_real_escape_string($connection, $_POST['vehicle-identifier']);
+                $rentIdentifier = mysqli_real_escape_string($connection, $_POST['rent-identificator']);
+                $rentVehicle = mysqli_real_escape_string($connection, $_POST['rent-vehicle']);
+                $rentPrice = mysqli_real_escape_string($connection, $_POST['rent-price']);
+                $rentDate = mysqli_real_escape_string($connection, $_POST['rent-date']);
+                $rentReturnDate = mysqli_real_escape_string($connection, $_POST['rent-return-date']);
+                $rentDays = mysqli_real_escape_string($connection, $_POST['rent-days']);
+                $rentClient = mysqli_real_escape_string($connection, $_POST['rentClient']);
+                $rentEmployee = mysqli_real_escape_string($connection, $_POST['rentEmployee']);
+                $rentComment = mysqli_real_escape_string($connection, $_POST['rent-comment']);
+
+                // echo "Se recibio los siguientes datos: " . $ralladuras . ", " . $roturaCristal . ", " . $gomaRepuesto . ", " . $gatoHidraulico . ", " . $nivelCombustible . ", " . $estadoGomas . ", " . $vehicleIdentifier . ", " . $rentIdentifier . ", " . $rentVehicle . ", " . $rentPrice . ", " . $rentDate . ", " . $rentReturnDate . ", " . $rentDays . ", " . $rentClient . ", " . $rentEmployee . " y " . $rentComment;
+
+                $check_existing_active_rent = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_vehicle_identifier = '$vehicleIdentifier' AND rent_state = 'Rentado'");
+
+                if (mysqli_num_rows($check_existing_active_rent) > 0) {
+                    echo "Este vehículo se encuentra rentado actualmente";
+                    return;
+                }
+
+                $insertInspectForm = mysqli_query($connection, "INSERT INTO inspeccion (inspect_rent_id, inspect_ralladura, inspect_roturas_cristal, inspect_goma_repuesto, inspect_gato_hidraulico, inspect_nivel_combustible, inspect_estado_gomas) VALUES ('$rentIdentifier', '$ralladuras', '$roturaCristal', '$gomaRepuesto', '$gatoHidraulico', '$nivelCombustible', '$estadoGomas')");
+
+                if ($insertInspectForm) {
+
+                    $insert_rent_form = mysqli_query($connection, "INSERT INTO rentas (rent_unique_id, rent_vehicle_identifier, rent_vehicle_name, rent_price, rent_date, rent_return_date, rent_days, rent_client, rent_employee, rent_comment, rent_state) VALUES ('$rentIdentifier', '$vehicleIdentifier', '$rentVehicle', '$rentPrice', '$rentDate', '$rentReturnDate', '$rentDays', '$rentClient', '$rentEmployee', '$rentComment', 'Rentado')");
+
+                    if ($insert_rent_form) {
+                        
+                        $update_vehicle_state = mysqli_query($connection, "UPDATE vehiculos SET vehicle_state = 'Rentado' WHERE vehicle_unique_id = '$vehicleIdentifier'");
+
+                        if ($update_vehicle_state) {
+                            echo "rent_success";
+                        } else {
+                            echo "Hubo un error al rentar el vehiculo";
+                        }
+
+                    } else {
+                        echo "Hubo un error al rental el vehiculo";
+                    }
+
+                } else {
+                    echo "Hubo un error insertando el formulario de inspección";
+                }
+
+            }
+
+        }
+
+        if ($_POST['rentVehicleAction'] == "getCar") {
+            
+            if (isset($_POST['returnedCarId'])) {
+
+                $returnedCarId = mysqli_real_escape_string($connection, $_POST['returnedCarId']);
+
+                $get_rent_registry = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_vehicle_identifier = '$returnedCarId'");
+
+                if (mysqli_num_rows($get_rent_registry) > 0) {
+
+                    $fetch_rent_details = mysqli_fetch_array($get_rent_registry);
+
+                    $get_inspection_details = mysqli_query($connection, "SELECT * FROM inspeccion WHERE inspect_rent_id = '". $fetch_rent_details['rent_unique_id'] ."'");
+
+                    if (mysqli_num_rows($get_inspection_details) > 0) {
+
+                        $fetch_inspection_details = mysqli_fetch_array($get_inspection_details);
+
+                        $inspection_array = array(
+                            "inspect_rent_id" => $fetch_inspection_details['inspect_rent_id'],
+                            "inspect_ralladura" => $fetch_inspection_details['inspect_ralladura'],
+                            "inspect_roturas_cristal" => $fetch_inspection_details['inspect_roturas_cristal'],
+                            "inspect_goma_repuesto" => $fetch_inspection_details['inspect_goma_repuesto'],
+                            "inspect_gato_hidraulico" => $fetch_inspection_details['inspect_gato_hidraulico'],
+                            "inspect_nivel_combustible" => $fetch_inspection_details['inspect_nivel_combustible'],
+                            "inspect_estado_gomas" => $fetch_inspection_details['inspect_estado_gomas'],
+                            "rent_vehicle_name" => $fetch_rent_details['rent_vehicle_name'],
+                            "rent_price" => $fetch_rent_details['rent_price'],
+                            "rent_date" => $fetch_rent_details['rent_date'],
+                            "rent_return_date" => $fetch_rent_details['rent_return_date'],
+                            "rent_days" => $fetch_rent_details['rent_days'],
+                            "rent_client" => $fetch_rent_details['rent_client'],
+                            "rent_employee" => $fetch_rent_details['rent_employee'],
+                            "rent_comment" => $fetch_rent_details['rent_comment']
+                        );
+
+                        $inspection_array_res = json_encode($inspection_array);
+                        echo $inspection_array_res;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    } else {
+        echo "No se recibio action";
+    }
+
 }

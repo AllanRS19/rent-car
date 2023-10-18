@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
 }
@@ -226,6 +227,290 @@ html, body {
     }
 }
 
+/* Rent Form Design */
+.rent-form-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: .4s;
+}
+
+.rent-form-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.close-rent-overlay-btn {
+    position: absolute;
+    top: 30px;
+    right: 80px;
+    font-size: 36px;
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.rent-form-container {
+    width: 820px;
+    background: #fff;
+    border-radius: 5px;
+    text-align: center;
+    padding: 15px 35px 0px 35px;
+}
+
+.rent-form-container header {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 30px 0;
+    position: relative;
+}
+
+.rent-form-container .progress-bar {
+    display: flex;
+    margin: 40px 0;
+}
+
+.rent-form-container .progress-bar .step {
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.rent-form-container .progress-bar .step p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.rent-form-container .progress-bar .step p.active {
+    color: #2892d4;
+}
+
+.rent-form-container .progress-bar .step .bullet {
+    position: relative;
+    height: 35px;
+    width: 35px;
+    border: 2px solid #000;
+    display: inline-block;
+    border-radius: 50%;
+    transition: .2s;
+}
+
+.rent-form-container .progress-bar .step .bullet.active {
+    border-color: #2892d4;
+    background: #2892d4;
+}
+
+.rent-form-container .progress-bar .step:last-child .bullet::before,
+.rent-form-container .progress-bar .step:last-child .bullet::after {
+    display: none;
+}
+
+.rent-form-container .progress-bar .step .bullet::before,
+.rent-form-container .progress-bar .step .bullet::after {
+    position: absolute;
+    content: '';
+    bottom: 11px;
+    right: -330px;
+    height: 3px;
+    width: 315px;
+    background: #262626;
+}
+
+.rent-form-container .progress-bar .step .bullet.active::after {
+    background: #2892d4;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: fill-bar .8s linear forwards;
+}
+
+@keyframes fill-bar {
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+.rent-form-container .progress-bar .step .bullet span {
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 32px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.rent-form-container .progress-bar .step .bullet.active span {
+    display: none;
+}
+
+.rent-form-container .progress-bar .step .check {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    font-size: 25px;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.rent-form-container .progress-bar .step .check.active {
+    display: block;
+    color: #fff;
+}
+
+.rent-form-container .form-outer {
+    width: 100%;
+    overflow: hidden;
+}
+
+.form-outer form {
+    display: flex;
+    width: 400%;
+}
+
+.form-outer form .page {
+    width: 25%;
+    transition: margin-left .3s ease-in-out;
+}
+
+.form-outer form .page .title {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.form-outer form .page .vehicle-info {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-outer form .page .vehicle-info img {
+    width: 50%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.form-outer form .page .fields-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+}
+
+.form-outer form .page .fields-wrapper.twice {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: 30px;
+}
+
+.form-outer form .page .fields-wrapper.triple {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(20px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.form-outer form .page .fields-wrapper.triple .field input,
+.form-outer form .page .field.single-input input,
+.form-outer form .page .fields-wrapper select {
+    width: 100%;
+    padding: 20px 10px;
+    border: 1px solid #88929b;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+}
+
+.form-outer form .page .field {
+    height: 25px;
+    width: 100%;
+    margin: 25px 0;
+    position: relative;
+    display: flex;
+}
+
+.form-outer form .page .field.next-btn,
+.form-outer form .page .field.btns {
+    height: 45px;
+}
+
+.form-outer form .page .field .label {
+    position: absolute;
+    top: -30px;
+    font-weight: 500;
+    font-size: 16px;
+    display: block;
+}
+
+.form-outer form .page .field input[type=checkbox] {
+    width: 100%;
+    height: 100%;
+    font-size: 15px;
+    margin-right: 40px;
+}
+
+.form-outer form .page .fields-wrapper.twice input,
+.form-outer form .page .fields-wrapper.twice select {
+    width: 100%;
+    height: 45px;
+    padding: 6px;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-outer form .page .fields-wrapper.twice {
+    margin-bottom: 50px;
+}
+
+.form-outer form .page .fields-wrapper.twice select {
+    padding: 1px;
+    height: 45px;
+}
+
+.form-outer form .page .field button {
+    width: 100%;
+    height: 100%;
+    /* margin-top: -20px; */
+    border: none;
+    background: #2892d4;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.form-outer form .page .field button:hover {
+    background: #3d58cd;
+}
+
+.form-outer form .page .field .btns button {
+    margin-top: -20px !important;
+}
+
+.form-outer form .page .btns button.prev {
+    margin-right: 3px;
+}
+
+.form-outer form .page .btns button.submit {
+    margin-left: 3px;
+}
+
 /* B3BBCA */
 
 /* ----------------------------------------- */
@@ -261,6 +546,10 @@ main .info-data .card.vehicle-card-container {
     justify-content: space-between;
 }
 
+.vehicle-card-container-top .vehicle-card-top-left h2 {
+    font-size: 18px;
+}
+
 .vehicle-card-container-top .vehicle-card-top-right {
     padding: 12px;
     border-radius: 8px;
@@ -274,6 +563,11 @@ main .info-data .card.vehicle-card-container {
 .vehicle-card-container-top .vehicle-card-top-right.vehicle-status-not-available {
     background: #ffbcbc;
     color: #b64949;
+}
+
+.vehicle-card-container-top .vehicle-card-top-right.vehicle-status-rent-active {
+    background: #ffd6bc;
+    color: #b67c49;
 }
 
 .vehicle-card-container .vehicle-card-container-img {
@@ -375,7 +669,12 @@ main .info-data .card.vehicle-card-container {
     transition: .3s;
 }
 
-.btn-actions-wrapper .rent-car-btn:hover {
+.btn-actions-wrapper .rent-car-btn.disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+.btn-actions-wrapper .rent-car-btn:not(.disabled):hover {
     background: #2892d4;
 }
 
@@ -385,4 +684,25 @@ hr.rental-divider {
     height: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.field-disabled {
+    background: #f1f1f1;
+}
+
+.rent-form-message-container {
+    width: 100%;
+    padding: 12px;
+    color: #c44747;
+    background: #f8e1e1;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    border-radius: 6px;
+    font-size: 20px;
+    display: none;
+}
+
+.rent-form-message-container.active {
+    display: block;
 }
