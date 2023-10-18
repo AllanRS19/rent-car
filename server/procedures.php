@@ -1374,7 +1374,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 if ($insertInspectForm) {
 
-                    $insert_rent_form = mysqli_query($connection, "INSERT INTO rentas (rent_unique_id, rent_vehicle_identifier, rent_vehicle_name, rent_price, rent_date, rent_return_date, rent_days, rent_client, rent_employee, rent_comment, rent_state) VALUES ('$rentIdentifier', '$vehicleIdentifier', '$rentVehicle', '$rentPrice', '$rentDate', '$rentReturnDate', '$rentDays', '$rentClient', '$rentEmployee', '$rentComment', 'Rentado')");
+                    $insert_rent_form = mysqli_query($connection, "INSERT INTO rentas (rent_unique_id, rent_vehicle_identifier, rent_vehicle_name, rent_price, rent_date, rent_return_date, rent_days, rent_client, rent_employee, rent_comment, rent_state) VALUES ('$rentIdentifier', '$vehicleIdentifier', '$rentVehicle', '$rentPrice', '$rentDate', '$rentReturnDate', '$rentDays', '$rentClient', '$rentEmployee', '$rentComment', 'Activo')");
 
                     if ($insert_rent_form) {
                         
@@ -1404,7 +1404,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 $returnedCarId = mysqli_real_escape_string($connection, $_POST['returnedCarId']);
 
-                $get_rent_registry = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_vehicle_identifier = '$returnedCarId'");
+                $get_rent_registry = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_vehicle_identifier = '$returnedCarId' AND rent_state = 'Activo'");
 
                 if (mysqli_num_rows($get_rent_registry) > 0) {
 
@@ -1445,8 +1445,40 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         }
 
-    } else {
-        echo "No se recibio action";
+        if ($_POST['rentVehicleAction'] == "returncar") {
+
+            if (isset($_POST['vehicleToReturnId']) && isset($_POST['rentIdentifier'])) {
+
+                $vehicleToReturnId = $_POST['vehicleToReturnId'];
+                $rentIdentifier = $_POST['rentIdentifier'];
+
+                $get_rent_to_return = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_unique_id = '$rentIdentifier'");
+
+                if (mysqli_num_rows($get_rent_to_return) > 0) {
+
+                    $update_rent_state = mysqli_query($connection, "UPDATE rentas SET rent_state = 'Inactivo' WHERE rent_unique_id = '$rentIdentifier'");
+
+                    if ($update_rent_state) {
+                        $update_vehicle_state = mysqli_query($connection, "UPDATE vehiculos SET vehicle_state = 'Disponible' WHERE vehicle_unique_id = '$vehicleToReturnId'");
+
+                        if ($update_vehicle_state) {
+                            echo "return_success";
+                        } else {
+                            echo "Ocurrió un error al actualizar el estado del vehículo";
+                        }
+
+                    } else {
+                        echo "Ocurrió un error finalizando la renta";
+                    }
+
+                } else {
+                    echo "No se pudo encontrar la renta";
+                }
+
+            }
+
+        }
+
     }
 
 }

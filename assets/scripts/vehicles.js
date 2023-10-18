@@ -122,7 +122,12 @@ closeOverlayIcon.addEventListener('click', () => {
 closeRentFormOverlay.addEventListener('click', () => {
     rentForm.reset();
     rentForm.querySelector('.vehicle-identifier').value = "";
+    rentFormMessageContainer.classList.remove('active');
+    rentFormMessageContainerText.textContent = "";
     rentFormOverlay.classList.remove('active');
+    rentFormSubmit.textContent = "Rentar vehículo";
+    rentFormSubmit.setAttribute('rentformaction', "rent");
+    prevBtnSec.click();
 });
 
 selectPreviewImage.addEventListener('click', function () {
@@ -728,7 +733,7 @@ function handleCarRequest(rentBtn) {
                         }
 
                         for (let cont = 0; cont < rentForm.querySelector('select.rent-employee').options.length; cont++) {
-                            if (rentForm.querySelector('select.rent-employee').options[cont].text == parsedResponse.rent_client) {
+                            if (rentForm.querySelector('select.rent-employee').options[cont].text == parsedResponse.rent_employee) {
                                 rentForm.querySelector('select.rent-employee').options[cont].selected = true;
                                 break;
                             }
@@ -822,7 +827,7 @@ function rentFormAction() {
                             currentVehicle.querySelector('.vehicle-card-top-right').classList.remove('vehicle-status-available');
                             currentVehicle.querySelector('.vehicle-card-top-right').classList.add('vehicle-status-rent-active');
                             currentVehicle.querySelector('.vehicle-card-top-right p').textContent = "Rentado";
-                            prevBtnSec.click();
+                            // prevBtnSec.click();
                             closeRentFormOverlay.click();
                         } else {
                             rentFormMessageContainer.classList.add('active');
@@ -848,7 +853,35 @@ function rentFormAction() {
         }
 
     } else if (rentFormAction == "return") {
-        console.log('Se esta devolviendo el vehiculo');
+        
+        const rentId = rentForm.querySelector('.rent-identificator');
+        const rentCarId = rentForm.querySelector('.vehicle-identifier');
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "../server/procedures.php", true);
+        xhr.onload = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const serverResponse = xhr.response;
+                    if (serverResponse == "return_success") {
+                        const currentVehicle = document.getElementById(rentCarId.value);
+                        currentVehicle.querySelector('.rent-car-btn').setAttribute('btnaction', "rent-car");
+                        currentVehicle.querySelector('.rent-car-btn').textContent = "Rentar vehículo";
+                        currentVehicle.querySelector('.vehicle-card-top-right').classList.remove('vehicle-status-rent-active');
+                        currentVehicle.querySelector('.vehicle-card-top-right').classList.add('vehicle-status-available');
+                        currentVehicle.querySelector('.vehicle-card-top-right p').textContent = "Disponible";
+                        // prevBtnSec.click();
+                        closeRentFormOverlay.click();
+                    } else {
+                        rentFormMessageContainer.classList.add('active');
+                        rentFormMessageContainerText.textContent = serverResponse;
+                    }
+                }
+            }
+        }
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("rentVehicleAction=returncar" + "&vehicleToReturnId=" + rentCarId.value + "&rentIdentifier=" + rentId.value);
+
     }
 
 };
