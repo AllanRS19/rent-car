@@ -1005,7 +1005,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
-
     if (isset($_POST['vehicleFormAction'])) {
 
         if ($_POST['vehicleFormAction'] == "filter") {
@@ -1475,6 +1474,306 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     echo "No se pudo encontrar la renta";
                 }
 
+            }
+
+        }
+
+    }
+
+    if (isset($_POST['rentReportAction'])) {
+
+        if ($_POST['rentReportAction'] == "delete") {
+            if (isset($_POST['rent_id_to_delete'])) {
+
+                $rent_id = mysqli_real_escape_string($connection, $_POST['rent_id_to_delete']);
+
+                $find_rent_id = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_unique_id = '$rent_id'");
+
+                if (mysqli_num_rows($find_rent_id) > 0) {
+
+                    $delete_rent = mysqli_query($connection, "DELETE FROM rentas WHERE rent_unique_id = '$rent_id'");
+
+                    if ($delete_rent) {
+                        echo "rent_deleted";
+                    } else {
+                        echo "Hubo un error eliminando el registro";
+                    }
+                } else {
+                    echo "No se pudo encontrar el registro a eliminar";
+                }
+            }
+        }
+
+        if ($_POST['rentReportAction'] == "retreiveAll") {
+            $get_rents = mysqli_query($connection, "SELECT * FROM rentas");
+            $output = "";
+            if (mysqli_num_rows($get_rents) > 0) {
+                while ($fetch_rents_details = mysqli_fetch_array($get_rents)) {
+                    $output .= '
+                    <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                    <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</td>
+                    <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                    <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                    <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                    <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                    <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                    <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                    <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                    <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                    <td>
+                        <div class="user-actions">
+                            <button class="delete-btn action-btn">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                    ';
+                }
+                echo $output;
+            }
+        }
+
+        if ($_POST['rentReportAction'] == "filterText") {
+            if (isset($_POST['rentSearchTerm'])) {
+                $rentSearchTerm = $_POST['rentSearchTerm'];
+                $get_rents = mysqli_query($connection, "SELECT * FROM rentas WHERE (rent_unique_id LIKE '%$rentSearchTerm%') OR (rent_vehicle_name LIKE '%$rentSearchTerm%') OR (rent_price LIKE '%$rentSearchTerm%') OR (rent_date LIKE '%$rentSearchTerm%') OR (rent_return_date LIKE '%$rentSearchTerm%') OR (rent_days LIKE '%$rentSearchTerm%') OR (rent_client LIKE '%$rentSearchTerm%') OR (rent_employee LIKE '%$rentSearchTerm%') OR (rent_state LIKE '%$rentSearchTerm%')");
+                $output = "";
+                if (mysqli_num_rows($get_rents) > 0) {
+                    while ($fetch_rents_details = mysqli_fetch_array($get_rents)) {
+                        $output .= '
+                        <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                        <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</span>
+                        </td>
+                        <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                        <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                        <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                        <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                        <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                        <td>
+                            <div class="user-actions">
+                                <button class="delete-btn action-btn">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                        ';
+                    }
+                    echo $output;
+                }
+            }
+        }
+
+        if ($_POST['rentReportAction'] == "filterManual") {
+
+            if ($_POST['from-date'] == "" && $_POST['to-date'] == "" && $_POST['client-filter'] == "" && $_POST['employee-filter'] == "" && $_POST['vehicle-filter'] == "" && $_POST['state-filter'] == "") {
+                $get_rents = mysqli_query($connection, "SELECT * FROM rentas");
+                $output = "";
+                if (mysqli_num_rows($get_rents) > 0) {
+                    while ($fetch_rents_details = mysqli_fetch_array($get_rents)) {
+                        $output .= '
+                        <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                        <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</td>
+                        <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                        <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                        <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                        <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                        <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                        <td>
+                            <div class="user-actions">
+                                <button class="delete-btn action-btn">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                        ';
+                    }
+                    echo $output;
+                }
+            }
+
+            if ($_POST['from-date'] != "" && $_POST['to-date'] != "") {
+                $fromDate = $_POST['from-date'];
+                $toDate = $_POST['to-date'];
+                $getTimeframe = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_date BETWEEN '$fromDate' AND '$toDate'");
+                $output = "";
+                if (mysqli_num_rows($getTimeframe) > 0) {
+                    while ($fetch_rents_details = mysqli_fetch_array($getTimeframe)) {
+                        $output .= '
+                        <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                        <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</td>
+                        <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                        <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                        <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                        <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                        <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                        <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                        <td>
+                            <div class="user-actions">
+                                <button class="delete-btn action-btn">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                        ';
+                    }
+                    echo $output;
+                } else {
+                    echo "no_match";
+                }
+            }
+
+            if ($_POST['client-filter'] != "") {
+
+                $clientFilter = $_POST['client-filter'];
+                $get_filter = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_client = '$clientFilter'");
+                $output = "";
+
+                if (mysqli_num_rows($get_filter) > 0) {
+
+                    while ($fetch_rents_details = mysqli_fetch_array($get_filter)) {
+                        $output .= '
+                        <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                            <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</td>
+                            <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                            <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                            <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                            <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                            <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                            <td>
+                                <div class="user-actions">
+                                    <button class="delete-btn action-btn">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        ';
+                    }
+                    echo $output;
+                } else {
+                    echo "no_match";
+                }
+
+            }
+
+            if ($_POST['employee-filter'] != "") {
+                $employeeFilter = $_POST['employee-filter'];
+                $get_filter = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_employee = '$employeeFilter'");
+                $output = "";
+
+                if (mysqli_num_rows($get_filter) > 0) {
+
+                    while ($fetch_rents_details = mysqli_fetch_array($get_filter)) {
+                        $output .= '
+                        <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                            <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</td>
+                            <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                            <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                            <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                            <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                            <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                            <td>
+                                <div class="user-actions">
+                                    <button class="delete-btn action-btn">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        ';
+                    }
+                    echo $output;
+                } else {
+                    echo "no_match";
+                }
+            }
+
+            if ($_POST['vehicle-filter'] != "") {
+                $vehicleFilter = $_POST['vehicle-filter'];
+                $get_filter = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_vehicle_name = '$vehicleFilter'");
+                $output = "";
+
+                if (mysqli_num_rows($get_filter) > 0) {
+
+                    while ($fetch_rents_details = mysqli_fetch_array($get_filter)) {
+                        $output .= '
+                        <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                            <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</td>
+                            <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                            <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                            <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                            <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                            <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                            <td>
+                                <div class="user-actions">
+                                    <button class="delete-btn action-btn">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        ';
+                    }
+                    echo $output;
+                } else {
+                    echo "no_match";
+                }
+            }
+
+            if ($_POST['state-filter'] != "") {
+                $stateFilter = $_POST['state-filter'];
+                $get_filter = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_state = '$stateFilter'");
+                $output = "";
+
+                if (mysqli_num_rows($get_filter) > 0) {
+
+                    while ($fetch_rents_details = mysqli_fetch_array($get_filter)) {
+                        $output .= '
+                        <tr id="'.$fetch_rents_details['rent_unique_id'].'">
+                            <td class="rental-customer-img">'.$fetch_rents_details['rent_unique_id'].'</td>
+                            <td class="client-id-data">'.$fetch_rents_details['rent_vehicle_name'].'</td>
+                            <td class="client-cc-data">'.$fetch_rents_details['rent_client'].'</td>
+                            <td class="client-cl-data">'.$fetch_rents_details['rent_employee'].'</td>
+                            <td class="client-type-data">'.$fetch_rents_details['rent_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_return_date'].'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_days'].'</td>
+                            <td class="client-state-data">'.($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']).'</td>
+                            <td class="client-state-data">'.$fetch_rents_details['rent_state'].'</td>
+                            <td>
+                                <div class="user-actions">
+                                    <button class="delete-btn action-btn">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        ';
+                    }
+                    echo $output;
+                } else {
+                    echo "no_match";
+                }
             }
 
         }

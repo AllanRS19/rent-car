@@ -1,0 +1,42 @@
+.employees-container {
+    width: 100%;
+}
+
+.employees-container .employee {
+    width: 100%;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.employees-container .employee .employee-name-image {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.employees-container .employee .employee-name-image img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.employees-container .employee .employee-info span {
+    color: #a8a8a8;
+    font-size: .9em;
+}
+
+.employees-container .employee .employee-rent-count {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+}

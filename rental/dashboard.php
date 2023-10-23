@@ -18,6 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../assets/styles/global.css">
+    <link rel="stylesheet" href="../assets/styles/dashboard.css">
     <title>Car Rental - Tablero</title>
 </head>
 
@@ -30,6 +31,7 @@
             $get_clients = mysqli_query($connection, "SELECT * FROM clientes");
             $get_employees = mysqli_query($connection, "SELECT * FROM empleados");
             $get_vehicles = mysqli_query($connection, "SELECT * FROM vehiculos");
+            $get_total_income = mysqli_query($connection, "SELECT SUM(rent_price * rent_days) as total_income FROM rentas");
         
         ?>
 
@@ -105,7 +107,18 @@
                     <i class='bx bx-money money-icon'></i>
                     <div class="card-info">
                         <span class="card-title">Ganancias generadas</span>
-                        <p class="card-data">DOP 32,456.65</p>
+                        <p class="card-data">
+                            DOP <?php
+                            
+                                if (mysqli_num_rows($get_total_income) > 0) {
+                                    $fetch_total_income = mysqli_fetch_array($get_total_income);
+                                    $number = (float) $fetch_total_income['total_income'];
+                                    $formattedNumber = number_format($number, 0, ',', ',');
+                                    echo $formattedNumber;
+                                }
+                            
+                            ?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -174,7 +187,42 @@
                     </table>
                 </div>
                 <div class="content-data right-side">
+                    <h3>Empleados destacados</h3>
+                    <div class="employees-container">
+                    <?php 
 
+                        $get_outstanding_employees = mysqli_query($connection, "SELECT * FROM empleados LEFT JOIN rentas ON rentas.rent_employee = empleados.employee_name GROUP BY employee_name");
+
+                        if (mysqli_num_rows($get_outstanding_employees) > 0) {
+
+                            while ($fetch_outstanding_employees = mysqli_fetch_array($get_outstanding_employees)) {
+                    
+                    ?>
+                        <div class="employee">
+                            <div class="employee-name-image">
+                                <img src="<?php echo $fetch_outstanding_employees['employee_image_url']; ?>" alt="">
+                                <div class="employee-info">
+                                    <h4><?php echo $fetch_outstanding_employees['employee_name']; ?></h4>
+                                    <span>Antigüedad: <?php echo $fetch_outstanding_employees['employee_join_date']; ?></span>
+                                </div>
+                            </div>
+                            <div class="employee-rent-count">
+                                <span>
+                                    <?php 
+                                        $get_specific_employee = mysqli_query($connection, "SELECT * FROM rentas WHERE rent_employee = '". $fetch_outstanding_employees['employee_name'] ."'");
+                                        echo mysqli_num_rows($get_specific_employee);
+                                    ?>
+                                </span>
+                            </div>
+                        </div>
+                    <?php
+                    
+                            }
+
+                        }
+                    
+                    ?>
+                    </div>
                 </div>
             </div>
         </main>

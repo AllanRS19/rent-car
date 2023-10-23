@@ -231,7 +231,7 @@
                     <div class="page slide-page">
                         <!-- <div class="title">Inspección vehículo</div> -->
                         <div class="vehicle-info">
-                            <img src="../assets/imgs/uploads/vehicles/vehicle_6525fcf690a605.39267684.jpg" alt="">
+                            <img src="" alt="">
                             <!-- <h3>Honda Accord 2023</h3> -->
                         </div>
                         <div class="fields-wrapper">
@@ -308,7 +308,7 @@
                                 <select name="rent-client" class="rent-client">
                                     <?php 
                                         
-                                        $get_clients = mysqli_query($connection, "SELECT client_name FROM clientes");
+                                        $get_clients = mysqli_query($connection, "SELECT client_name FROM clientes WHERE client_state = 'Activo'");
 
                                         if (mysqli_num_rows($get_clients) > 0) {
 
@@ -332,7 +332,7 @@
                                 <select name="rent-employee" class="rent-employee">
                                     <?php 
                                     
-                                        $get_employees = mysqli_query($connection, "SELECT employee_name FROM empleados");
+                                        $get_employees = mysqli_query($connection, "SELECT employee_name FROM empleados WHERE employee_state = 'Activo'");
 
                                         if (mysqli_num_rows($get_employees) > 0) {
 

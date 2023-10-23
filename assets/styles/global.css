@@ -609,7 +609,7 @@ main .data {
     flex-wrap: wrap;
 }
 
-main .data .content-data {
+main .data .content-data:not(.clients-content-data) {
     /* flex-grow: 1; */
     flex-basis: 400px;
     padding: 20px;

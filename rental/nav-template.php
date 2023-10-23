@@ -7,8 +7,8 @@
 
 ?>
 
-<section id="sidebar">
-    <a href="#" class="brand"><i class='bx bxs-car icon'></i> Rental Car</a>
+<section id="sidebar" <?php if ($currentPage == "rents-report") echo "class='hide'"; ?>>
+    <a href="#" class="brand"><i class='bx bxs-car icon'></i> Rent Car</a>
     <ul class="side-menu">
         <li><a href="<?php if ($currentPage == "dashboard") { echo "#"; } else { echo "./dashboard.php"; }; ?>"<?php if ($currentPage == "dashboard") echo "class='active'"; ?>><i class='bx bxs-dashboard icon'></i> Tablero</a></li>
         <li class="divider" data-text="Principal">Principal</li>
@@ -34,7 +34,7 @@
             <a href="<?php if ($currentPage == "employees") { echo "#"; } else { echo "./employees.php"; } ?>" <?php if ($currentPage == "employees") echo "class='active'"; ?>><i class='bx bxs-user-voice icon'></i> Empleados</a>
         </li>
         <li>
-            <a href="#"><i class='bx bxs-notepad icon'></i> Rentas</a>
+            <a href="<?php if ($currentPage == "rents-report") { echo "#"; } else { echo "./rents-report.php"; } ?>" <?php if ($currentPage == "rents-report") echo "class='active'"; ?>><i class='bx bxs-notepad icon'></i> Rentas</a>
         </li>
     </ul>
     <!-- <div class="ads">

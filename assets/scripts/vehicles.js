@@ -225,7 +225,7 @@ rentReturnDate.addEventListener('change', function () {
                 rentFormMessageContainer.classList.remove('active');
                 rentFormMessageContainerText.textContent = '';
                 rentDateComparison = true;
-                rentForm.querySelector('.rent-days').value = (new Date(rentReturnDate.value).getDate() - new Date(rentDate.value).getDate());
+                rentForm.querySelector('.rent-days').value = (new Date(rentDate.value).getDate() - new Date(rentReturnDate.value).getDate());
             }
         }
     } else {
