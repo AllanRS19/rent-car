@@ -1,12 +1,11 @@
 <?php
 
-    session_start();
+session_start();
 
-    if (!isset($_SESSION['user_ident']) && $_SESSION['user_ident'] == "") {
+if (!isset($_SESSION['user_ident']) && $_SESSION['user_ident'] == "") {
 
-        header("location: ../auth.php");
-        
-    }
+    header("location: ../auth.php");
+}
 
 ?>
 
@@ -17,6 +16,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
     <link rel="stylesheet" href="../assets/styles/global.css">
     <link rel="stylesheet" href="../assets/styles/rents-report.css">
     <title>Car Rental - Reporte de Rentas</title>
@@ -134,22 +135,21 @@
                                         <label>Cliente</label>
                                         <select name="client-filter">
                                             <option value="">Seleccione una opción...</option>
-                                            <?php 
-                                            
-                                                $get_clients = mysqli_query($connection, "SELECT client_name FROM clientes");
-                                                
-                                                if (mysqli_num_rows($get_clients) > 0) {
-                                                    while ($fetch_clients_names = mysqli_fetch_array($get_clients)) {
+                                            <?php
 
-                                            
+                                            $get_clients = mysqli_query($connection, "SELECT client_name FROM clientes");
+
+                                            if (mysqli_num_rows($get_clients) > 0) {
+                                                while ($fetch_clients_names = mysqli_fetch_array($get_clients)) {
+
+
                                             ?>
-                                            <option value="<?php echo $fetch_clients_names['client_name']; ?>"><?php echo $fetch_clients_names['client_name']; ?></option>
-                                            <?php 
-                                            
-                                                    }
+                                                    <option value="<?php echo $fetch_clients_names['client_name']; ?>"><?php echo $fetch_clients_names['client_name']; ?></option>
+                                            <?php
 
                                                 }
-                                            
+                                            }
+
                                             ?>
                                         </select>
                                     </div>
@@ -157,22 +157,21 @@
                                         <label>Empleado</label>
                                         <select name="employee-filter">
                                             <option value="">Seleccione una opción...</option>
-                                            <?php 
-                                            
-                                                $get_employees = mysqli_query($connection, "SELECT employee_name FROM empleados");
-                                                
-                                                if (mysqli_num_rows($get_employees) > 0) {
-                                                    while ($fetch_employees_names = mysqli_fetch_array($get_employees)) {
+                                            <?php
 
-                                            
+                                            $get_employees = mysqli_query($connection, "SELECT employee_name FROM empleados");
+
+                                            if (mysqli_num_rows($get_employees) > 0) {
+                                                while ($fetch_employees_names = mysqli_fetch_array($get_employees)) {
+
+
                                             ?>
-                                            <option value="<?php echo $fetch_employees_names['employee_name']; ?>"><?php echo $fetch_employees_names['employee_name']; ?></option>
-                                            <?php 
-                                            
-                                                    }
+                                                    <option value="<?php echo $fetch_employees_names['employee_name']; ?>"><?php echo $fetch_employees_names['employee_name']; ?></option>
+                                            <?php
 
                                                 }
-                                            
+                                            }
+
                                             ?>
                                         </select>
                                     </div>
@@ -182,22 +181,21 @@
                                         <label>Vehículo</label>
                                         <select name="vehicle-filter">
                                             <option value="">Seleccione una opción...</option>
-                                            <?php 
-                                            
-                                                $get_vehicles = mysqli_query($connection, "SELECT vehicle_brand, vehicle_model, vehicle_year FROM vehiculos");
-                                                
-                                                if (mysqli_num_rows($get_vehicles) > 0) {
-                                                    while ($fetch_vehicles_names = mysqli_fetch_array($get_vehicles)) {
+                                            <?php
 
-                                            
+                                            $get_vehicles = mysqli_query($connection, "SELECT vehicle_brand, vehicle_model, vehicle_year FROM vehiculos");
+
+                                            if (mysqli_num_rows($get_vehicles) > 0) {
+                                                while ($fetch_vehicles_names = mysqli_fetch_array($get_vehicles)) {
+
+
                                             ?>
-                                            <option value="<?php echo $fetch_vehicles_names['vehicle_brand'] . " " . $fetch_vehicles_names['vehicle_model'] . " " . $fetch_vehicles_names['vehicle_year']; ?>"><?php echo $fetch_vehicles_names['vehicle_brand'] . " " . $fetch_vehicles_names['vehicle_model'] . " " . $fetch_vehicles_names['vehicle_year']; ?></option>
-                                            <?php 
-                                            
-                                                    }
+                                                    <option value="<?php echo $fetch_vehicles_names['vehicle_brand'] . " " . $fetch_vehicles_names['vehicle_model'] . " " . $fetch_vehicles_names['vehicle_year']; ?>"><?php echo $fetch_vehicles_names['vehicle_brand'] . " " . $fetch_vehicles_names['vehicle_model'] . " " . $fetch_vehicles_names['vehicle_year']; ?></option>
+                                            <?php
 
                                                 }
-                                            
+                                            }
+
                                             ?>
                                         </select>
                                     </div>
@@ -219,7 +217,7 @@
                                     <span>Generar PDF</span>
                                 </div>
                                 <div class="generate-excel-option">
-                                    <i class='bx bxs-file' ></i>
+                                    <i class='bx bxs-file'></i>
                                     <span>Generar Excel</span>
                                 </div>
                             </div>
@@ -250,41 +248,40 @@
                         </tr>
                     </thead>
                     <tbody class="table-body-content">
-                        <?php 
-                        
-                            $get_rents = mysqli_query($connection, "SELECT * FROM rentas");
+                        <?php
 
-                            if (mysqli_num_rows($get_rents) > 0) {
+                        $get_rents = mysqli_query($connection, "SELECT * FROM rentas");
 
-                                while ($fetch_rents_details = mysqli_fetch_array($get_rents)) {
-                        
+                        if (mysqli_num_rows($get_rents) > 0) {
+
+                            while ($fetch_rents_details = mysqli_fetch_array($get_rents)) {
+
                         ?>
 
-                        <tr id="<?php echo $fetch_rents_details['rent_unique_id']; ?>">
-                            <td class="rental-customer-img"><?php echo $fetch_rents_details['rent_unique_id'];?></td>
-                            <td class="client-id-data"><?php echo $fetch_rents_details['rent_vehicle_name']; ?></td>
-                            <td class="client-cc-data"><?php echo $fetch_rents_details['rent_client']; ?></td>
-                            <td class="client-cl-data"><?php echo $fetch_rents_details['rent_employee']; ?></td>
-                            <td class="client-type-data"><?php echo $fetch_rents_details['rent_date']; ?></td>
-                            <td class="client-state-data"><?php echo $fetch_rents_details['rent_return_date']; ?><!-- <p class="status</p> --></td>
-                            <td class="client-state-data"><?php echo $fetch_rents_details['rent_days']; ?></td>
-                            <td class="client-state-data"><?php echo ($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']); ?></td>
-                            <td class="client-state-data"><?php echo $fetch_rents_details['rent_state']; ?></td>
-                            <td>
-                                <div class="user-actions">
-                                    <button class="delete-btn action-btn">
-                                        <i class='bx bx-trash'></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                <tr id="<?php echo $fetch_rents_details['rent_unique_id']; ?>">
+                                    <td class="rental-customer-img"><?php echo $fetch_rents_details['rent_unique_id']; ?></td>
+                                    <td class="client-id-data"><?php echo $fetch_rents_details['rent_vehicle_name']; ?></td>
+                                    <td class="client-cc-data"><?php echo $fetch_rents_details['rent_client']; ?></td>
+                                    <td class="client-cl-data"><?php echo $fetch_rents_details['rent_employee']; ?></td>
+                                    <td class="client-type-data"><?php echo $fetch_rents_details['rent_date']; ?></td>
+                                    <td class="client-state-data"><?php echo $fetch_rents_details['rent_return_date']; ?><!-- <p class="status</p> --></td>
+                                    <td class="client-state-data"><?php echo $fetch_rents_details['rent_days']; ?></td>
+                                    <td class="client-state-data"><?php echo ($fetch_rents_details['rent_days'] * $fetch_rents_details['rent_price']); ?></td>
+                                    <td class="client-state-data"><?php echo $fetch_rents_details['rent_state']; ?></td>
+                                    <td>
+                                        <div class="user-actions">
+                                            <button class="delete-btn action-btn">
+                                                <i class='bx bx-trash'></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
 
-                        <?php 
-                        
-                                }
+                        <?php
 
                             }
-                        
+                        }
+
                         ?>
 
                     </tbody>
@@ -298,9 +295,14 @@
     <!-- NAVBAR -->
 
     <script src="../assets/scripts/dashboard.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha512-cLuyDTDg9CSseBSFWNd4wkEaZ0TBEpclX0zD3D6HjI19pO39M58AgJ1SjHp6c7ZOp0/OCRcC2BCvvySU9KJaGw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha512-cLuyDTDg9CSseBSFWNd4wkEaZ0TBEpclX0zD3D6HjI19pO39M58AgJ1SjHp6c7ZOp0/OCRcC2BCvvySU9KJaGw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.js" integrity="sha512-sk0cNQsixYVuaLJRG0a/KRJo9KBkwTDqr+/V94YrifZ6qi8+OO3iJEoHi0LvcTVv1HaBbbIvpx+MCjOuLVnwKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <!-- <script src="../assets/scripts/html2pdf.bundle.js"></script> -->
+    <!-- <script src="../assets/scripts/table2excel.js"></script> -->
     <script src="../assets/scripts/rents-report.js"></script>
 </body>
 

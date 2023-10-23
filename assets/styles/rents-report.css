@@ -127,7 +127,6 @@
 
 main {
     height: calc(100vh - 65px);
-    /* background: red; */
 }
 
 main .data {
@@ -141,8 +140,6 @@ main .data .content-data.clients-content-data {
     background: var(--light);
     border-radius: 10px;
     box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
-    /* height: auto;
-    max-height: 500px; */
 }
 
 main .data .content-data .head-prev-table {
@@ -387,12 +384,6 @@ main .data .content-data table tbody tr td:first-child {
 main .data .content-data table td {
     padding: 1rem;
 }
-
-/* main .data .content-data table td.rental-customer-img {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-} */
 
 main .data .content-data table td img {
     width: 40px;

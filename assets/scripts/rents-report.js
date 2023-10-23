@@ -8,6 +8,8 @@ const filterForm = document.getElementById('filter-form');
 const filterFormButton = document.getElementById('filter-form-button');
 const messagesContainer = document.querySelector('.messages-container');
 const messagesContainerText = document.querySelector('.messages-container p');
+const generatePDFButton = document.querySelector('.generate-pdf-option');
+const generateExcelButton = document.querySelector('.generate-excel-option');
 
 let deleteActionBtn;
 
@@ -81,8 +83,84 @@ unFilterIcon.onclick = () => {
     xhr.send("rentReportAction=retreiveAll");
 }
 
+generateExcelButton.onclick = () => generateExcelReport();
+
+generatePDFButton.onclick = () => generatePDFReport();
+
 filterFormButton.onclick = () => {
     filterRentsReport();
+}
+
+function randomHash(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let code = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        code += characters.charAt(randomIndex);
+    }
+
+    return code;
+}
+
+function generateExcelReport() {
+    const ws = XLSX.utils.table_to_sheet(mainTable);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Tabla');
+    const filename = `reporte.${randomHash(8)}.xlsx`;
+    XLSX.writeFile(wb, filename);
+}
+
+function generatePDFReport() {
+
+    html2canvas(mainTable).then(canvas => {
+        const imgData = canvas.toDataURL("image/jpeg", .7);
+        const pdf = new jsPDF("p", "mm", "a4");
+        pdf.addImage(imgData, "JPEG", 10, 10, 210, 50); // Tamaño A4: 210x297 mm
+        pdf.save(`reporte.${randomHash(8)}.pdf`);
+    });
+
+    // var opt = {
+    //     margin: 1,
+    //     filename: 'myfile.pdf',
+    //     image: {tpye: 'jpeg', quality: 0.98},
+    //     html2canvas: { scale: 1 },
+    //     jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+    // };
+
+    // html2pdf(mainTable, opt);
+
+    // const pdf = new html2pdf();
+
+    // // Renderizar la tabla HTML en el objeto html2pdf
+    // pdf.fromHTML(mainTable);
+
+    // // Guardar el archivo PDF
+    // pdf.save('my-table.pdf');
+    // html2pdf()
+    //     .from(mainTable)
+    //     .set({
+    //         margin: 10,
+    //         filename: "mi-tabla.pdf",
+    //         image: { type: "jpeg", quality: 0.98 },
+    //         html2canvas: { scale: 2 },
+    //         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    //     })
+    //     .outputPdf(function (pdf) {
+    //         const blob = pdf.output("blob");
+    //         const url = URL.createObjectURL(blob);
+    //         const a = document.createElement("a");
+    //         a.href = url;
+    //         a.download = "mi-tabla.pdf";
+    //         a.click();
+    //     });
+    // var doc = new jsPDF();
+
+    // // Convertir la tabla a un archivo PDF
+    // doc.autoTable({ html: mainTable });
+
+    // // Guardar el archivo PDF con un nombre deseado
+    // doc.save(`reporte.${randomHash(8)}.pdf`);
 }
 
 function filterRentsReport() {
@@ -99,6 +177,18 @@ function filterRentsReport() {
     if (fromDate.value == "" && toDate.value != "") {
         messagesContainer.classList.add('active');
         messagesContainerText.textContent = "Debe escoger dos rangos de fecha válidos";
+        return;
+    }
+
+    if (new Date(fromDate.value) > new Date(toDate.value)) {
+        messagesContainer.classList.add('active');
+        messagesContainerText.textContent = "La fecha inicial no puede ser mayor a la fecha límite";
+        return;
+    }
+
+    if (new Date(toDate.value) < new Date(fromDate.value)) {
+        messagesContainer.classList.add('active');
+        messagesContainerText.textContent = "La límite no puede ser menor a la fecha inicial";
         return;
     }
 
